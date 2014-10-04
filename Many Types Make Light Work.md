@@ -115,6 +115,13 @@
 
 ---
 
+# Approach 2.:
+# `protocol`
+
+^ Sometimes you need to be able to describe different types as being related—they need to share an interface.
+
+---
+
 # Thanks
 
 - Matt Diephouse
