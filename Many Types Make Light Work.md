@@ -106,6 +106,15 @@
 
 ---
 
+# Step 1.:
+# factor _ruthlessly_
+
+^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
+
+^ This is important, but it’s not enough on its own.
+
+---
+
 # Thanks
 
 - Matt Diephouse
