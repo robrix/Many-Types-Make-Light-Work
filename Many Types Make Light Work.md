@@ -122,6 +122,11 @@
 
 ---
 
+# Approach 3.:
+# `enum` and `switch`
+
+---
+
 # Thanks
 
 - Matt Diephouse
