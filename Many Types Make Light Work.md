@@ -127,6 +127,18 @@
 
 ---
 
+Exception: Many Cocoa [Touch] classes are designed to be subclassed.
+
+---
+
+Solution: Write a composable subclass.
+
+---
+
+Example: `{NS,UI}ViewController`.
+
+---
+
 # Thanks
 
 - Matt Diephouse
