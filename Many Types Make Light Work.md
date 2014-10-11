@@ -95,7 +95,7 @@
 
 ^ This is unavoidable; it’s what subclassing _is_. You get all of the superclass’ behaviour, whether you want it or not, unless you have specifically overridden it and taken care to do so in a manner compatible with its design. And that’s still only valid until the _next_ time it changes.
 
-^ Here’s some tips on how to not subclass.
+^ We’re going to look at some approaches to writing more flexible, reliable, & maintainable code by not subclassing; we’ll look at them individually, but they aren’t mutually exclusive.
 
 ---
 
