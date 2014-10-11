@@ -104,7 +104,7 @@
 
 ^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
 
-^ This is important, but it’s not enough on its own.
+^ Factoring helps us reduce subclassing most when we’re subclassing in order to share an implementation. That’s not the only reason we subclass, though, so other approaches are needed too.
 
 ---
 
