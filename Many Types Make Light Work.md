@@ -135,6 +135,13 @@
 
 ---
 
+# Approach 4.:
+# function types
+
+^ TODO: function overloading; passing in a function which expresses the entire interface
+
+---
+
 Exception: Many Cocoa [Touch] classes are designed to be subclassed.
 
 ---
