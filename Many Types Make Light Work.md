@@ -93,6 +93,8 @@
 
 ^ The reason that subclassing couples tightly is that it conflates reusing an interface with reusing an implementation.
 
+^ This is unavoidable; it’s what subclassing _is_. You get all of the superclass’ behaviour, whether you want it or not, unless you have specifically overridden it and taken care to do so in a manner compatible with its design. And that’s still only valid until the _next_ time it changes.
+
 ---
 
 # NB: Not “don’t use `class`;”
