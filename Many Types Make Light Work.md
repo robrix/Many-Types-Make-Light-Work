@@ -142,6 +142,11 @@
 
 ---
 
+# Approach 5.:
+# (many) minimal types
+
+---
+
 Exception: Many Cocoa [Touch] classes are designed to be subclassed.
 
 ---
