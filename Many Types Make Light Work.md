@@ -161,7 +161,22 @@ func second<S: StreamType>(stream: S) -> Element? {
 }
 ```
 
-^ TODO: function overloading; passing in a function which expresses the entire interface
+---
+
+# Function types are shared interfaces
+
+^ Simple enough interfaces can be reduced the type down to a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType` which you can construct using either an existing `GeneratorType`, or a function:
+
+```swift
+struct GeneratorOf<T> : GeneratorType {
+	init(_ nextElement: () -> T?)
+
+	init<G : GeneratorType where T == T>(_ base: G)
+	…
+}
+```
+
+^ When you construct a `GeneratorOf` wrapping another generator, it wraps it up in a closure which it passes to the other initializer; that closure is the necessary and sufficient interface shared by anything it wraps.
 
 ---
 
