@@ -141,6 +141,24 @@
 # Approach 3.:
 # function types
 
+^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that free functions can act a lot like methods: you can write a function `foo(…)` taking `Bar` and another taking `Quux`.
+
+---
+
+^ This is also the preferred way of implementing behaviour common to protocols. For example, a `StreamType` protocol with `first` and `dropFirst` method requirements would probably not want to also require `second`; instead, a free function `second` could be implemented generically, parameterized by a type conforming to `StreamType`.
+
+```swift
+protocol StreamType {
+	typealias Element
+	func first() -> Element?
+	func dropFirst() -> Self?
+}
+
+func second<S: StreamType>(stream: S) -> Element? {
+	return stream.dropFirst()?.first()
+}
+```
+
 ^ TODO: function overloading; passing in a function which expresses the entire interface
 
 ---
