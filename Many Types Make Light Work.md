@@ -128,6 +128,14 @@
 # Approach 2.5:
 # factor `protocol`s _ruthlessly_
 
+^ A common complaint with protocols is that you either end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
+
+^ These problems are a hint that your `protocol`s have too many responsibilities. Break them down just like your implementations—factor out every independent concern into a separate `protocol`.
+
+^ When you type a parameter or a property with more than one protocol, consider whether that’s really what you mean: generally two protocol requirements is a sign that you want two parameters or properties.
+
+^ (The exception is e.g. a collection of elements which you need to be both `Equatable` and `Printable`; these kinds of …`able` protocols are usually stating something fundamental about the type more so than just declaring an interface for communication with it.)
+
 ---
 
 # Approach 3.:
