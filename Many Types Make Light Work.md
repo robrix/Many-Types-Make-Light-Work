@@ -183,7 +183,61 @@ struct GeneratorOf<T> : GeneratorType {
 # Approach 4.:
 # (many) minimal types
 
-^ TODO: `enum` (sum types for sharing interface) & minimal value types a la Stream which don’t need customization I mean seriously it is a Stream what do you expect, rainbows?
+^ Similarly, it’s reasonable to ask yourself just how much you need to abstract. Does your `Author` type really need a `Bibliography` instead of a list of publications?
+
+^ Minimal types are ones where you can’t really factor them out any further.
+
+---
+
+# `Stream` as a protocol
+
+^ Earlier we looked at a protocol, `StreamType`.
+
+```swift
+protocol StreamType {
+	typealias Element
+	func first() -> Element?
+	func dropFirst() -> Self?
+}
+```
+
+^ But do we really need more than one kind of `Stream`?
+
+# ?
+
+---
+
+# `Stream` as a minimal type
+
+^ There isn’t a lot of useful axis for variance here. A direct implementation is pretty trivial:
+
+vs.
+
+```swift
+enum Stream<T> {
+	case Cons(Box<T>, () -> Stream)
+	case Nil
+}
+```
+
+^ We can also implement `first()` and `dropFirst()` as free functions:
+
+```swift
+func first<T>(stream: Stream<T>) -> T? {
+	switch stream {
+		case let .Cons(x, _):
+			return x.value
+		case .Nil:
+			return nil
+	}
+}
+
+// TODO: dropFirst()
+```
+
+---
+
+^ TODO: `enum` (sum types for sharing interface)
 
 ---
 
