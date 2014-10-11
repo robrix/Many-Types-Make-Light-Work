@@ -85,7 +85,7 @@
 
 ^ Suddenly our strategy for code reuse becomes a liability.
 
-^ Fortunately there’s a simple solution:
+^ Fortunately there’s another, simpler strategy which will help us deal with this problem:
 
 ---
 
