@@ -115,9 +115,14 @@
 ---
 
 # Approach 2.:
-# `protocol`
+# share interfaces with `protocol`s
 
-^ Sometimes you need to be able to describe different types as being related—they need to share an interface.
+^ We also employ subclasses in order to share an interface between distinct implementations. Superclasses of this nature are often (mostly) abstract. Foundation’s `NSValueTransformer` is an example of this, and we can look at Core Data’s `NSManagedObject` this way as well.
+
+^ When we take a parameter whose type is a specific class, we’re  almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it conforms to a specific interface.
+
+^ Say what you mean _precisely_ by expressing those interfaces as `protocol`s.
+
 
 ---
 
