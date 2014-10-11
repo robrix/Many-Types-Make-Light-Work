@@ -141,6 +141,8 @@
 # Approach 3.:
 # `enum` and `switch`
 
+^ TODO: fold this into (many) minimal types, below.
+
 ---
 
 # Approach 4.:
