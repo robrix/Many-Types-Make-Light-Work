@@ -104,7 +104,13 @@
 
 ^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
 
-^ Factoring helps us reduce subclassing most when we’re subclassing in order to share an implementation. That’s not the only reason we subclass, though, so other approaches are needed too.
+^ Factoring helps us reduce subclassing most when we’re subclassing in order to share an implementation. For example, `UIView` and `NSView` implement common behaviours which many views will need, e.g. drawing, converting geometry between coordinate systems, animation, appearance lifecycle, event handling; a better factoring of these would enable us to use precisely the behaviours we want without subclassing & potentially gaining undesirable behaviours as well.
+
+^ Further, we’d be that much better insulated by default from unanticipated change in Apple’s frameworks.
+
+^ This sort of subclassing is common within our own codebases as well, e.g. model classes often form hierarchies of this nature. Split them up & factor them out; the resulting flexibility often ends up reducing the size of the codebase (and thus surface area for bugs) as well.
+
+^ Implementation sharing is not the only reason we subclass, though, so other approaches are needed too.
 
 ---
 
