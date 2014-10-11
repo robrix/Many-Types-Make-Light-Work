@@ -123,6 +123,10 @@
 
 ^ Say what you mean _precisely_ by expressing those interfaces as `protocol`s.
 
+---
+
+# Approach 2.5:
+# factor `protocol`s _ruthlessly_
 
 ---
 
