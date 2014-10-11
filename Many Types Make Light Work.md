@@ -145,6 +145,8 @@
 
 ---
 
+# Function overloading shares code for `protocol`s
+
 ^ This is also the preferred way of implementing behaviour common to protocols. For example, a `StreamType` protocol with `first` and `dropFirst` method requirements would probably not want to also require `second`; instead, a free function `second` could be implemented generically, parameterized by a type conforming to `StreamType`.
 
 ```swift
