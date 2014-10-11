@@ -95,16 +95,6 @@
 
 ^ This is unavoidable; it’s what subclassing _is_. You get all of the superclass’ behaviour, whether you want it or not, unless you have specifically overridden it and taken care to do so in a manner compatible with its design. And that’s still only valid until the _next_ time it changes.
 
----
-
-# NB: Not “don’t use `class`;”
-# rather, “use `final`.”
-
-^ I’m not saying “don’t use classes” in Swift; classes have important behaviours: they’re reference types, they can interoperate with Objective-C more naturally, and so on.
-
-^ Instead, I’m saying “mark your classes as `final`.”
-
-^ `final` says that a class can’t have subclasses. As a rule of thumb, every class should be `final` by default; remove `final` and subclass only as a conscious choice.
 
 ---
 
