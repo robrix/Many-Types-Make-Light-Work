@@ -139,21 +139,16 @@
 ---
 
 # Approach 3.:
-# `enum` and `switch`
-
-^ TODO: fold this into (many) minimal types, below.
-
----
-
-# Approach 4.:
 # function types
 
 ^ TODO: function overloading; passing in a function which expresses the entire interface
 
 ---
 
-# Approach 5.:
+# Approach 4.:
 # (many) minimal types
+
+^ TODO: `enum` (sum types for sharing interface) & minimal value types a la Stream which don’t need customization I mean seriously it is a Stream what do you expect, rainbows?
 
 ---
 
