@@ -228,6 +228,8 @@ func dropFirst<T>(stream: Stream<T>) -> Stream<T> {
 
 ^ We can also implement `first()` and `dropFirst()` as free functions, now, to go with the Swift standard library’s implementations over `CollectionType` and `Sliceable`.
 
+^ With this in our toolbox, other types can compose with or return `Stream<T>` as-is. Another way of describing minimal types, then, might be that minimal types are ones which you’d never need to subclass.
+
 ---
 
 ^ TODO: `enum` (sum types for sharing interface)
