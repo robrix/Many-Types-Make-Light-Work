@@ -260,18 +260,11 @@ enum Natural {
 
 ^ If the set of cases is open-ended, consider using `protocol` instead.
 
+^ These approaches are a big help in writing your own code, but sometimes it’s not your class that you need to subclass.
 
 ---
 
-Exception: Many Cocoa [Touch] classes are designed to be subclassed.
-
----
-
-Solution: Write a composable subclass.
-
----
-
-Example: `{NS,UI}ViewController`.
+# Problem: Cocoa _requires_ you to subclass
 
 ---
 
