@@ -272,6 +272,24 @@ enum Natural {
 
 ---
 
+# Solution: Write minimal subclasses
+
+^ We can apply several of the same approaches.
+
+---
+
+# Factor _ruthlessly_!
+
+^ Any code you might want to share belongs somewhere other than in this subclass. Leave as little code as possible in the subclass.
+
+---
+
+# Mark subclasses as `final`
+
+^ Don’t succumb to the temptation to subclass your subclass.
+
+---
+
 # Thanks
 
 - Matt Diephouse
