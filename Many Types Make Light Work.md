@@ -165,7 +165,7 @@ func second<S: StreamType>(stream: S) -> Element? {
 
 # Function types are shared interfaces
 
-^ Simple enough interfaces can be reduced the type down to a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType` which you can construct using either an existing `GeneratorType`, or a function:
+^ Simple enough interfaces can be expressed with just a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType` which you can construct using either an existing `GeneratorType`, or a function:
 
 ```swift
 struct GeneratorOf<T> : GeneratorType {
