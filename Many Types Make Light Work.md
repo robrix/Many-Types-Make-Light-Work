@@ -266,6 +266,10 @@ enum Natural {
 
 # Problem: Cocoa _requires_ you to subclass
 
+^ `UIView`, `UIViewController`, `NSManagedObject`, `NSTableView`, and other classes were designed to be subclassed. Sometimes you can get away with using an existing subclass like `UINavigationController` or a delegate protocol like `NSTableViewDelegate`, but often the only route to customization is to subclass.
+
+^ We still want to minimize effort & share code; how do we do that?
+
 ---
 
 # Thanks
