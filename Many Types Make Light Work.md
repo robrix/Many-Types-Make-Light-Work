@@ -230,9 +230,36 @@ func dropFirst<T>(stream: Stream<T>) -> Stream<T> {
 
 ^ With this in our toolbox, other types can compose with or return `Stream<T>` as-is. Another way of describing minimal types, then, might be that minimal types are ones which you’d never need to subclass.
 
+^ On the other hand, sometimes we need _limited_ variance. `Stream` here is an example of that in the sense that there are two cases to think about when using streams: empty and non-empty. We use `enum` to cover those here, and that is more generally applicable as well.
+
 ---
 
-^ TODO: `enum` (sum types for sharing interface)
+# `enum`s are shared interfaces
+
+^ An `enum` provides a fixed set of cases, which provide the alternative values for the type.
+
+Best for fixed sets of alternatives:
+
+```swift
+enum Natural {
+	case Zero
+	case Successor(Box<Natural>)
+
+	var toInt: Int {
+		switch self {
+		case Zero:
+			return 0
+		case let Successor(x):
+			return 1 + x.value.toInt
+		}
+	}
+}
+```
+
+^ This is a particularly good use case for `enum` since there are only two kinds of natural numbers possible; we don’t need to worry about adding more kinds later on and having to change any code using them to match.
+
+^ If the set of cases is open-ended, consider using `protocol` instead.
+
 
 ---
 
