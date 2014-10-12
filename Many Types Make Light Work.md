@@ -99,7 +99,7 @@
 
 ---
 
-# Step 1.:
+# Approach 1.:
 # factor implementations _ruthlessly_
 
 ^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
