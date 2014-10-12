@@ -211,29 +211,22 @@ protocol StreamType {
 
 ^ There isn’t a lot of useful axis for variance here. A direct implementation is pretty trivial:
 
-vs.
-
 ```swift
 enum Stream<T> {
 	case Cons(Box<T>, () -> Stream)
 	case Nil
 }
-```
 
-^ We can also implement `first()` and `dropFirst()` as free functions:
-
-```swift
 func first<T>(stream: Stream<T>) -> T? {
-	switch stream {
-		case let .Cons(x, _):
-			return x.value
-		case .Nil:
-			return nil
-	}
+	…
 }
 
-// TODO: dropFirst()
+func dropFirst<T>(stream: Stream<T>) -> Stream<T> {
+	…
+}
 ```
+
+^ We can also implement `first()` and `dropFirst()` as free functions, now, to go with the Swift standard library’s implementations over `CollectionType` and `Sliceable`.
 
 ---
 
