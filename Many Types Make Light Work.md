@@ -201,9 +201,9 @@ protocol StreamType {
 }
 ```
 
-^ But do we really need more than one kind of `Stream`?
+# Do we need more than one `StreamType`?
 
-# ?
+^ But do we really need more than one kind of `Stream`?
 
 ---
 
