@@ -153,11 +153,11 @@
 protocol StreamType {
 	typealias Element
 	func first() -> Element?
-	func dropFirst() -> Self?
+	func dropFirst() -> Self
 }
 
 func second<S: StreamType>(stream: S) -> Element? {
-	return stream.dropFirst()?.first()
+	return stream.dropFirst().first()
 }
 ```
 
@@ -197,7 +197,7 @@ struct GeneratorOf<T> : GeneratorType {
 protocol StreamType {
 	typealias Element
 	func first() -> Element?
-	func dropFirst() -> Self?
+	func dropFirst() -> Self
 }
 ```
 
