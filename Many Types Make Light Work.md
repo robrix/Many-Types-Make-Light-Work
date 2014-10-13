@@ -188,11 +188,13 @@ func second<L: ListType>(list: L) -> Element? {
 
 ^ This serves the same purpose as a concrete method in an abstract class would. This protocol doesn’t encompass `Sliceable`, so we’d still have to write an implementation for it if we wanted one, but by conforming to `ListType, both `List` and `Stream` can share this single implementation of `second()`.
 
+^ This is satisfying: there’s less code to write & maintain, and we less code to write if we want to extend it to `third()` through `twentySixth()`. Sometimes, though, you can reduce it even further; sometimes all you need is a single function.
+
 ---
 
 # Function types are shared interfaces
 
-^ Simple enough interfaces can be expressed with just a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType` which you can construct using either an existing `GeneratorType`, or a function:
+^ Every function type is a minimal interface, taking something (possibly `Void`) and returning something (possibly `Void`). That means that simple enough interfaces can be expressed with just a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can make wrapping some other generator, or wrapping a function:
 
 ```swift
 struct GeneratorOf<T> : GeneratorType {
