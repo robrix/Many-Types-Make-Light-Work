@@ -137,27 +137,56 @@
 ---
 
 # Approach 3.:
-# function types
+# functions
 
-^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write a function `foo(…)` taking `Bar` and another taking `Quux`.
+^ Swift’s function overloading, generic functions, and function types can all be used as shared interfaces.
 
 ---
 
-# Function overloading shares code for `protocol`s
+# Function overloading as an (insufficient) interface
 
-^ This is also the preferred way of implementing behaviour common to protocols. For example, a `StreamType` protocol with `first` and `dropFirst` method requirements would probably not want to also require `second`; instead, a free function `second` could be implemented generically, parameterized by a type conforming to `StreamType`.
+^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write functions `first(…)` and `dropFirst(…)` taking `Stream` and another pair by the same names taking `List`.
 
 ```swift
-protocol StreamType {
+// In the Swift standard library
+func first<C : CollectionType>(x: C) -> C.Generator.Element?
+func dropFirst<Seq : Sliceable>(s: Seq) -> Seq.SubSlice
+
+// In our code
+func first(stream: Stream<T>) -> T? { … }
+func dropFirst(stream: Stream<T>) -> Stream<T>
+
+func first(list: List<T>) -> T? { … }
+func dropFirst(list: List<T>) -> List<T>
+```
+
+^ Now we can call `first(…)` and pass in a value of a type conforming to `CollectionType` (e.g. an `Array`), or a `Stream`, or a `List`, and we’ll have the same behaviour each time.
+
+^ `first()` and `dropFirst()` are all we need to write functions like `second()`, `third()`, etc. without introducing new primitive operations. But while we can see that `Stream`, `List`, and `Sliceable` (which conforms to `CollectionType`) can all be passed to `first()` and `second()`, the compiler hasn’t gotten the hint that these share an interface, so we would have to implement `second()` once for `List`, once for `Stream`, and once for `Sliceable`.
+
+# But we can’t write `second(…)` generically!
+
+^ Since function overloading isn’t enough to write `second()` generically, we need to use a `protocol`.
+
+---
+
+# Generic functions over `protocol`s
+
+^ By introducing a `protocol`, `ListType`, capturing the `first()` and `dropFirst()` requirements, we can implement `second()`, etc, as free functions, generic over `ListType`:
+
+```swift
+protocol ListType {
 	typealias Element
 	func first() -> Element?
 	func dropFirst() -> Self
 }
 
-func second<S: StreamType>(stream: S) -> Element? {
-	return stream.dropFirst().first()
+func second<L: ListType>(list: L) -> Element? {
+	return list.dropFirst().first()
 }
 ```
+
+^ This serves the same purpose as a concrete method in an abstract class would. This protocol doesn’t encompass `Sliceable`, so we’d still have to write an implementation for it if we wanted one, but by conforming to `ListType, both `List` and `Stream` can share this single implementation of `second()`.
 
 ---
 
