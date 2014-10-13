@@ -238,27 +238,33 @@ func dropFirst<T>(stream: Stream<T>) -> Stream<T> {
 
 ^ An `enum` provides a fixed set of cases, which provide the alternative values for the type.
 
-Best for fixed sets of alternatives:
+^ For example, here’s a `Result` type for operations which can end either in a successful value or an error:
+
+Use `enum` for fixed sets of alternatives:
 
 ```swift
-enum Natural {
-	case Zero
-	case Successor(Box<Natural>)
-
-	var toInt: Int {
-		switch self {
-		case Zero:
-			return 0
-		case let Successor(x):
-			return 1 + x.value.toInt
-		}
-	}
+enum Result<T> {
+	case Success(Box<T>)
+	case Failure(NSError)
 }
 ```
 
-^ This is a particularly good use case for `enum` since there are only two kinds of natural numbers possible; we don’t need to worry about adding more kinds later on and having to change any code using them to match.
+^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
 ^ If the set of cases is open-ended, consider using `protocol` instead.
+
+Use `protocol` for open-ended interfaces:
+
+```swift
+protocol VehicleType {
+	var capacity: Int
+	var passengers: [Person] { get }
+}
+
+class Train: VehicleType { … }
+class Plane: VehicleType { … }
+class Automobile: VehicleType { … }
+```
 
 ^ These approaches are a big help in writing your own code, but often it’s not your class that you need to subclass.
 
