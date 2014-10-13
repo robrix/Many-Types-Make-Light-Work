@@ -260,7 +260,7 @@ enum Natural {
 
 ^ If the set of cases is open-ended, consider using `protocol` instead.
 
-^ These approaches are a big help in writing your own code, but sometimes it’s not your class that you need to subclass.
+^ These approaches are a big help in writing your own code, but often it’s not your class that you need to subclass.
 
 ---
 
