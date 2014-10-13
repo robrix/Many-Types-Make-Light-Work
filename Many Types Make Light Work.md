@@ -141,7 +141,7 @@
 # Approach 3.:
 # function types
 
-^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that free functions can act a lot like methods: you can write a function `foo(…)` taking `Bar` and another taking `Quux`.
+^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write a function `foo(…)` taking `Bar` and another taking `Quux`.
 
 ---
 
