@@ -230,7 +230,7 @@ _fin_
 
 ---
 
-# `enum`s are shared interfaces
+# `enum`s are fixed shared interfaces
 
 ^ An `enum` provides a fixed set of cases, which provide the alternative values for the type.
 
@@ -248,6 +248,10 @@ enum Result<T> {
 ^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
 ^ If the set of cases is open-ended, consider using `protocol` instead.
+
+---
+
+# `protocol`s are open-ended shared interfaces
 
 Use `protocol` for open-ended interfaces:
 
