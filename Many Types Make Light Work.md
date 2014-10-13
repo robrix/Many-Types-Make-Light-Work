@@ -189,48 +189,46 @@ struct GeneratorOf<T> : GeneratorType {
 
 ---
 
-# `Stream` as a protocol
+# `List` as a protocol
 
-^ Earlier we looked at a protocol, `StreamType`.
+^ For example, we could describe lists using a protocol:
 
 ```swift
-protocol StreamType {
+protocol ListType {
 	typealias Element
-	func first() -> Element?
-	func dropFirst() -> Self
+	init(first: Element, rest: Self?)
+	var first: Element { get }
+	var rest: Self?
 }
 ```
 
-# Do we need more than one `StreamType`?
-
-^ But do we really need more than one kind of `Stream`?
+^ But doing so raises a question.
 
 ---
 
-# `Stream` as a minimal type
+# `List` as a minimal type
 
-^ There isn’t a lot of useful axis for variance here. A direct implementation is pretty trivial:
+^ Lists are about as simple as it gets. A direct implementation is pretty trivial:
 
 ```swift
-enum Stream<T> {
-	case Cons(Box<T>, () -> Stream)
-	case Nil
-}
+enum List<T> {
+	case Cons(Box<T>, Box<List<T>>)
+	case Nil(Box<T>)
 
-func first<T>(stream: Stream<T>) -> T? {
-	…
-}
-
-func dropFirst<T>(stream: Stream<T>) -> Stream<T> {
-	…
+	var first: T { … }
+	var rest: List<T>? { … }
 }
 ```
 
-^ We can also implement `first()` and `dropFirst()` as free functions, now, to go with the Swift standard library’s implementations over `CollectionType` and `Sliceable`.
+_fin_
 
-^ With this in our toolbox, other types can compose with or return `Stream<T>` as-is. Another way of describing minimal types, then, might be that minimal types are ones which you’d never need to subclass.
+^ There isn’t a lot of useful variance possible here. We could have used an `struct` or a `class`; we could have made the `Nil` case not have a value and made `first` optional; but these are implementation details, and irrelevant to our API’s consumers.
 
-^ On the other hand, sometimes we need _limited_ variance. `Stream` here is an example of that in the sense that there are two cases to think about when using streams: empty and non-empty. We use `enum` to cover those here, and that is more generally applicable as well.
+^ Aggressive factoring can remove some of the need for sharing interfaces between multiple types. With `ListType`, consumers of the API are concerned with whether something _is_ a list, whereas with `List<T>` _we_ are concerned with whether it _has_ a list.
+
+^ Further, by conforming `List<T>` to `SequenceType`, we can avoid any need for consumers to care that we have a list at all—all they need to know is that they have a way to access its elements sequentially; that makes our choice of `List<T>` (vs. `Array<T>`) itself an implementation detail.
+
+^ On the other hand, sometimes we need some small, fixed amount of variance. This can be a great use case for `enum`.
 
 ---
 
