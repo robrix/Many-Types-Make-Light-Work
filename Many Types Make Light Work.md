@@ -123,16 +123,29 @@
 
 ---
 
-# Approach 2.5:
-# factor `protocol`s _ruthlessly_
+# …but factor your `protocol`s ruthlessly, too
 
 ^ A common complaint with protocols is that you either end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
 
-^ These problems are a hint that your `protocol`s have too many responsibilities. Break them down just like your implementations—factor out every independent concern into a separate `protocol`.
+^ For example, have you ever written a class implementing every single required method in `UITableViewDelegate`?
 
-^ When you type a parameter or a property with more than one protocol, consider whether that’s really what you mean: generally two protocol requirements is a sign that you want two parameters or properties.
+- `UITableViewDelegate` API ref is in _**9 sections**_
 
-^ (The exception is e.g. a collection of elements which you need to be both `Equatable` and `Printable`; these kinds of …`able` protocols are usually stating something fundamental about the type more so than just declaring an interface for communication with it.)
+^ The API ref is broken into 9 sections, but my count it’s more like thirteen different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory.
+
+^ Not only is `UITableViewDelegate` massive, it’s almost inextricably intertwined with `UITableViewDataSource`. Have you ever written a class conforming to `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
+
+- `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
+
+^ Just like with classes, this is a hint that these `protocol`s have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate `protocol`.
+
+^ That wouldn’t necessarily mean thirteen (or more!) `protocol`s for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
+
+- Swift does better: `Comparable`, `Equatable`, `GeneratorType`, etc. each have **1** requirement
+
+^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your `protocol`s too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
+
+- “kitchen sink” `protocol`s are avoidable; factor
 
 ---
 
