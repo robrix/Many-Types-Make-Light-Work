@@ -198,6 +198,7 @@ func second<L: ListType>(list: L) -> Element? {
 struct GeneratorOf<T> : GeneratorType {
 	init(_ nextElement: () -> T?)
 
+	// A convenience to wrap another GeneratorType
 	init<G : GeneratorType where T == T>(_ base: G)
 	…
 }
