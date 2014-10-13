@@ -206,7 +206,13 @@ struct GeneratorOf<T> : GeneratorType {
 }
 ```
 
-^ When you construct a `GeneratorOf` wrapping another generator, it wraps it up in a closure which it passes to the other initializer; that closure is the necessary and sufficient interface shared by anything it wraps.
+^ `GeneratorOf` doesn’t mention the `GeneratorType` it wraps anywhere but in the type parameters of the convenience init. That tells us that it doesn’t store it in a property (since that property would need to have that type).
+
+^ Instead, when you make a `GeneratorOf` wrapping another generator, it wraps it up in a closure which it passes to its other initializer; that closure has the necessary and sufficient interface shared by anything it wraps: it takes `Void` and returns an optional element.
+
+^ If you can wrap up any function from `Void` to `Optional<T>` in a `GeneratorOf` with no other feedback provided, why does `GeneratorType` exist at all? Why don’t they _only_ use function types?
+
+^ Alas, that one will have to wait for the Swift team to write their memoirs. We can assume that they have their reasons, though, and so might we—sometimes you need just a _little_ extra functionality, even once you’ve factored your types out as far as you can.
 
 ---
 
