@@ -371,6 +371,7 @@ class Automobile: VehicleType { … }
 - Andy Matuschak
 - Ryan McCuaig
 - Justin Spahr-Summers
+- Patrick Thomson
 - you ❤️
 
 ![](http://upload.wikimedia.org/wikipedia/commons/d/db/Railroad_Coupling_(CMRR\).jpg)
