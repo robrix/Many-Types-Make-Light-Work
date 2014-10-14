@@ -2,98 +2,115 @@
 
 ### @rob_rix ❦ rob.rix@github.com
 
----
-
-# We want to minimize effort;
-# we have to reuse code.
-
-^ One of the most important parts of programming is recognizing patterns.
-
-^ We don’t want to write the same—or nearly the same—code multiple times for each case we’re using. We want to reuse code.
-
-^ This results in simpler, easier-to-understand systems with fewer, easier-to-find bugs.
-
-^ There are two basic approaches that we use for this in Objective-C & Swift:
+^ I’ll be talking about code reuse and subclassing in Swift today. We’ll take a quick look at the whys and hows of reusing code by subclassing; at some problems with subclassing; what we can do instead of subclassing; and what we can do to mitigate the problems with subclassing.
 
 ---
 
-# 1. Share: subclass
+# Managing complexity under change
 
-^ We can reuse code by subclassing. If our class does a thing and we need almost the same thing elsewhere, we can subclass the original class, or extract a common superclass and then subclass that.
+^ One of the most important parts of programming is recognizing patterns. Patterns are opportunities for us to reuse code, reducing the complexity of our system.
 
-# TODO: subclass diagram
+^ This is inherently in tension with another major part of programming: adding features. Programming is a kind of balancing act of managing this complexity under change. The key way for us to manage the complexity of a program is to reuse code.
 
-^ For example, if we have a large view controller that we want to reuse part of, we could extract the common bit into a superclass. Now the original class can subclass that, and the new one can too.
-
----
-
-# 2. Separate: compose
-
-^ We can also separate the common bits into one class, and the distinct bits into other ones which we compose with the common one.
-
-# TODO: compose diagram
-
-^ These diagrams are quite similar. One shows relationships between classes, the other shows relationships between objects, but they’re both solving the same problem.
-
-^ However:
+^ In Swift & Objective-C, reusing _code_ typically means either reusing _implementations_ or reusing _interfaces_. We’ll take a quick look at each of these.
 
 ---
 
-# Change is inevitable
+# Reusing implementations
 
-^ Requirements change. We have an idea for a feature. We get a bug report. We get new design mockups. Apple releases a new version of the operating system and the SDK breaks some of our assumptions. Apple releases new hardware or APIs that we want to use. Apple releases a new _language_!
+^ When we’ve written a method in one class and we need that same behaviour in another, ideally we wouldn’t copy and paste the method into the new context. Instead, we’d extract the common code into a function or method somewhere we can call it from both of the points which need its behaviour. That’s what reusing implementations means.
 
-^ Some change will always be required; necessary change is inevitable.
+- Don’t Repeat Yourself (DRY)
 
----
+^ We call this “Don’t Repeat Yourself” or “DRY,” and at the core, it’s not much more complicated than that: we abstract bits of our programs, and package them up for reuse elsewhere.
 
-# We want to minimize effort;
-# we need to minimize the impact of necessary change.
+- functions, methods, classes, categories, etc. let us reuse implementations
 
-^ Change is inevitable, but it’s not always our choice: Apple’s OS updates may force our hand.
-
-^ Either way, we want to be able to act on it efficiently.
+- subclasses inherit their superclass’ implementation
 
 ---
 
-# Coupling is when change _here_ forces change _there_.
+# Reusing interfaces
+
+^ We also want to be able to handle similar objects with the same code. A method taking a string doesn’t need to know if it’s mutable or not to ask it for its length; instead, `NSString`, `NSMutableString`, and any subclasses thereof all share an interface.
+
+- can call methods without knowing an instance’s class
+
+^ A class declares the interface through which we can manipulate its instances.
+
+- subclasses inherit their superclass’ interface
+
+^ We can also describe interfaces in the abstract, without anchoring them to a specific implementation using protocols. Protocols provide an interface, and a concrete implementation is provided by a class.
+
+- protocols describe an interface without tying it to an implementation
+
+^ Now that we’re on the same page about interface & implementation reuse, we’ll look at how we do them. Broadly speaking, the most common ways that we reuse interfaces & implementations are subclassing, and composition.
+
+---
+
+# Subclassing
+
+^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation.
+
+- subclasses inherit their superclass’ interface
+
+^ This makes subclassing a convenient way to group similar things together under a common (superclass) interface, thus reusing it.
+
+- subclasses inherit their superclass’ implementation
+
+^ It also makes it convenient to reuse the implementations provided by the superclass—any functionality we put into the base class will be shared by any subclass which doesn’t explicitly override it.
+
+- “is a”
+
+^ Subclassing defines an “is a” relationship—we say that `UITableView` is a `UIView` because it subclasses `UIView`. This is the key contrast with composition, which we’ll look at next.
+
+---
+
+# Composition
+
+^ Composition is a less familiar term, but you use the concept all the time: it basically means using objects together. For example, a `UIView` is composed with its superview, its subviews, and its layer; a `UIViewController` is composed with its parent controller, its child controllers, and its views; and so on.
+
+- properties
+
+^ In contrast with the “is a” relationship defined by subclassing, this style of composition defines a “has a”/“has many” relationship, e.g. a `UITableView` has a `UITableViewDelegate`, and it has many `UITableCellView`s.
+
+^ We can also consider a class as being composed with the types it interacts with but doesn’t own, i.e. those which it receives as parameters, or creates and gives to something else. This defines a “uses” sort of relationship more so than a “has” one, e.g. `UIApplication` uses `NSNotificationCenter`, but ultimately it’s just another example of composition.
+
+- parameters
+
+---
+
+# The trouble with subclassing
+
+^ The perceived convenience of subclassing comes at a cost: if we want to reuse the interface, the implementation tags along anyway.
+
+- it _conflates_ reusing interfaces with reusing implementations
+
+^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code.
+
+^ If we’re lucky, the type system catches it and we can’t compile until we fix it. If we’re unlucky, it slips past our unit tests and QA and App Store review, and our customers encounter it.
+
+^ For example, on OS X Mavericks, `NSViewController` doesn’t have the `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`. A subclass could, however, implement those methods and call them at the appropriate times. But on Yosemite, we have a bug: these methods are called twice: once by our code, and once by our superclass.
+
+- it _couples_ subclasses to superclass implementations
+
+^ It also encourages other code to make more assumptions about subclasses than would otherwise be possible, simply because the interfaces are overly broad—and broader with each subclass. This can lead to even more coupling and brittleness, further increasing the risk and cost of change.
+
+- it _encourages_ tight coupling in composed classes
 
 ![right](http://upload.wikimedia.org/wikipedia/commons/f/f1/Train_coupling.jpg)
 
-^ Coupling is a problem. These linked railway couplings ensure that if one car moves—changes its position—the other moves with it.
-
----
-
-# We want to minimize effort;
-# we have to reduce coupling.
-
-![right](http://upload.wikimedia.org/wikipedia/commons/f/f1/Train_coupling.jpg)
-
-^ This is an apt metaphor for our code. To as great an extent as possible, changing one part of our program should not require us to change other parts of our program. If the code is tightly coupled, changes cascade.
-
-^ However:
-
----
-
-# Subclassing encourages tight coupling.
-
-^ Our diagrams had the same shape but the arrows hide the fact that the subclasses always depend on implementation details of their superclasses.
-
-^ This is almost universal. Changing a class’ superclass is going to break it sooner or later. Each and every subclass increases the potential fallout.
-
-^ Suddenly our strategy for code reuse becomes a liability.
-
-^ Fortunately there’s another, simpler strategy which will help us deal with this problem:
+^ It’s important to note that subclassing is solving the same problems as composition does—it is a way of reusing interfaces and implementations. That gives us a pretty simple solution to these problems.
 
 ---
 
 # Don’t subclass.
 
-^ The reason that subclassing couples tightly is that it conflates reusing an interface with reusing an implementation.
+^ In the abstract, subclassing is _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
 
-^ This is unavoidable; it’s what subclassing _is_. You get all of the superclass’ behaviour, whether you want it or not, unless you have specifically overridden it and taken care to do so in a manner compatible with its design. And that’s still only valid until the _next_ time it changes.
+^ It’s still possible for us to write tightly coupled code _without_ subclassing, of course, but it’s easier for us to decouple code in the absence of subclassing than in its presence.
 
-^ We’re going to look at some approaches to writing more flexible, reliable, & maintainable code by not subclassing; we’ll look at them individually, but they aren’t mutually exclusive.
+^ To that end, we’re going to look at some approaches to writing  more flexible, reliable, & maintainable code by not subclassing. While these are presented separately, they aren’t mutually exclusive; you can mix and match to fit the task at hand.
 
 ---
 
