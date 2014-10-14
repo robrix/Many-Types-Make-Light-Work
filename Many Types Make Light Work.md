@@ -370,6 +370,7 @@ class Automobile: VehicleType { … }
 - Kris Markel
 - Andy Matuschak
 - Ryan McCuaig
+- Kelly Rix
 - Justin Spahr-Summers
 - Patrick Thomson
 - you ❤️
