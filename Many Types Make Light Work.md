@@ -125,7 +125,7 @@
 
 # …but factor your `protocol`s ruthlessly, too
 
-^ A common complaint with protocols is that you either end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
+^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
 
 ^ For example, have you ever written a class implementing every single required method in `UITableViewDelegate`?
 
