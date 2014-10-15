@@ -119,7 +119,7 @@
 
 ---
 
-# Approach 1.:
+# Approach 1:
 # factor implementations _ruthlessly_
 
 ^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
@@ -134,7 +134,7 @@
 
 ---
 
-# Approach 2.:
+# Approach 2:
 # share interfaces with `protocol`s
 
 ^ We also employ subclasses in order to share an interface between distinct implementations. Superclasses of this nature are often (mostly) abstract. Foundation’s `NSValueTransformer` is an example of this, and we can look at Core Data’s `NSManagedObject` this way as well.
@@ -188,7 +188,7 @@ class Automobile: VehicleType { … }
 
 ---
 
-# Approach 3.:
+# Approach 3:
 # functions
 
 ^ We can also use Swift’s functions to reuse code. Next, we’ll look at function overloading, generic functions, and function types; let’s start with overloading.
@@ -289,7 +289,7 @@ struct GeneratorOf<T> : GeneratorType {
 
 ---
 
-# Approach 4.:
+# Approach 4:
 # (many) minimal types
 
 ^ Similarly, it’s reasonable to ask yourself just how much you need to abstract. Does your `Author` type really need a `Bibliography` instead of a list of publications?
