@@ -197,31 +197,32 @@ class Automobile: VehicleType { … }
 ^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write functions `first(…)` and `dropFirst(…)` taking `Stream` and another pair by the same names taking `List`.
 
 ```swift
-// In the Swift standard library
-func first<C : CollectionType>(x: C) -> C.Generator.Element?
-func dropFirst<Seq : Sliceable>(s: Seq) -> Seq.SubSlice
+func first<T>(stream: Stream<T>) -> T? { … }
+func dropFirst<T>(stream: Stream<T>) -> Stream<T> { … }
 
-// In our code
-func first(stream: Stream<T>) -> T? { … }
-func dropFirst(stream: Stream<T>) -> Stream<T>
-
-func first(list: List<T>) -> T? { … }
-func dropFirst(list: List<T>) -> List<T>
+func first<T>(list: List<T>) -> T? { … }
+func dropFirst<T>(list: List<T>) -> List<T> { … }
 ```
 
-^ Now we can call `first(…)` and pass in a value of a type conforming to `CollectionType` (e.g. an `Array`), or a `Stream`, or a `List`, and we’ll have the same behaviour each time.
+^ Now we can call `first()` and pass in either a `Stream` or a `List` and we’ll get the behaviour we want.
 
-^ `first()` and `dropFirst()` are all we need to write functions like `second()`, `third()`, etc. without introducing new primitive operations. But while we can see that `Stream`, `List`, and `Sliceable` (which conforms to `CollectionType`) can all be passed to `first()` and `second()`, the compiler hasn’t gotten the hint that these share an interface, so we would have to implement `second()` once for `List`, once for `Stream`, and once for `Sliceable`.
+^ If we want to write a function, `second()`, which takes a `List` or a `Stream` and returns the second element, then all we need is to call `first()` on the result of calling `dropFirst()`—we don’t need any new primitive operations. Unfortunately, if we try to write that function, we run into a problem: what is the type of its parameter?
 
 # But we can’t write `second(…)` generically!
 
-^ Since function overloading isn’t enough to write `second()` generically, we need to use a `protocol`.
+```swift
+func second<T>(…?!) -> T? { … }
+```
+
+^ _We_ can see that `Stream` and `List` can be passed to `first()` and `dropFirst()`. However, `first()` and `dropFirst()` aren’t part of an _interface_; we’re just using them ad hoc. If we wanted to write `second()` for lists and streams as-is, we’d have to implement it twice—once for `List`, and again for  `Stream`.
+
+^ What we need here is the combination of a protocol—that is, an interface—and a generic function. Fortunately, Swift gives us both of these.
 
 ---
 
 # Generic functions over `protocol`s
 
-^ By introducing a `protocol`, `ListType`, capturing the `first()` and `dropFirst()` requirements, we can implement `second()`, etc, as free functions, generic over `ListType`:
+^ Here we have a protocol named `ListType`, which captures `first()` and `dropFirst()` as requirements.
 
 ```swift
 protocol ListType {
@@ -229,7 +230,11 @@ protocol ListType {
 	func first() -> Element?
 	func dropFirst() -> Self
 }
+```
 
+^ This gives us a named interface which we can use to implement `second()` generically as a free function over values of `ListType`:
+
+```swift
 func second<L: ListType>(list: L) -> Element? {
 	return list.dropFirst().first()
 }
@@ -237,7 +242,9 @@ func second<L: ListType>(list: L) -> Element? {
 
 ^ This serves the same purpose as a concrete method in an abstract class would. This protocol doesn’t encompass `Sliceable`, so we’d still have to write an implementation for it if we wanted one, but by conforming to `ListType, both `List` and `Stream` can share this single implementation of `second()`.
 
-^ This is satisfying: there’s less code to write & maintain, and we less code to write if we want to extend it to `third()` through `twentySixth()`. Sometimes, though, you can reduce it even further; sometimes all you need is a single function.
+^ This is satisfying: one implementation of `second()` is reused for both `Stream` and `List`, and we could do the same for `third()`, `fourth()`, etc., if we needed those; all we needed was a protocol and a generic function.
+
+^ That’s pretty cool, but in some cases, all you need is the function.
 
 ---
 
