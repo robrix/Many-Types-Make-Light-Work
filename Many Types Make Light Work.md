@@ -186,7 +186,7 @@ class Automobile: VehicleType { … }
 # Approach 3.:
 # functions
 
-^ Swift’s function overloading, generic functions, and function types can all be used as shared interfaces.
+^ We can also use Swift’s functions to reuse code. Next, we’ll look at function overloading, generic functions, and function types; let’s start with overloading.
 
 ---
 
