@@ -122,6 +122,14 @@
 # Approach 1:
 # factor implementations _ruthlessly_
 
+^ Every app is broken down into classes, methods, functions, etc. _How_ these break down in a given program is what we refer to as its factoring, just like composite numbers divide into smaller numbers which we call its factors.
+
+^ Following the analogy, there is more than one way to factor a program, and for the purposes of reusing code, some factorings are better than others.
+
+^ What does a good factoring look like?
+
+---
+
 ^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
 
 ^ Factoring helps us reduce subclassing most when we’re subclassing in order to share an implementation. For example, `UIView` and `NSView` implement common behaviours which many views will need, e.g. drawing, converting geometry between coordinate systems, animation, appearance lifecycle, event handling; a better factoring of these would enable us to use precisely the behaviours we want without subclassing & potentially gaining undesirable behaviours as well.
