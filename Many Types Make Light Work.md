@@ -190,29 +190,43 @@ class Automobile: VehicleType { … }
 
 ---
 
-# Function overloading as an (insufficient) interface
+# Function overloading is almost an interface
 
-^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types. That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write functions `first(…)` and `dropFirst(…)` taking `Stream` and another pair by the same names taking `List`.
+^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types.
+
+^ That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write functions `first(…)` and `dropFirst(…)` taking `Stream` and another pair by the same names taking `List`.
+
+- `first(…)` returns the first element of a stream/list
 
 ```swift
 func first<T>(stream: Stream<T>) -> T? { … }
-func dropFirst<T>(stream: Stream<T>) -> Stream<T> { … }
-
 func first<T>(list: List<T>) -> T? { … }
+```
+
+- `dropFirst(…)` returns the rest of a stream/list following the first element
+
+```swift
+func dropFirst<T>(stream: Stream<T>) -> Stream<T> { … }
 func dropFirst<T>(list: List<T>) -> List<T> { … }
 ```
 
 ^ Now we can call `first()` and pass in either a `Stream` or a `List` and we’ll get the behaviour we want.
 
+---
+
+# Function overloading is not really an interface
+
 ^ If we want to write a function, `second()`, which takes a `List` or a `Stream` and returns the second element, then all we need is to call `first()` on the result of calling `dropFirst()`—we don’t need any new primitive operations. Unfortunately, if we try to write that function, we run into a problem: what is the type of its parameter?
 
-# But we can’t write `second(…)` generically!
+- `second(…)` returns the second item in a list or stream
+
+^ _We_ can see that `Stream` and `List` can be passed to `first()` and `dropFirst()`. However, `first()` and `dropFirst()` aren’t part of an _interface_; we’re just using them ad hoc. If we wanted to write `second()` for lists and streams as-is, we’d have to implement it twice—once for `List`, and again for  `Stream`.
+
+- But we can’t write `second(…)` generically without a real interface
 
 ```swift
 func second<T>(…?!) -> T? { … }
 ```
-
-^ _We_ can see that `Stream` and `List` can be passed to `first()` and `dropFirst()`. However, `first()` and `dropFirst()` aren’t part of an _interface_; we’re just using them ad hoc. If we wanted to write `second()` for lists and streams as-is, we’d have to implement it twice—once for `List`, and again for  `Stream`.
 
 ^ What we need here is the combination of a protocol—that is, an interface—and a generic function. Fortunately, Swift gives us both of these.
 
