@@ -181,8 +181,6 @@ class Plane: VehicleType { … }
 class Automobile: VehicleType { … }
 ```
 
-^ These approaches are a big help in writing your own code, but often it’s not your class that you need to subclass. What do we do about Cocoa?
-
 ---
 
 # Approach 3.:
