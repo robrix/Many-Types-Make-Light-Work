@@ -366,31 +366,43 @@ enum Result<T> {
 
 ^ If the set of cases is open-ended, consider using `protocol` instead.
 
----
-
-# Problem: Cocoa _requires_ you to subclass
-
-^ `UIView`, `UIViewController`, `NSManagedObject`, `NSTableView`, and other classes were designed to be subclassed. Sometimes you can get away with using an existing subclass like `UINavigationController` or a delegate protocol like `NSTableViewDelegate`, but often the only route to customization is to subclass.
-
-^ We still want to minimize effort & share code; how do we do that?
+^ These approaches will help us avoid subclassing when we’re working purely with our own code, but what about when we’re dealing with Cocoa?
 
 ---
 
-# Solution: Write minimal subclasses
+# Caveat: Cocoa _requires_ you to subclass
 
-^ We can apply several of the same approaches.
-
----
-
-# Factor _ruthlessly_!
-
-^ Any code you might want to share belongs somewhere other than in this subclass. Leave as little code as possible in the subclass.
+^ Many Cocoa classes that we use to form the skeleton of our apps are designed to be subclassed for common uses. `UIViewController` and `UIView` are two of the most common examples, but hardly the only ones. What do we do in these situations?
 
 ---
 
-# Mark subclasses as `final`
+# Write minimal subclasses
 
-^ Don’t succumb to the temptation to subclass your subclass.
+^ We may be required to subclass, but that doesn’t mean game over. While we may still be at the whim of new SDKs when it comes to unanticipated change in Apple’s classes, we can defend against the worst.
+
+^ First off, ask yourself if you can configure an instance instead of subclassing. Sometimes classes like `UIViewController` which _typically_ require subclassing can simply be set up instead—whether in a xib, a storyboard, or in code.
+
+- can you configure an instance instead of subclassing?
+
+^ Sometimes the answer is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it; in those cases we can apply the same approaches we’ve considered already.
+
+^ First off, we want to make sure that distinct responsibilities are being handled by distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about the superclass, and no SDK change will ever invalidate an assumption you haven’t made.
+
+- extract distinct responsibilities into their own types
+
+^ As with all of the approaches discussed, this is a matter of discipline. Likewise with making sure we don’t couple too tightly to our own classes.
+
+^ To that end, I recommend making all classes `final`—which means “this class cannot be subclassed”—by default.
+
+- make all classes `final` by default
+
+^ Note that I say “by default”—these approaches are tradeoffs, and you may find that this is the wrong one for your specific case. However, by always _defaulting_ to `final`, you ensure that any time you’re removing the keyword, it’s as a conscious decision in light of the circumstances you’re designing for.
+
+- only remove `final` as a conscious choice
+
+^ Further, if you leave a comment as to _why_ the class isn’t `final`, you’ll inform your teammates (and your future self!) of the reasoning behind the decision. Compromise for a deadline is a valid reason, but the reminder can help you to keep in mind that tightly coupling to the superclass should likely still be avoided.
+
+	- and consider leaving a comment as to why you did
 
 ---
 
