@@ -390,7 +390,46 @@ enum Result<T> {
 
 - extract distinct responsibilities into their own types
 
-^ As with all of the approaches discussed, this is a matter of discipline. Likewise with making sure we don’t couple too tightly to our own classes.
+^ You can think of this as coding defensively. In Objective-C, best practice for categories on another party’s types—whether Apple’s or a third-party—is to prefix the method names so as to avoid collisions.
+
+^ Likewise, you can insulate your code from future change—and future coupling!—by minimizing the interfaces that your code operates on, and therefore assumes.
+
+- code defensively
+
+^ It can be quite educational to take this to its logical extreme.
+
+---
+
+# Experiment: access `super` through a protocol
+
+^ For example, you could access your superclass through a protocol: Add a protocol and a property returning self. Now, if you only access your superclass through that property, you have a guaranteed minimum interface—and later on, refactoring the subclass to rely on composition instead of inheritance can be partially accomplished by simply changing the property to store an instance of the superclass instead of returning self.
+
+```swift
+protocol DetailViewControllerType {
+	var view: UIView { get }
+	…
+}
+
+extension UIViewController: DetailViewControllerType {}
+
+class DetailViewController: UIViewController {
+	var viewController: DetailViewControllerType { self }
+	
+	// caveat: hooks won’t go through `viewController`
+	override func viewDidLoad() {
+		// and neither will explicit calls through `super` 
+		super.viewDidLoad()
+	}
+}
+```
+
+^ I would be very unlikely to actually ship this code, but I _have_ written it, and learned a lot. When you have some spare time, I recommend trying it out on a branch, ideally with an extant subclass, to see what you can learn about the class and your program as a whole.
+
+^ As with everything we’ve discussed, this is a matter of discipline. It’s the same way with making sure we don’t couple too tightly to our own classes, subclass or otherwise.
+
+---
+
+# A `final` piece of advice
 
 ^ To that end, I recommend making all classes `final`—which means “this class cannot be subclassed”—by default.
 
@@ -402,7 +441,7 @@ enum Result<T> {
 
 ^ Further, if you leave a comment as to _why_ the class isn’t `final`, you’ll inform your teammates (and your future self!) of the reasoning behind the decision. Compromise for a deadline is a valid reason, but the reminder can help you to keep in mind that tightly coupling to the superclass should likely still be avoided.
 
-	- and consider leaving a comment as to why you did
+- consider leaving a comment as to why you did
 
 ---
 
