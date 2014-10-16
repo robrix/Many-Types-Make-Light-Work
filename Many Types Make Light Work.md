@@ -130,15 +130,13 @@
 
 ---
 
-^ Chances are your classes are too big. Follow the One Responsibility Rule: break them down into one class per responsibility and use those together instead.
+# Factoring around change
 
-^ Factoring helps us reduce subclassing most when we’re subclassing in order to share an implementation. For example, `UIView` and `NSView` implement common behaviours which many views will need, e.g. drawing, converting geometry between coordinate systems, animation, appearance lifecycle, event handling; a better factoring of these would enable us to use precisely the behaviours we want without subclassing & potentially gaining undesirable behaviours as well.
+^ In particular, our goal is to minimize coupling and reduce the cost and risk of change. Therefore we want to factor so as to decouple separate concerns from one another. As a rule of thumb, we want to separate things that we want to be able to vary separately.
 
-^ Further, we’d be that much better insulated by default from unanticipated change in Apple’s frameworks.
+^ TODO: before/after of subclassed master/detail list view controller, with the model stuff getting factored into a view model
 
-^ This sort of subclassing is common within our own codebases as well, e.g. model classes often form hierarchies of this nature. Split them up & factor them out; the resulting flexibility often ends up reducing the size of the codebase (and thus surface area for bugs) as well.
-
-^ Implementation sharing is not the only reason we subclass, though, so other approaches are needed too.
+^ TODO: before/after of model hierarchy under similar refactoring?
 
 ---
 
