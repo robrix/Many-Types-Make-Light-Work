@@ -468,6 +468,7 @@ class DetailViewController: UIViewController {
 # Thanks
 
 - Matt Diephouse
+- Ken Ferry
 - Kris Markel
 - Andy Matuschak
 - Ryan McCuaig
