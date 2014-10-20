@@ -141,17 +141,17 @@
 ---
 
 # Approach 2:
-# share interfaces with `protocol`s
+# share interfaces with protocols
 
 ^ We also employ subclasses in order to share an interface between distinct implementations. Superclasses of this nature are often (mostly) abstract. Foundation’s `NSValueTransformer` is an example of this, and we can look at Core Data’s `NSManagedObject` this way as well.
 
 ^ When we take a parameter whose type is a specific class, we’re  almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it conforms to a specific interface.
 
-^ Say what you mean _precisely_ by expressing those interfaces as `protocol`s.
+^ Say what you mean _precisely_ by expressing those interfaces as protocols.
 
 ---
 
-# …but factor your `protocol`s ruthlessly, too
+# …but factor your protocols ruthlessly, too
 
 ^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
 
@@ -165,21 +165,21 @@
 
 - `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
 
-^ Just like with classes, this is a hint that these `protocol`s have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate `protocol`.
+^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate protocol.
 
-^ That wouldn’t necessarily mean thirteen (or more!) `protocol`s for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
+^ That wouldn’t necessarily mean thirteen (or more!) protocols for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
 
 - Swift does better: `Comparable`, `Equatable`, `GeneratorType`, etc. each have **1** requirement
 
-^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your `protocol`s too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
+^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your protocols too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
 
-- “kitchen sink” `protocol`s are avoidable; factor
+- “kitchen sink” protocols are avoidable; factor
 
 ---
 
-# `protocol`s are open-ended shared interfaces
+# protocols are open-ended shared interfaces
 
-Use `protocol` for open-ended interfaces:
+Use protocol for open-ended interfaces:
 
 ```swift
 protocol VehicleType {
@@ -243,7 +243,7 @@ func second<T>(…?!) -> T? { … }
 
 ---
 
-# Generic functions over `protocol`s
+# Generic functions over protocols
 
 ^ Here we have a protocol named `ListType`, which captures `first()` and `dropFirst()` as requirements.
 
@@ -364,7 +364,7 @@ enum Result<T> {
 
 ^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
-^ If the set of cases is open-ended, consider using `protocol` instead.
+^ If the set of cases is open-ended, consider using protocol instead.
 
 ^ These approaches will help us avoid subclassing when we’re working purely with our own code, but what about when we’re dealing with Cocoa?
 
