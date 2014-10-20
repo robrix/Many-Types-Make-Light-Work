@@ -147,7 +147,9 @@
 
 ^ Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
 
-^ Well, they’re coupled to at least _one_: the superclass itself. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled—and brittle as a result.
+^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: what that class _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled!)
+
+^ This could also needlessly force consumers of our API to jump through hoops when it would be more convenient, more elegant, or more efficient for them to use some other type to implement the interface.
 
 ^ Protocols are a way to have our cake and eat it too: we can express the interface we need to interact with _precisely_, and _without_ introducing tight coupling to irrelevant implementation details like what specific class it may be.
 
