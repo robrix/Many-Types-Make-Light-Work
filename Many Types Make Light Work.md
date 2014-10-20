@@ -141,17 +141,51 @@
 ---
 
 # Approach 2:
-# share interfaces with `protocol`s
+# share interfaces with protocols
 
 ^ We also employ subclasses in order to share an interface between distinct implementations. Superclasses of this nature are often (mostly) abstract. Foundation’s `NSValueTransformer` is an example of this, and we can look at Core Data’s `NSManagedObject` this way as well.
 
-^ When we take a parameter whose type is a specific class, we’re  almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it conforms to a specific interface.
+^ Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
 
-^ Say what you mean _precisely_ by expressing those interfaces as `protocol`s.
+^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: what that class _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled!)
+
+^ This could also needlessly force consumers of our API to jump through hoops when it would be more convenient, more elegant, or more efficient for them to use some other type to implement the interface.
+
+^ Protocols are a way to have our cake and eat it too: we can express the interface we need to interact with _precisely_, and _without_ introducing tight coupling to irrelevant implementation details like what specific class it may be.
 
 ---
 
-# …but factor your `protocol`s ruthlessly, too
+# Protocols are interfaces
+
+- specify required properties & methods
+
+- Cocoa uses protocols for several purposes
+
+	- delegate/data source protocols (e.g. `UITableViewDelegate`)
+
+	- model protocols (e.g. `NSDraggingInfo`, `NSFetchedResultsSectionInfo`, `NSFilePresenter`)
+
+	- behaviour protocols (e.g. `NSCoding`, `NSCopying`)
+
+^ At the core, protocols are just interfaces, somewhat analogous to a purely abstract class. A protocol specifies required properties & methods. A class which conforms to a protocol must implement all of the required properties & methods in order to compile.
+
+^ Cocoa’s use of protocols can, broadly, be broken down into three categories:
+
+^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are this kind of protocol.
+
+^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is somewhat more vague than the other two, and not very common in Cocoa; `NSFilePresenter` is an example, combining a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the item in question.
+
+^ Cocoa also appears to use these in cases where the implementor wants to elide specific type information—we don’t know what particular class is going to be given to us when we receive `NSDraggingInfo` or `NSFetchedResultsSectionInfo`, which means Cocoa avoids vending implementation details via its types, and further avoids compatibility issues when changing the underlying implementations.
+
+^ Third, protocols which describe a single behaviour which an object must be able to perform; for example, conforming to `NSCoding` means that instances of a class can be encoded/decoded; conforming to `NSCopying` means that they can be copied. In Cocoa these typically end in -ing (`NSCopying`, `NSCoding`, `NSLocking`), whereas in Swift’s standard library these typically end in -able (`Equatable`, `Comparable`, `Hashable`).
+
+^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make using them inconvenient in many cases.
+
+^ It’s also important to note that the difference in size of these: delegate/data source protocols tend to be larger than model protocols, and model protocols tend to be larger than behaviour protocols. This suggests that we can factor these, too.
+
+---
+
+# …but factor your protocols ruthlessly, too
 
 ^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
 
@@ -165,21 +199,21 @@
 
 - `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
 
-^ Just like with classes, this is a hint that these `protocol`s have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate `protocol`.
+^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate protocol.
 
-^ That wouldn’t necessarily mean thirteen (or more!) `protocol`s for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
+^ That wouldn’t necessarily mean thirteen (or more!) protocols for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
 
 - Swift does better: `Comparable`, `Equatable`, `GeneratorType`, etc. each have **1** requirement
 
-^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your `protocol`s too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
+^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your protocols too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
 
-- “kitchen sink” `protocol`s are avoidable; factor
+- “kitchen sink” protocols are avoidable; factor
 
 ---
 
-# `protocol`s are open-ended shared interfaces
+# protocols are open-ended shared interfaces
 
-Use `protocol` for open-ended interfaces:
+Use protocol for open-ended interfaces:
 
 ```swift
 protocol VehicleType {
@@ -243,7 +277,7 @@ func second<T>(…?!) -> T? { … }
 
 ---
 
-# Generic functions over `protocol`s
+# Generic functions over protocols
 
 ^ Here we have a protocol named `ListType`, which captures `first()` and `dropFirst()` as requirements.
 
@@ -364,7 +398,7 @@ enum Result<T> {
 
 ^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
-^ If the set of cases is open-ended, consider using `protocol` instead.
+^ If the set of cases is open-ended, consider using protocol instead.
 
 ^ These approaches will help us avoid subclassing when we’re working purely with our own code, but what about when we’re dealing with Cocoa?
 
