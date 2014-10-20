@@ -151,6 +151,36 @@
 
 ---
 
+# Protocols are interfaces
+
+- specify required properties & methods
+
+- Cocoa uses protocols for several purposes
+
+	- delegate/data source protocols (e.g. `UITableViewDelegate`)
+
+	- model protocols (e.g. `NSDraggingInfo`, `NSFetchedResultsSectionInfo`, `NSFilePresenter`)
+
+	- behaviour protocols (e.g. `NSCoding`, `NSCopying`)
+
+^ At the core, protocols are just interfaces, somewhat analogous to a purely abstract class. A protocol specifies required properties & methods. A class which conforms to a protocol must implement all of the required properties & methods in order to compile.
+
+^ Cocoa’s use of protocols can, broadly, be broken down into three categories:
+
+^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are this kind of protocol.
+
+^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is somewhat more vague than the other two, and not very common in Cocoa; `NSFilePresenter` is an example, combining a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the item in question.
+
+^ Cocoa also appears to use these in cases where the implementor wants to elide specific type information—we don’t know what particular class is going to be given to us when we receive `NSDraggingInfo` or `NSFetchedResultsSectionInfo`, which means Cocoa avoids vending implementation details via its types, and further avoids compatibility issues when changing the underlying implementations.
+
+^ Third, protocols which describe a single behaviour which an object must be able to perform; for example, conforming to `NSCoding` means that instances of a class can be encoded/decoded; conforming to `NSCopying` means that they can be copied. In Cocoa these typically end in -ing (`NSCopying`, `NSCoding`, `NSLocking`), whereas in Swift’s standard library these typically end in -able (`Equatable`, `Comparable`, `Hashable`).
+
+^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make using them inconvenient in many cases.
+
+^ It’s also important to note that the difference in size of these: delegate/data source protocols tend to be larger than model protocols, and model protocols tend to be larger than behaviour protocols. This suggests that we can factor these, too.
+
+---
+
 # …but factor your protocols ruthlessly, too
 
 ^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
