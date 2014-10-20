@@ -445,23 +445,17 @@ class DetailViewController: UIViewController {
 
 ---
 
-# Conclusion
+# Takeaway
 
-^ We’ve looked at how subclassing can make programs more brittle by making it unreasonably easy to tightly couple a subclass to its superclass.
+- subclassing is for the weak and timid
+- reuse interfaces with protocols
+- reuse implementations by factoring & composing
 
-^ We’ve also seen how we can resolve that: by factoring and composing smaller, more focused types using `protocol`s, `enum`s, functions, and other Swift features.
+^ The takeaway is pretty simple: subclassing is a weak and brittle substitute for better engineering practices: protocols, minimal types, factoring, and composition.
+
+^ So don’t subclass.
 
 ^ I hope you’ve enjoyed the talk! I’d be happy to answer any questions, if we have time.
-
-- “code reuse” → reusing interfaces/implementations
-
-- subclasses couple to their superclass too easily
-
-- factor & compose to share implementations
-
-- use `protocol`s, `enum`s, functions, and minimal types to share interfaces
-
-- limit your assumptions—but all things in balance
 
 ---
 
