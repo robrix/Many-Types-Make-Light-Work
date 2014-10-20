@@ -145,9 +145,11 @@
 
 ^ We also employ subclasses in order to share an interface between distinct implementations. Superclasses of this nature are often (mostly) abstract. Foundation’s `NSValueTransformer` is an example of this, and we can look at Core Data’s `NSManagedObject` this way as well.
 
-^ When we take a parameter whose type is a specific class, we’re  almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface.
+^ Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
 
-^ We can say this _precisely_, and avoid coupling to implementation details at the same time, by expressing these interfaces as protocols.
+^ Well, they’re coupled to at least _one_: the superclass itself. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled—and brittle as a result.
+
+^ Protocols are a way to have our cake and eat it too: we can express the interface we need to interact with _precisely_, and _without_ introducing tight coupling to irrelevant implementation details like what specific class it may be.
 
 ---
 
