@@ -261,15 +261,15 @@ class XMLParser { … }
 
 ^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are examples of this kind of protocol.
 
-^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is somewhat more vague than the other two, and not very common in Cocoa; `NSFilePresenter` is an example, combining a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the item in question.
+^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and not exactly common in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
 
-^ Cocoa also appears to use these in cases where the implementor wants to elide specific type information—we don’t know what particular class is going to be given to us when we receive `NSDraggingInfo` or `NSFetchedResultsSectionInfo`, which means Cocoa avoids vending implementation details via its types, and further avoids compatibility issues when changing the underlying implementations.
+^ Cocoa also uses this kind of protocol in cases where the implementor appears to want to elide specific type information. For example, we don’t know what particular class is going to be passed to a method receiving `NSDraggingInfo` or `NSFetchedResultsSectionInfo`, which means Cocoa avoids vending implementation details via its types, and further avoids compatibility issues when they later change the underlying implementations.
 
 ^ Third, protocols which describe a single behaviour which an object must be able to perform; for example, conforming to `NSCoding` means that instances of a class can be encoded/decoded; conforming to `NSCopying` means that they can be copied. In Cocoa these typically end in -ing (`NSCopying`, `NSCoding`, `NSLocking`), whereas in Swift’s standard library these typically end in -able (`Equatable`, `Comparable`, `Hashable`).
 
-^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make using them inconvenient in many cases.
+^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make composing them inconvenient in many cases.
 
-^ So if protocols are shared interfaces, how might we use them to share the key interface in the data model of a contrived aggregator/bookmarking app?
+^ So if protocols are shared interfaces, how might we use them to share the key interface in the data model of our contrived aggregator/bookmarking app?
 
 ---
 
@@ -529,10 +529,6 @@ _fin_
 
 # `enum`s are fixed shared interfaces
 
-^ An `enum` provides a fixed set of cases, which provide the alternative values for the type.
-
-^ For example, here’s a `Result` type for operations which can end either in a successful value or an error:
-
 Use `enum` for fixed sets of alternatives:
 
 ```swift
@@ -542,9 +538,13 @@ enum Result<T> {
 }
 ```
 
+^ An `enum` provides a fixed set of cases, which provide the alternative values for the type.
+
+^ For example, here we have `Result`. `Result` is a good return type for operations which can end either in a successful value or an error.
+
 ^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
-^ On the other hand, if the set of cases is open-ended, we’d want to use a protocol instead.
+^ On the other hand, if the set of cases is open-ended, we might want to use a protocol instead. Our aggregator/bookmarking app’s `Post` model types are exactly such a case—adding support for podcasts to a `Post` `enum` could require traipsing all across the project.
 
 ^ These approaches will help us avoid subclassing when we’re working purely with our own code, but what about when we’re dealing with Cocoa?
 
@@ -552,7 +552,7 @@ enum Result<T> {
 
 # Caveat: Cocoa _requires_ you to subclass
 
-^ Many Cocoa classes that we use to form the skeleton of our apps are designed to be subclassed for common uses. `UIViewController` and `UIView` are two of the most common examples, but hardly the only ones. What do we do in these situations?
+^ Many Cocoa classes that we use to form the skeleton of our apps are designed to be subclassed for common uses. `UIViewController` and `UIView` are two of the most common examples, but they’re hardly the only ones. What do we do in these situations?
 
 ---
 
@@ -564,7 +564,7 @@ enum Result<T> {
 
 - can you configure an instance instead of subclassing?
 
-^ Sometimes the answer is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it; in those cases we can apply the same approaches we’ve considered already.
+^ Sometimes the answer to this question is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it; in those cases we can apply the same approaches we’ve considered already.
 
 ^ First off, we want to make sure that distinct responsibilities are being handled by distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about the superclass, and no SDK change will ever invalidate an assumption you haven’t made.
 
