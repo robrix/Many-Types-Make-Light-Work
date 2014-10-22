@@ -10,7 +10,7 @@
 
 ^ One of the most important parts of programming is recognizing patterns. Patterns are opportunities for us to reuse code, reducing the complexity of our system.
 
-^ This is inherently in tension with another major part of programming: adding features. Programming is a kind of balancing act of managing this complexity under change. The key way for us to manage the complexity of a program is to reuse code.
+^ Of course, this is inherently in tension with another major part of programming: adding features. (We’re not likely to get paid if all we ever do is _delete_ code.) Programming is therefore a kind of balancing act of managing this complexity under change. The key way for us to manage the complexity of a program is to reuse code.
 
 ^ In Swift & Objective-C, reusing _code_ typically means either reusing _implementations_ or reusing _interfaces_. We’ll take a quick look at each of these.
 
@@ -44,7 +44,7 @@
 
 - protocols describe an interface without tying it to an implementation
 
-^ Now that we’re on the same page about interface & implementation reuse, we’ll look at how we do them. Broadly speaking, the most common ways that we reuse interfaces & implementations are subclassing, and composition.
+^ With that covered we’ll look at _how_ we reuse interfaces & implementations. Broadly speaking, the most common tools at our disposal for code reuse are subclassing, and composition.
 
 ---
 
