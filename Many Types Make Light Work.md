@@ -447,9 +447,7 @@ func second<L: ListType>(list: L) -> Element? {
 }
 ```
 
-^ This serves the same purpose as a concrete method in an abstract class would. This protocol doesn’t encompass `Sliceable`, so we’d still have to write an implementation for it if we wanted one, but by conforming to `ListType, both `List` and `Stream` can share this single implementation of `second()`.
-
-^ This is satisfying: one implementation of `second()` is reused for both `Stream` and `List`, and we could do the same for `third()`, `fourth()`, etc., if we needed those; all we needed was a protocol and a generic function.
+^ Note that this serves the same purpose as a concrete method in an abstract class would. It’s pretty satisfying! One implementation of `second()` is reused for both `Stream` and `List`, and we could do the same for `third()`, `fourth()`, etc., if we needed those; all we needed was a protocol and a generic function.
 
 ^ That’s pretty cool, but in some cases, all you need is the function.
 
