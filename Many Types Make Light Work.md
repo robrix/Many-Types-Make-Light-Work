@@ -455,7 +455,7 @@ struct GeneratorOf<T> : GeneratorType {
 
 ---
 
-# `List` as a protocol
+# Lists as a protocol
 
 ^ For example, we could describe lists using a protocol, like this one which we saw earlier:
 
@@ -472,7 +472,7 @@ protocol ListType {
 
 ---
 
-# `List` as a minimal type
+# Lists as a minimal type
 
 ^ Lists are about as simple as it gets. A direct implementation is pretty trivial:
 
