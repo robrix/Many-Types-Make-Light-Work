@@ -235,7 +235,7 @@ class XMLParser { … }
 
 ^ Superclasses of this nature are often (mostly) abstract. Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
 
-^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled!)
+^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (Obviously, if we _did_ care about the memory layout, the two classes would be tightly coupled by definition.)
 
 ^ This could also needlessly force consumers of our API to jump through hoops when it would be more convenient, more elegant, or more efficient for them to use some other type to implement the interface.
 
@@ -259,7 +259,7 @@ class XMLParser { … }
 
 ^ Cocoa’s use of protocols can, broadly, be broken down into three categories:
 
-^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are this kind of protocol.
+^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are examples of this kind of protocol.
 
 ^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is somewhat more vague than the other two, and not very common in Cocoa; `NSFilePresenter` is an example, combining a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the item in question.
 
@@ -340,13 +340,11 @@ class AtomPost: Post {
 
 - factor around independent concepts instead
 
-^ One complaint with protocols is that it’s easy to end up with long, unwieldy lists of requirements that become a burden to every caller and implementor; every requirement must be implemented by each type implementing the protocol, after all.
+^ Delegate protocols have a tendency to grow over time. For example, have you ever written a class implementing every single method in `UITableViewDelegate`?
 
-^ For example, have you ever written a class implementing every single method in `UITableViewDelegate`?
+^ The API ref for `UITableViewDelegate` is broken into _9 sections_, but by my count it’s more like thirteen different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory.
 
-^ The API ref is broken into 9 sections, but my count it’s more like thirteen different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory.
-
-^ Not only is `UITableViewDelegate` massive, it’s almost inextricably intertwined with `UITableViewDataSource`. Have you ever written a class conforming to `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
+^ And on that note, not only is `UITableViewDelegate` massive, it’s almost inextricably intertwined with `UITableViewDataSource`. How many people have ever written a class conforming to either `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
 
 ^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor independent concerns out into a separate protocol.
 
@@ -370,26 +368,22 @@ class AtomPost: Post {
 
 ^ You can put `will`/`did` callbacks for display, selection, etc., in the same interface. If you’ve measured a need for better performance, or if you need to handle e.g. animations at a coarser grain, you can expose signals or KVO-compliant properties for the displayed/selected subset of elements.
 
-^ As a low-effort, medium-reward measure, it might be reasonable to start by splitting e.g. menu or editing interactions off into smaller purpose-specific delegates. If the consumer chooses to implement them all with the same object, they still can; but they’re no longer prevented from using a factoring more appropriate to their application’s design.
+^ As a low-effort, medium-reward measure, you can start by adding properties for the callbacks, or by splitting e.g. menu/editing interactions off into smaller purpose-specific delegates. If the consumer chooses to implement them all with the same object, they still can; but they’re no longer prevented from using a factoring more appropriate to their application’s design.
 
 ^ Note that you can also provide public implementations of these protocols for the default behaviours; this can make it easy for consumers to wrap or otherwise compose them, making the class more convenient to use, more flexible, and simpler to write. It’s easier to understand, as well, since we’ve encapsulated—and documented!—the distinct roles of these interfaces in the API, instead of lumping them in with everything else in the kitchen sink of the delegate protocol.
 
-^ Even better, once we’re using model protocols, we can employ our next approach to help us compose.
+^ Even better, once we’re using model protocols, we can employ our next approach to help us compose them.
 
 ---
 
 # Approach 3:
 # functions
 
-^ We can also use Swift’s functions to reuse code. Next, we’ll look at function overloading, generic functions, and function types; let’s start with overloading.
+^ Swift’s functions offer overloading, generic functions, and simple, powerful function types; we’ll start with overloading.
 
 ---
 
 # Function overloading is almost an interface
-
-^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types.
-
-^ That means that ordinary, i.e. _free_ functions can act a lot like methods: you can write functions `first(…)` and `dropFirst(…)` taking `Stream` and another pair by the same names taking `List`.
 
 - `first(…)` returns the first element of a stream/list
 
@@ -405,7 +399,11 @@ func dropFirst<T>(stream: Stream<T>) -> Stream<T> { … }
 func dropFirst<T>(list: List<T>) -> List<T> { … }
 ```
 
-^ Now we can call `first()` and pass in either a `Stream` or a `List` and we’ll get the behaviour we want.
+^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types.
+
+^ That means that _free_ (i.e. ordinary) functions can act a lot like methods: you can write functions `first(Stream)` and `dropFirst(Stream)` taking `Stream` and another pair by the same names taking `List`.
+
+^ Now we can call `first()` and pass in either a `Stream` or a `List` and we’ll get the behaviour we want. This is almost, but not quite, enough.
 
 ---
 
