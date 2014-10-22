@@ -58,25 +58,23 @@
 
 # The trouble with subclassing
 
-^ The perceived convenience of subclassing comes at a cost: if we want to reuse the interface, the implementation tags along anyway.
-
 - it _conflates_ reusing interfaces with reusing implementations
 
-^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code.
-
-^ If we’re lucky, the type system catches it and we can’t compile until we fix it. If we’re unlucky, it slips past our unit tests and QA and App Store review, and our customers encounter it.
-
-^ For example, on OS X Mavericks, `NSViewController` doesn’t have the `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`. A subclass could, however, implement those methods and call them at the appropriate times. But on Yosemite, we have a bug: these methods are called twice: once by our code, and once by our superclass.
-
 - it _couples_ subclasses to superclass implementations
-
-^ It also encourages other code to make more assumptions about subclasses than would otherwise be possible, simply because the interfaces are overly broad—and broader with each subclass. This can lead to even more coupling and brittleness, further increasing the risk and cost of change.
 
 - it _encourages_ tight coupling in composed classes
 
 ![right](http://upload.wikimedia.org/wikipedia/commons/f/f1/Train_coupling.jpg)
 
-^ It’s important to note that subclassing is solving the same problems as composition does—it is a way of reusing interfaces and implementations. That gives us a pretty simple solution to these problems.
+^ The perceived convenience of subclassing comes at a cost: if we want to reuse the interface, or just part of the implementation, the rest of the implementation tags along anyway.
+
+^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code. Likewise, if the superclass calls its own methods (as they tend to), the subclass can also invalidate an assumption of the superclass—even if that assumption is new.
+
+^ For example, on OS X Mavericks, `NSViewController` doesn’t have the `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`. A subclass could, however, implement those methods and call them at the appropriate times. But under Yosemite, `NSViewController` adds and calls those methods, meaning we now have a bug: these methods are called twice: once by our code, and once by our superclass. All we did is compile against the new SDK.
+
+^ Subclassing also enables other code using the hierarchy to make more assumptions about subclasses than would otherwise be possible, simply because the interfaces are broader than they need to be—and they get broader with each layer of subclass. This can lead to even more coupling and brittleness, unintentionally increasing the risk and cost of change (whether on our part or Apple’s).
+
+^ The good news is that ultimately, subclassing and composition/abstraction solve the same problems—reusing interfaces, and reusing implementations. That gives us a pretty simple solution to this kind of problem.
 
 ---
 
