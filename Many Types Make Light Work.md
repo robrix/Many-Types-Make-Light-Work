@@ -326,6 +326,8 @@ class AtomPost: Post {
 
 ^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `AtomPost` to any particular implementation.
 
+^ `Post` is pretty minimalistic now; it’s a model protocol, but it doesn’t conflate its purpose as a data model with any orthogonal concerns of parsing or presentation. There isn’t any need to factor it further, but what about the other protocols we may have written in our apps: delegate protocols?
+
 ---
 
 # Factor your protocols, too
