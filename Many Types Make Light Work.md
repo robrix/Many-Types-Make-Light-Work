@@ -352,8 +352,6 @@ class AtomPost: Post {
 
 ^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your protocols too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
 
-- “kitchen sink” protocols are avoidable; factor
-
 ---
 
 # Approach 3:
