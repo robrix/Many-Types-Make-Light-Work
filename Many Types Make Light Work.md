@@ -544,7 +544,7 @@ enum Result<T> {
 
 ^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
-^ If the set of cases is open-ended, consider using protocol instead.
+^ On the other hand, if the set of cases is open-ended, we’d want to use a protocol instead.
 
 ^ These approaches will help us avoid subclassing when we’re working purely with our own code, but what about when we’re dealing with Cocoa?
 
