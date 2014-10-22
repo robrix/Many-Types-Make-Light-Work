@@ -362,7 +362,7 @@ class AtomPost: Post {
 
 	- KVO-compliant selected/displayed subset properties (or signals) instead of `will`/`did` delegate callbacks
 
-	- menu/editing could be tiny delegate protocols
+	- can start by splitting methods into tiny protocols
 
 ^ I’d go so far as to say that this applies to nearly every delegate protocol: delegating a kitchen sink of view behaviours to a single object makes it difficult to vary them independently.
 
