@@ -468,6 +468,8 @@ protocol ListType {
 }
 ```
 
+How many different implementations of lists do we need, exactly?
+
 ^ But doing so raises a question: Do we even need to?
 
 ---
