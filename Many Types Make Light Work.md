@@ -50,23 +50,19 @@
 
 # Subclassing
 
-- subclasses inherit their superclass’ interface
+- inherit superclass’ interface
 
-- subclasses inherit their superclass’ implementation
-
-^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation.
-
-^ This makes subclassing a convenient way to group similar things together under a common interface, thus reusing it. It also makes it convenient to reuse the implementations provided by the superclass, since all of its functionality will be shared by any subclass which doesn’t explicitly override it.
-
----
+- inherit superclass’ implementation
 
 # Composition
 
 - composition is ~~when you put a thing in a thing and then it’s a thing then~~ using objects together
 
-- properties; “has a/many”
+- properties & parameters: “has a/many”, “uses”
 
-- parameters; “uses”
+^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation.
+
+^ This makes subclassing a convenient way to group similar things together under a common interface, thus reusing it. It also makes it convenient to reuse the implementations provided by the superclass, since all of its functionality will be shared by any subclass which doesn’t explicitly override it.
 
 ^ Composition may be a less familiar term, but you use the concept all the time: it boils down to objects which can be used together. For example, a `UIView` is composed with its superview, its subviews, and its layer; a `UIViewController` is composed with its parent controller, its child controllers, and its views; and so on.
 
