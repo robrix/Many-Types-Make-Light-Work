@@ -326,31 +326,55 @@ class AtomPost: Post {
 
 ^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `AtomPost` to any particular implementation.
 
+^ `Post` is pretty minimalistic now; it’s a model protocol, but it doesn’t conflate its purpose as a data model with any orthogonal concerns of parsing or presentation. There isn’t any need to factor it further, but what about the other protocols we may have written in our apps: delegate protocols?
+
 ---
 
 # Factor your protocols, too
 
-^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
-
-^ For example, have you ever written a class implementing every single required method in `UITableViewDelegate`?
-
 - `UITableViewDelegate` API ref is in _**9 sections**_
+
+- `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
+
+- exact same problem as with ill-factored classes
+
+- factor around independent concepts instead
+
+^ One complaint with protocols is that it’s easy to end up with long, unwieldy lists of requirements that become a burden to every caller and implementor; every requirement must be implemented by each type implementing the protocol, after all.
+
+^ For example, have you ever written a class implementing every single method in `UITableViewDelegate`?
 
 ^ The API ref is broken into 9 sections, but my count it’s more like thirteen different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory.
 
 ^ Not only is `UITableViewDelegate` massive, it’s almost inextricably intertwined with `UITableViewDataSource`. Have you ever written a class conforming to `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
 
-- `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
+^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor independent concerns out into a separate protocol.
 
-^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate protocol.
+---
 
-^ That wouldn’t necessarily mean thirteen (or more!) protocols for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
+# Delegate protocols suggest better factoring
 
-- Swift does better: `Comparable`, `Equatable`, `GeneratorType`, etc. each have **1** requirement
+- they force a single class to handle disparate concerns
 
-^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your protocols too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
+- instead, “encapsulate the concept that varies”
 
-- “kitchen sink” protocols are avoidable; factor
+	- factor out view elements (e.g. rows) instead of delegate methods for contents/behaviour
+
+	- KVO-compliant selected/displayed subset properties (or signals) instead of `will`/`did` delegate callbacks
+
+	- can start by splitting methods into tiny protocols
+
+^ I’d go so far as to say that this applies to nearly every delegate protocol: delegating a kitchen sink of view behaviours to a single object makes it difficult to vary them independently.
+
+^ Instead, we can factor them out: if a view displays multiple rows or cells, make an interface for them instead of using a delegate or a data source.
+
+^ You can put `will`/`did` callbacks for display, selection, etc., in the same interface. If you’ve measured a need for better performance, or if you need to handle e.g. animations at a coarser grain, you can expose signals or KVO-compliant properties for the displayed/selected subset of elements.
+
+^ As a low-effort, medium-reward measure, it might be reasonable to start by splitting e.g. menu or editing interactions off into smaller purpose-specific delegates. If the consumer chooses to implement them all with the same object, they still can; but they’re no longer prevented from using a factoring more appropriate to their application’s design.
+
+^ Note that you can also provide public implementations of these protocols for the default behaviours; this can make it easy for consumers to wrap or otherwise compose them, making the class more convenient to use, more flexible, and simpler to write. It’s easier to understand, as well, since we’ve encapsulated—and documented!—the distinct roles of these interfaces in the API, instead of lumping them in with everything else in the kitchen sink of the delegate protocol.
+
+^ Even better, once we’re using model protocols, we can employ our next approach to help us compose.
 
 ---
 
