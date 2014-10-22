@@ -139,16 +139,101 @@
 
 ^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. We may not currently be as concerned about cross-platform support as these authors were, but the principle is the same: factoring out code which we want to change independently is as good a strategy for code reuse as it is for abstraction.
 
+^ As an example of this, let’s consider the data model for a hypothetical aggregating/bookmarking app.
+
+---
+
+# Factor out independent code
+
+```swift
+class Post {
+	let title: String
+	let author: String
+	let postedAt: NSDate
+	let URL: NSURL
+}
+
+class Tweet: Post { … }
+class RSS1Post: XMLPost { … }
+class RSS2Post: XMLPost { … }
+class AtomPost: XMLPost { … }
+
+class XMLPost: Post {
+	let XMLData: NSData
+	let titlePath: XPath
+	let authorPath: XPath
+	let postedAtPath: XPath
+	let URLPath: XPath
+}
+```
+
+^ This app’s data model is pretty simple so far. It can pull in posts from Twitter, RSS (in both the 1.x & 2.x branches), and Atom. It doesn’t show the posts’ content per se; just enough to populate a link, or a notification.
+
+^ RSS1, RSS2, & Atom are all XML formats, so they all subclass an `XMLPost` class which uses XPath expressions to parse the necessary information out of the documents. That way the subclasses can just assign or override the properties with the appropriate queries and `XMLPost` will do the rest.
+
+^ This is simple enough, and not an uncommon pattern: a semi-abstract superclass provides a general implementation and its subclasses fill in the blanks where required to support their specific cases.
+
+^ Unfortunately, there’s trouble brewing already. What if the implementation of XPath which we rely on isn’t able to parse large RSS files in a reasonable amount of memory? What if it breaks on feeds which include HTML?
+
+^ It’s not just bugs that can cause this kind of change; features can, too. What if we want to populate post details asynchronously in some cases? What if we want to use a specific parser for a site with a notoriously broken feed, but still represent it as an `RSS2Post` so that the rest of the app works consistently? What if we want to add support for podcasts or appcasts via RSS enclosures? We parse in the XMLPath class, so we’re already using a specific subclass of it by the time we’d have the data together to tell whether there’s an enclosure—egg, meet chicken; chicken, meet egg.
+
+---
+
+# Factoring out independent code
+
+- tightly couples model classes to parsing strategies
+
+- needless margin for error (e.g. initializing abstract classes)
+
+^ There are ways to solve these problems. We could add a subclass of `Post` which wraps an `XMLPost`, adding an enclosure; we could add an `isPodcast` flag to `Post` or `XMLPost`; we could add an optional enclosure property to `Post` or `XMLPost` and have the appropriate views/controllers check for its presence. But these are all working around a problem with the class hierarchy itself: it’s brittle, saying both more and less than what we mean. How so?
+
+^ It says _more_ than what we mean in that it’s too specific. By encoding the parsing strategy in the class hierarchy, we remove our ability to vary it independently of the leaf nodes.
+
+^ It says _less_ than what we mean in that it’s too general. `XMLPost` is abstract, and thus it wouldn’t work for it to be initialized directly; only its subclasses should be. But this isn’t directly expressible in the language, so some tired or unwary developer may make this mistake at some point.
+
+^ Fortunately for us and our somewhat contrived example, a better factoring is pretty simple too.
+
+---
+
+# Factoring out independent code
+
+```swift
+class Post {
+	let title: String
+	let author: String
+	let postedAt: NSDate
+	let URL: NSURL
+}
+
+class Tweet: Post { … }
+class RSS1Post: Post { … }
+class RSS2Post: Post { … }
+class AtomPost: Post {
+	init(data: NSData) {
+		let parser = XMLParser(data)
+		super.init(title: parser.evaluateXPath(…), …)
+	}
+}
+
+class XMLParser { … }
+```
+
+^ Now the various posts all just subclass `Post` directly, while `XMLParser` is completely independent and doesn’t need to know anything about `Post` at all.
+
+^ By factoring parsing out of the `Post` hierarchy, we can vary it independently of the RSS & Atom post classes. We may still have work to do if a replacement for or addition to our parsing strategy doesn’t use the same interface, but by factoring it out in the first place we are free to abstract the variable concept of _parsing_ separately from the orthogonal concept of _data_.
+
+^ Even better, doing this setup makes it much easier for us to apply the other approaches. We didn’t need `XMLPost`; do we need `Post`?
+
 ---
 
 # Approach 2:
 # share interfaces with protocols
 
-^ We also employ subclasses in order to share an interface between distinct implementations. Superclasses of this nature are often (mostly) abstract. Foundation’s `NSValueTransformer` is an example of this, and we can look at Core Data’s `NSManagedObject` this way as well.
+^ In addition to sharing implementations, we often employ subclasses in order to share an interface between distinct implementations—as with `Post` and its subclasses.
 
-^ Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
+^ Superclasses of this nature are often (mostly) abstract. Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
 
-^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: what that class _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled!)
+^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (If we _did_ care about the memory layout, the two classes would _certainly_ be tightly coupled!)
 
 ^ This could also needlessly force consumers of our API to jump through hoops when it would be more convenient, more elegant, or more efficient for them to use some other type to implement the interface.
 
