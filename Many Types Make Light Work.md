@@ -91,7 +91,7 @@
 ---
 
 # Approach 1:
-# factor implementations _ruthlessly_
+# Factor class hierarchies out
 
 ^ Every app is broken down into classes, methods, functions, etc. _How_ these break down in a given program is what we refer to as its factoring, just like composite numbers divide into smaller numbers which we call its factors.
 
