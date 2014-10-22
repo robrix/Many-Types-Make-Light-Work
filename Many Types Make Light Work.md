@@ -332,7 +332,7 @@ class AtomPost: Post {
 
 # Factor your protocols, too
 
-^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
+^ One complaint with protocols is that it’s easy to end up with long, unwieldy lists of requirements that become a burden to every caller and implementor; every requirement must be implemented by each type implementing the protocol, after all.
 
 ^ For example, have you ever written a class implementing every single required method in `UITableViewDelegate`?
 
