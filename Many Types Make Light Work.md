@@ -348,7 +348,7 @@ class AtomPost: Post {
 ---
 
 # Approach 3:
-# functions
+# Minimize interfaces with functions
 
 ^ Swift’s functions offer overloading, generic functions, and simple, powerful function types; we’ll start with overloading.
 
