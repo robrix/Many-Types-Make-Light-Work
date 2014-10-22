@@ -44,7 +44,7 @@
 
 ^ We can also describe interfaces in the abstract, without anchoring them to a specific implementation using protocols. Protocols provide an interface, and a concrete implementation is provided by a class.
 
-^ With that covered we’ll look at _how_ we reuse interfaces & implementations. Broadly speaking, the most common tools at our disposal for code reuse are subclassing, and composition.
+^ With that covered we’ll look at _how_ we reuse interfaces & implementations. Broadly speaking, the most common tools we employ for code reuse are subclassing & composition.
 
 ---
 
