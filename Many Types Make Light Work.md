@@ -66,20 +66,19 @@
 
 # Composition
 
-^ Composition is a less familiar term, but you use the concept all the time: it basically means using objects together. For example, a `UIView` is composed with its superview, its subviews, and its layer; a `UIViewController` is composed with its parent controller, its child controllers, and its views; and so on.
-
 - composition is ~~when you put a thing in a thing and then it’s a thing then~~ using objects together
 
-^ In contrast with the “is a” relationship defined by subclassing, this style of composition defines a “has a”/“has many” relationship, e.g. a `UITableView` has a `UITableViewDelegate`, and it has many `UITableCellView`s.
-
 - properties; “has a/many”
+
+- parameters; “uses”
+
+^ Composition may be a less familiar term, but you use the concept all the time: it boils down to objects which can be used together. For example, a `UIView` is composed with its superview, its subviews, and its layer; a `UIViewController` is composed with its parent controller, its child controllers, and its views; and so on.
+
+^ In contrast with the “is a” relationship defined by subclassing, this style of composition defines a “has a”/“has many” relationship, e.g. a `UITableView` has a `UITableViewDelegate`, and it has many `UITableCellView`s.
 
 ^ We can also consider a class as being composed with the types it interacts with but doesn’t own, i.e. those which it receives as parameters, or creates and gives to something else.
 
 ^ This defines a “uses” sort of relationship more so than a “has” one, e.g. `UIApplication` uses `NSNotificationCenter`, but ultimately it’s just another example of composition.
-
-
-- parameters; “uses”
 
 ---
 
