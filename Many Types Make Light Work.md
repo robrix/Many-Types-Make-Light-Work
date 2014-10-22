@@ -18,15 +18,15 @@
 
 # Reusing implementations
 
-^ When we’ve written a method in one class and we need that same behaviour in another, ideally we wouldn’t copy and paste the method into the new context. Instead, we’d extract the common code into a function or method somewhere we can call it from both of the points which need its behaviour. That’s what reusing implementations means.
-
 - Don’t Repeat Yourself (DRY)
-
-^ We call this “Don’t Repeat Yourself” or “DRY,” and at the core, it’s not much more complicated than that: we abstract bits of our programs, and package them up for reuse elsewhere.
 
 - functions, methods, classes, categories, etc. let us reuse implementations
 
 - subclasses inherit their superclass’ implementation
+
+^ When we’ve written a method in one class and we need that same behaviour in another, ideally we wouldn’t copy and paste the method into the new context. Instead, we’d extract the common code into a function or method, and then call it from both of the points which need its behaviour. That’s reusing implementations in a nutshell.
+
+^ We call this “Don’t Repeat Yourself” or “DRY,” and at the core, it’s not much more complicated than that: we abstract bits of our programs, and package them up for reuse elsewhere, whether in a function, a method, a class, a category, or whatever other means of abstraction our language provides us.
 
 ---
 
