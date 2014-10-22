@@ -50,15 +50,15 @@
 
 # Subclassing
 
-- inherit superclass’ interface
+- inherit superclass’ interface & implementation
 
-- inherit superclass’ implementation
+- describes the class hierarchy at compile time
 
 # Composition
 
 - composition is ~~when you put a thing in a thing and then it’s a thing then~~ using objects together
 
-- properties & parameters: “has a/many”, “uses”
+- describes the object graph at runtime
 
 ^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation.
 
