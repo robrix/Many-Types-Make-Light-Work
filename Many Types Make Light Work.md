@@ -471,7 +471,7 @@ struct GeneratorOf<T> : GeneratorType {
 
 ^ If you can wrap up any function from `Void` to `Optional<T>` in a `GeneratorOf` with no other feedback provided, why does `GeneratorType` exist at all? Why don’t they _only_ use function types?
 
-^ Alas, that one will have to wait for the Swift team to write their memoirs. We can assume that they have their reasons, though, and so might we—sometimes you need just a _little_ extra functionality, even once you’ve factored your types out as far as you can.
+^ Alas, that one will have to wait for the Swift team’s memoirs. We can assume that they have their reasons, though—and so might we. After all, sometimes you need just a _little_ extra functionality than just a bare function type.
 
 ---
 
@@ -486,7 +486,7 @@ struct GeneratorOf<T> : GeneratorType {
 
 # `List` as a protocol
 
-^ For example, we could describe lists using a protocol:
+^ For example, we could describe lists using a protocol, like this one which we saw earlier:
 
 ```swift
 protocol ListType {
@@ -497,7 +497,7 @@ protocol ListType {
 }
 ```
 
-^ But doing so raises a question.
+^ But doing so raises a question: Do we even need to?
 
 ---
 
