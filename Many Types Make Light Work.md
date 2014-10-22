@@ -200,7 +200,7 @@ class XMLParser { … }
 ---
 
 # Approach 2:
-# share interfaces with protocols
+# Protocols, not superclasses
 
 ^ In addition to sharing implementations, we often employ subclasses in order to share an interface between distinct implementations—as with `Post` and its subclasses.
 
