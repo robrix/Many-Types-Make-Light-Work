@@ -20,31 +20,19 @@
 
 - Don’t Repeat Yourself (DRY)
 
-- functions, methods, classes, categories, etc. let us reuse implementations
-
-- subclasses inherit their superclass’ implementation
-
-^ When we’ve written a method in one class and we need that same behaviour in another, ideally we wouldn’t copy and paste the method into the new context. Instead, we’d extract the common code into a function or method, and then call it from both of the points which need its behaviour. That’s reusing implementations in a nutshell.
-
-^ We call this “Don’t Repeat Yourself” or “DRY,” and at the core, it’s not much more complicated than that: we abstract bits of our programs, and package them up for reuse elsewhere, whether in a function, a method, a class, a category, or whatever other means of abstraction our language provides us.
-
----
+- functions, methods, (sub)classes, &c.
 
 # Reusing interfaces
 
-- can call methods without knowing an instance’s class
+- lets the same code work with different types
 
-- subclasses inherit their superclass’ interface
+- subclassing, protocols
 
-- protocols describe an interface without tying it to an implementation
+^ Reusing implementations boils down to “Don’t Repeat Yourself” or “DRY.” We factor out code we want to reuse into a function, method, or class, and call it from the places which need its behaviour. One function, used by multiple callers.
 
-^ We also want to be able to handle similar objects with the same code. A method taking a string doesn’t need to know if it’s mutable or not to ask it for its length; instead, `NSString`, `NSMutableString`, and any subclasses thereof all share an interface, and we simply call `length`.
+^ Reusing interfaces is the flip side of the coin. A function which takes a parameter of a given class can take any subclass, because a class defines an interface shared—reused—by its subclasses. Likewise, a function which takes a parameter of a given protocol can take any concrete type conforming to it—that’s what protocols are for. One function, taking multiple types.
 
-^ In the same way, all classes declare the interface through which we can manipulate their instances and those of their subclasses.
-
-^ We can also describe interfaces in the abstract, without anchoring them to a specific implementation using protocols. Protocols provide an interface, and a concrete implementation is provided by a class.
-
-^ With that covered we’ll look at _how_ we reuse interfaces & implementations. Broadly speaking, the most common tools we employ for code reuse are subclassing & composition.
+^ Broadly speaking, the most common tools we employ for code reuse are subclassing & composition.
 
 ---
 
