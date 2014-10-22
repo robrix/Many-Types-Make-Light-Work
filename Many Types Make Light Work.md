@@ -139,6 +139,54 @@
 
 ^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. We may not currently be as concerned about cross-platform support as these authors were, but the principle is the same: factoring out code which we want to change independently is as good a strategy for code reuse as it is for abstraction.
 
+^ For example, let’s consider a model class hierarchy for a hypothetical vector drawing app.
+
+---
+
+# Factor out independent code
+
+- model for drawing app
+- base class & two subclasses
+
+```swift
+class Shape {
+	var boundingBox: CGRect
+	var fill: UIColor
+	var stroke: UIColor
+	…
+}
+```
+
+![right 150%](http://cl.ly/image/062g1l0k451C/shape-hierarchy-1.png)
+
+^ This app lets you draw rectangles and arbitrary polygons. As such, it has a Shape base class, with Rectangle and Polygon subclasses.
+
+^ Shape is straightforward: it has a `boundingBox` which the view layer will use to set the corresponding view’s frame, plus fill & stroke colours for drawing.
+
+---
+
+# Factor out independent code
+
+```swift
+class Rectangle: Shape {
+	var rect: CGRect {
+		didSet {
+			boundingBox = rect
+		}
+	}
+}
+
+class Polygon: Shape {
+	var points: [CGPoint] {
+		didSet {
+			boundingBox = reduce(points, CGRectNull) {
+				$0.rectByUnion(CGRect(origin: $1, size: CGSizeZero))
+			}
+		}
+	}
+}
+```
+
 ---
 
 # Approach 2:
