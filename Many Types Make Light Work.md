@@ -54,13 +54,9 @@
 
 - subclasses inherit their superclass’ implementation
 
-- “is a”
-
 ^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation.
 
 ^ This makes subclassing a convenient way to group similar things together under a common interface, thus reusing it. It also makes it convenient to reuse the implementations provided by the superclass, since all of its functionality will be shared by any subclass which doesn’t explicitly override it.
-
-^ Subclassing defines an “is a” relationship—we say that `UITableView` is a `UIView` because it subclasses `UIView`. This is the key contrast with composition, which we’ll look at next.
 
 ---
 
