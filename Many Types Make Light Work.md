@@ -336,6 +336,10 @@ class AtomPost: Post {
 
 - `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
 
+- exact same problem as with ill-factored classes
+
+- factor around independent concepts instead
+
 ^ One complaint with protocols is that it’s easy to end up with long, unwieldy lists of requirements that become a burden to every caller and implementor; every requirement must be implemented by each type implementing the protocol, after all.
 
 ^ For example, have you ever written a class implementing every single method in `UITableViewDelegate`?
@@ -346,9 +350,7 @@ class AtomPost: Post {
 
 ^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate protocol.
 
-^ That wouldn’t necessarily mean thirteen (or more!) protocols for `UITableView`, either—the display notifications and height calculations are split between cells, headers, and footers, but they don’t have to be. Likewise, the data source is more or less a `Stream` of (hypothetical) `UITableSection`s.
 
-- Swift: `Comparable`, `Equatable`, `GeneratorType`, etc. each have **1** requirement
 
 ^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your protocols too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
 
