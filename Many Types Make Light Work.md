@@ -519,7 +519,9 @@ enum Result<T> {
 
 ^ On the other hand, if the set of cases is open-ended, we might want to use a protocol instead. Our aggregator/bookmarking app’s `Post` model types are exactly such a case—adding support for podcasts to a `Post` `enum` could require traipsing all across the project.
 
-^ These approaches will help us avoid subclassing when we’re working purely with our own code, but what about when we’re dealing with Cocoa?
+^ There are lots of other minimal types we could be enjoying: `List`, `Result`, `Box`, `Either`, `Stream`, and so forth are all common types we could use in our apps. There are others capturing similarly minimal patterns; and which we employ will depend heavily on what our app is doing. But we can always approach the task at hand by looking for minimal abstractions which will express it more elegantly. I highly recommend doing so.
+
+^ Each of these approaches will help us avoid subclassing when we’re working purely with our own code, but as often as not, we’re using Apple’s, too. What about when we’re dealing with Cocoa?
 
 ---
 
