@@ -578,36 +578,7 @@ enum Result<T> {
 
 - code defensively
 
-^ It can be quite educational to take this to its logical extreme.
-
----
-
-# Experiment: access `super` through a protocol
-
-^ For example, you could access your superclass through a protocol: Add a protocol and a property returning self. Now, if you only access your superclass through that property, you have a guaranteed minimum interface—and later on, refactoring the subclass to rely on composition instead of inheritance can be partially accomplished by simply changing the property to store an instance of the superclass instead of returning self.
-
-```swift
-protocol DetailViewControllerType {
-	var view: UIView { get }
-	…
-}
-
-extension UIViewController: DetailViewControllerType {}
-
-class DetailViewController: UIViewController {
-	var viewController: DetailViewControllerType { self }
-	
-	// caveat: hooks won’t go through `viewController`
-	override func viewDidLoad() {
-		// and neither will explicit calls through `super` 
-		super.viewDidLoad()
-	}
-}
-```
-
-^ I would be very unlikely to actually ship this code, but I _have_ written it, and learned a lot. When you have some spare time, I recommend trying it out on a branch, ideally with an extant subclass, to see what you can learn about the class and your program as a whole.
-
-^ As with everything we’ve discussed, this is a matter of discipline. It’s the same way with making sure we don’t couple too tightly to our own classes, subclass or otherwise.
+^ As with everything else we’ve discussed, this is a matter of discipline: good habits make better code. It’s the same way with making sure we don’t couple too tightly to our own classes, subclass or otherwise.
 
 ---
 
