@@ -269,11 +269,66 @@ class XMLParser { … }
 
 ^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make using them inconvenient in many cases.
 
-^ It’s also important to note that the difference in size of these: delegate/data source protocols tend to be larger than model protocols, and model protocols tend to be larger than behaviour protocols. This suggests that we can factor these, too.
+^ So if protocols are shared interfaces, how might we use them to share the key interface in the data model of a contrived aggregator/bookmarking app?
 
 ---
 
-# …but factor your protocols ruthlessly, too
+# Protocols are shared interfaces
+
+```swift
+class Post {
+	let title: String
+	let author: String
+	let postedAt: NSDate
+	let URL: NSURL
+}
+
+class Tweet: Post { … }
+class RSS1Post: Post { … }
+class RSS2Post: Post { … }
+class AtomPost: Post {
+	init(data: NSData) {
+		let parser = XMLParser(data)
+		super.init(title: parser.evaluateXPath(…), …)
+	}
+}
+```
+
+^ Recall that post-factoring, our app has a flat hierarchy of model classes. Since we aren’t employing implementation sharing (beyond the storage of the properties themselves), this turns out to be _incredibly_ simple to migrate to a protocol instead.
+
+---
+
+# Using protocols to share interfaces
+
+```swift
+protocol Post {
+	var title: String { get }
+	var author: String { get }
+	var postedAt: NSDate { get }
+	var URL: NSURL { get }
+}
+
+class AtomPost: Post {
+	let title: String
+	let author: String
+	let postedAt: NSDate
+	let URL: NSURL
+
+	init(data: NSData) {
+		let parser = XMLParser(data)
+		title = parser.evaluateXPath(…)
+		…
+	}
+}
+```
+
+^ I’ve elided `Tweet` & the RSS post classes, but they undergo analogous changes to those made to `AtomPost`. `Post` is changed from a class to a protocol definition; `AtomPost` has constants for its title, &c.; and it binds values to these instead of calling its superclass’ initializer—since it hasn’t got one any more.
+
+^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `AtomPost` to any particular implementation.
+
+---
+
+# Factor your protocols, too
 
 ^ A common complaint with protocols is that you end up with long, unwieldy lists of requirements that become a burden to anything implementing them. Every required method you add has to be implemented by each implementor, every optional method has to be checked for at runtime.
 
@@ -296,23 +351,6 @@ class XMLParser { … }
 ^ The takeaway is that the same forces which lead to MVC meaning Massive View Controller will affect your protocols too, if you let them. Fortunately, the One Responsibility Rule is a good rule of thumb here, too.
 
 - “kitchen sink” protocols are avoidable; factor
-
----
-
-# protocols are open-ended shared interfaces
-
-Use protocol for open-ended interfaces:
-
-```swift
-protocol VehicleType {
-	var capacity: Int
-	var passengers: [Person] { get }
-}
-
-class Train: VehicleType { … }
-class Plane: VehicleType { … }
-class Automobile: VehicleType { … }
-```
 
 ---
 
