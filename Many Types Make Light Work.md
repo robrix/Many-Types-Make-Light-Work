@@ -447,7 +447,7 @@ struct GeneratorOf<T> : GeneratorType {
 ---
 
 # Approach 4:
-# (many) minimal types
+# Abstract into (many) minimal types
 
 ^ Similarly, it’s reasonable to ask yourself just how much you need to abstract. Does your `Author` type really need a `Bibliography` instead of a list of publications?
 
