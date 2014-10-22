@@ -332,17 +332,17 @@ class AtomPost: Post {
 
 # Factor your protocols, too
 
+- `UITableViewDelegate` API ref is in _**9 sections**_
+
+- `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
+
 ^ One complaint with protocols is that it’s easy to end up with long, unwieldy lists of requirements that become a burden to every caller and implementor; every requirement must be implemented by each type implementing the protocol, after all.
 
 ^ For example, have you ever written a class implementing every single method in `UITableViewDelegate`?
 
-- `UITableViewDelegate` API ref is in _**9 sections**_
-
 ^ The API ref is broken into 9 sections, but my count it’s more like thirteen different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory.
 
 ^ Not only is `UITableViewDelegate` massive, it’s almost inextricably intertwined with `UITableViewDataSource`. Have you ever written a class conforming to `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
-
-- `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
 
 ^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor out every independent concern into a separate protocol.
 
