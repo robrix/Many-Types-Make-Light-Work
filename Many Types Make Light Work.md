@@ -558,23 +558,23 @@ enum Result<T> {
 
 # Write minimal subclasses
 
+- can you configure an instance instead of subclassing?
+
+- extract distinct responsibilities into their own types
+
+- code defensively
+
 ^ We may be required to subclass, but that doesn’t mean game over. While we may still be at the whim of new SDKs when it comes to unanticipated change in Apple’s classes, we can defend against the worst.
 
 ^ First off, ask yourself if you can configure an instance instead of subclassing. Sometimes classes like `UIViewController` which _typically_ require subclassing can simply be set up instead—whether in a xib, a storyboard, or in code.
 
-- can you configure an instance instead of subclassing?
+^ Sometimes the answer to this question is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it.
 
-^ Sometimes the answer to this question is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it; in those cases we can apply the same approaches we’ve considered already.
-
-^ First off, we want to make sure that distinct responsibilities are being handled by distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about the superclass, and no SDK change will ever invalidate an assumption you haven’t made.
-
-- extract distinct responsibilities into their own types
+^ In those cases we can apply the same approaches we’ve considered already. For example, we would want to make sure that distinct responsibilities are being handled by distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about the superclass. After all, no SDK change will ever invalidate an assumption you haven’t made.
 
 ^ You can think of this as coding defensively. In Objective-C, best practice for categories on another party’s types—whether Apple’s or a third-party—is to prefix the method names so as to avoid collisions.
 
 ^ Likewise, you can insulate your code from future change—and future coupling!—by minimizing the interfaces that your code operates on, and therefore assumes.
-
-- code defensively
 
 ^ As with everything else we’ve discussed, this is a matter of discipline: good habits make better code. It’s the same way with making sure we don’t couple too tightly to our own classes, subclass or otherwise.
 
