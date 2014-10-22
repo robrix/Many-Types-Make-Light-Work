@@ -32,17 +32,17 @@
 
 # Reusing interfaces
 
-^ We also want to be able to handle similar objects with the same code. A method taking a string doesn’t need to know if it’s mutable or not to ask it for its length; instead, `NSString`, `NSMutableString`, and any subclasses thereof all share an interface.
-
 - can call methods without knowing an instance’s class
-
-^ A class declares the interface through which we can manipulate its instances.
 
 - subclasses inherit their superclass’ interface
 
-^ We can also describe interfaces in the abstract, without anchoring them to a specific implementation using protocols. Protocols provide an interface, and a concrete implementation is provided by a class.
-
 - protocols describe an interface without tying it to an implementation
+
+^ We also want to be able to handle similar objects with the same code. A method taking a string doesn’t need to know if it’s mutable or not to ask it for its length; instead, `NSString`, `NSMutableString`, and any subclasses thereof all share an interface.
+
+^ A class declares the interface through which we can manipulate its instances.
+
+^ We can also describe interfaces in the abstract, without anchoring them to a specific implementation using protocols. Protocols provide an interface, and a concrete implementation is provided by a class.
 
 ^ With that covered we’ll look at _how_ we reuse interfaces & implementations. Broadly speaking, the most common tools at our disposal for code reuse are subclassing, and composition.
 
