@@ -354,23 +354,6 @@ class AtomPost: Post {
 
 ---
 
-# protocols are open-ended shared interfaces
-
-Use protocol for open-ended interfaces:
-
-```swift
-protocol VehicleType {
-	var capacity: Int
-	var passengers: [Person] { get }
-}
-
-class Train: VehicleType { … }
-class Plane: VehicleType { … }
-class Automobile: VehicleType { … }
-```
-
----
-
 # Approach 3:
 # functions
 
