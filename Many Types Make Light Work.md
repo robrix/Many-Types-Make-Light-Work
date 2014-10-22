@@ -130,13 +130,14 @@
 
 ---
 
-# Factoring around change
+^ The Gang of Four’s _Design Patterns_ describes the design of a hypothetical WYSIWYG document editor called _Lexi_. The discussion is reasonably detailed, addressing the document format, text layout, drawing, scrolling, and cross-platform support.
 
-^ In particular, our goal is to minimize coupling and reduce the cost and risk of change. Therefore we want to factor so as to decouple separate concerns from one another. As a rule of thumb, we want to separate things that we want to be able to vary separately.
+^ When discussing the latter, they use this wonderful phrase to describe how to support a stable Window interface across multiple platforms with their different ideas of what a window is:
 
-^ TODO: before/after of subclassed master/detail list view controller, with the model stuff getting factored into a view model
+> Encapsulate the concept that varies.
+-- Gamma, Helm, Johnson, & Vlissides’ _Design Patterns_
 
-^ TODO: before/after of model hierarchy under similar refactoring?
+^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. We may not currently be as concerned about cross-platform support as these authors were, but the principle is the same: factoring out code which we want to change independently is as good a strategy for code reuse as it is for abstraction.
 
 ---
 
