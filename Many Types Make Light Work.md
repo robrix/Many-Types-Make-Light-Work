@@ -2,7 +2,11 @@
 
 ### @rob_rix ❦ rob.rix@github.com
 
-^ I’ll be talking about code reuse and subclassing in Swift today. We’ll take a quick look at the whys and hows of reusing code by subclassing; at some problems with subclassing; what we can do instead of subclassing; and what we can do to mitigate the problems with subclassing.
+^ who am I
+
+^ where do I work
+
+^ what am I going to talk about
 
 ---
 
