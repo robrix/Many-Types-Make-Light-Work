@@ -1,6 +1,6 @@
 # Many Types Make Light Work
 
-### @rob_rix ❦ rob.rix@github.com
+### [@rob_rix](https://twitter.com/rob_rix) ❦ [rob.rix@github.com](mailto:rob.rix@github.com)
 
 ^ who am I
 
