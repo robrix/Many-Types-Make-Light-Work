@@ -10,13 +10,29 @@
 
 ---
 
-# Managing complexity under change
+# Reusing code
 
-^ One of the most important parts of programming is recognizing patterns. Patterns are opportunities for us to reuse code, reducing the complexity of our system.
+- change happens: bugs, features, platform changes
 
-^ Of course, this is inherently in tension with another major part of programming: adding features. (We’re not likely to get paid if all we ever do is _delete_ code.) Programming is therefore a kind of balancing act of managing this complexity under change. The key way for us to manage the complexity of a program is to reuse code.
+- complexity scales with quantity of code
 
-^ In Swift & Objective-C, reusing _code_ typically means either reusing _implementations_ or reusing _interfaces_. We’ll take a quick look at each of these.
+- programming is managing complexity under change
+
+- reusing code is necessary (if insufficient)
+
+- reusing _code_ means
+
+	- reusing _implementations_ 
+
+	- reusing _interfaces_
+
+^ it’s pretty rare to be finished an app: fixing bugs, adding features, keeping pace with platform changes
+
+^ adding code tends to increase the complexity & therefore risk—more bugs to fix, more change, turtles all the way down
+
+^ one necessary ingredient in managing complexity is reusing code—code we can reuse doesn’t increase the complexity further
+
+^ “reusing code” is too vague; specifically we reuse _implementations_ & reuse _interfaces_
 
 ---
 
