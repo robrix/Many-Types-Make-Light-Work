@@ -1,12 +1,14 @@
-# Many Types Make Light Work
+# Many Types Make Light Work[^1]
 
-### @rob_rix ❦ rob.rix@github.com
+### [@rob_rix](https://twitter.com/rob_rix) ❦ [rob.rix@github.com](mailto:rob.rix@github.com)
 
 ^ who am I
 
 ^ where do I work
 
 ^ what am I going to talk about
+
+[^1]: https://github.com/robrix/Many-Types-Make-Light-Work
 
 ---
 
