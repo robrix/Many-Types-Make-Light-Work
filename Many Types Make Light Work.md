@@ -80,21 +80,28 @@
 
 ---
 
-# The trouble with subclassing
 
-- it _conflates_ reusing interfaces with reusing implementations
+> subclassing ≃ 💥🔥💀
 
-- it _couples_ subclasses to superclass implementations
+^ …and unfortunately, subclassing tends to cause us problems. For example…
 
-- it _encourages_ tight coupling in composed classes
+---
 
-![right](http://upload.wikimedia.org/wikipedia/commons/f/f1/Train_coupling.jpg)
+> Subclassing _conflates_ reuse of interfaces with reuse of implementations
 
 ^ The perceived convenience of subclassing comes at a cost: if we want to reuse the interface, or just part of the implementation, the rest of the implementation tags along anyway.
+
+---
+
+> Subclassing _couples_ superclass and subclass implementations
 
 ^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code. Likewise, if the superclass calls its own methods (as they tend to), the subclass can also invalidate an assumption of the superclass—even if that assumption is new.
 
 ^ For example, on OS X Mavericks, `NSViewController` doesn’t have the `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`. A subclass could, however, implement those methods and call them at the appropriate times. But under Yosemite, `NSViewController` adds and calls those methods, meaning we now have a bug: these methods are called twice: once by our code, and once by our superclass. All we did is compile against the new SDK.
+
+---
+
+> Subclassing _encourages_ tight coupling in composed classes
 
 ^ Subclassing also enables other code using the hierarchy to make more assumptions about subclasses than would otherwise be possible, simply because the interfaces are broader than they need to be—and they get broader with each layer of subclass. This can lead to even more coupling and brittleness, unintentionally increasing the risk and cost of change (whether on our part or Apple’s).
 
