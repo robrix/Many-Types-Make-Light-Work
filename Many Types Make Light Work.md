@@ -22,7 +22,7 @@
 
 - reusing code is necessary (if insufficient)
 
-- reusing _code_ means
+- by “reusing _code_,” we mean…
 
 	- reusing _implementations_ 
 
