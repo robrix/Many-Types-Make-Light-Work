@@ -101,7 +101,7 @@
 ---
 
 > Don’t subclass.
-— me, here, now
+— me, here, just now
 
 ^ In the abstract, subclassing is _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
 
