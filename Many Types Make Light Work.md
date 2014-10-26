@@ -608,10 +608,4 @@ enum Result<T> {
 
 ---
 
-# Thanks to
-
-## Matt Diephouse, Ken Ferry, Kris Markel, Andy Matuschak, Ryan McCuaig, Kelly Rix, Justin Spahr-Summers, Patrick Thomson…
-
-## …and you ❤️
-
-![](http://upload.wikimedia.org/wikipedia/commons/d/db/Railroad_Coupling_(CMRR\).jpg)
+> Thanks to Matt Diephouse, Ken Ferry, Kris Markel, Andy Matuschak, Ryan McCuaig, Kelly Rix, Haleigh Sheehan, Justin Spahr-Summers, Patrick Thomson, and you ❤️
