@@ -604,8 +604,6 @@ enum Result<T> {
 
 ^ So don’t subclass.
 
-^ I hope you’ve enjoyed the talk! I’d be happy to answer any questions, if we have time.
-
 ---
 
 > Thanks to Matt Diephouse, Ken Ferry, Kris Markel, Andy Matuschak, Ryan McCuaig, Kelly Rix, Haleigh Sheehan, Justin Spahr-Summers, Patrick Thomson, and you ❤️
