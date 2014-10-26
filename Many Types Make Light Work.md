@@ -76,6 +76,8 @@
 
 ^ We reuse implementations using composition by simply using the different implementations together. Composition doesn’t provide interface reuse—we’d describe that as the job of its fraternal twin, abstraction—but it does work just fine with shared interfaces: anything which composes with a given interface can compose with any type providing it.
 
+^ But even though we _can_ use composition & abstraction to reuse implementations & interfaces, we will often reach for subclassing first. However, they’re not quite equivalent…
+
 ---
 
 # The trouble with subclassing
