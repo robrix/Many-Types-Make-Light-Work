@@ -4,6 +4,8 @@ This is the talk which I gave at [NSScotland 2014](http://nsscotland.com) in Edi
 
 The talk is written in [Deckset-flavoured Markdown](https://github.com/robrix/Many-Types-Make-Light-Work/blob/master/Many%20Types%20Make%20Light%20Work.md).
 
+A [recording of the talk](http://vimeo.com/album/3132071/video/111942573) is available.
+
 
 ## Synopsis (for the conf)
 
