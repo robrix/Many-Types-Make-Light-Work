@@ -1,6 +1,6 @@
 # Many Types Make Light Work
 
-This is the talk I will be giving at [NSScotland 2014](http://nsscotland.com) in Edinburgh on October 26, 2014.
+This is the talk which I gave at [NSScotland 2014](http://nsscotland.com) in Edinburgh on October 26, 2014.
 
 The talk is written in [Deckset-flavoured Markdown](https://github.com/robrix/Many-Types-Make-Light-Work/blob/master/Many%20Types%20Make%20Light%20Work.md).
 
