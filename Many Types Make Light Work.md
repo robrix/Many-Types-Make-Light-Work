@@ -311,7 +311,7 @@ protocol Post {
 	var URL: NSURL { get }
 }
 
-class AtomPost: Post {
+struct AtomPost: Post {
 	let title: String
 	let author: String
 	let postedAt: NSDate
@@ -325,7 +325,7 @@ class AtomPost: Post {
 }
 ```
 
-^ I’ve elided `Tweet` & the RSS post classes, but they undergo analogous changes to those made to `AtomPost`. `Post` is changed from a class to a protocol definition; `AtomPost` has constants for its title, &c.; and it binds values to these instead of calling its superclass’ initializer—since it hasn’t got one any more.
+^ I’ve elided `Tweet` & the RSS post types, but they undergo analogous changes to those made to `AtomPost`. `Post` is changed from a class to a protocol definition; `AtomPost` no longer needs to be a `class` at all, so we can use a value type. It has constants for its title, &c.; and it binds values to these instead of calling into a superclass’ initializer.
 
 ^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `AtomPost` to any particular implementation.
 
