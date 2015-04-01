@@ -218,7 +218,7 @@ class AtomPost: Post {
 	}
 }
 
-class XMLParser { … }
+struct XMLParser { … }
 ```
 
 ^ Now the various posts all just subclass `Post` directly, while `XMLParser` is completely independent and doesn’t need to know anything about `Post` at all.
