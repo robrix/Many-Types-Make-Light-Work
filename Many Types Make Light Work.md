@@ -152,9 +152,7 @@ class RSS2Post: XMLPost { … }
 
 ^ This is straightforward enough, and not an uncommon pattern: a semi-abstract superclass provides a general implementation and its subclasses fill in the blanks where required to support their specific cases.
 
-^ Unfortunately, there’s trouble brewing already. What if the implementation of XPath which we rely on isn’t able to parse large RSS files in a reasonable amount of memory? What if it breaks on feeds which include HTML?
-
-^ It’s not just bugs that can cause this kind of change; features can, too. What if we want to populate post details asynchronously in some cases? What if we want to use a specific parser for a site with a notoriously broken feed, but still represent it as an `RSS2Post` so that the rest of the app works consistently? What if we want to add support for podcasts or appcasts via RSS enclosures? We parse in the XMLPath class, so we’re already using a specific subclass of it by the time we’d have the data together to tell whether there’s an enclosure—egg, meet chicken; chicken, meet egg.
+^ But the _next_ time we want to change this code, we face substantial risk. Bugs or features that require us to change the parsing strategy will incur a lot of risk for `XMLPost` _as well as each subclass_.
 
 ---
 
@@ -166,13 +164,15 @@ class RSS2Post: XMLPost { … }
 
 - introduces margin for error
 
-^ There are several ways to solve these problems. We could add a subclass of `Post` which wraps an `XMLPost`, adding an enclosure; we could add an `isPodcast` flag to `Post` or `XMLPost`; we could add an optional enclosure property to `Post` or `XMLPost` and have the appropriate views/controllers check for its presence. But these are all working around a problem with the class hierarchy itself: it’s brittle, saying both more and less than what we mean. How so?
+- is inflexible to change
 
-^ It says _more_ than what we mean in that it’s too specific. By encoding the parsing strategy in the class hierarchy, we remove our ability to vary it independently of the leaf nodes.
+^ The `XMLPost` class hierarchy itself is the problem.
 
-^ It says _less_ than what we mean in that it’s too general. `XMLPost` is abstract, and thus it wouldn’t work for it to be initialized directly; only its subclasses should be. But this isn’t directly expressible in the language, so some tired or unwary developer may make this mistake at some point.
+^ It says _more_ than what we mean in that it’s too specific. By encoding the parsing strategy in the class hierarchy, we limit our ability to vary it independently of the leaf nodes.
 
-^ Fortunately for us and our somewhat contrived example, a better factoring is straightforward too.
+^ It says _less_ than what we mean in that it’s too general. `XMLPost` is abstract, and thus we shouldn’t be able to instantiate it directly. But this isn’t directly expressible in the language, so some tired or unwary developer is likely to make this mistake at some point.
+
+^ Fortunately, a better factoring is straightforward too.
 
 ---
 
@@ -190,7 +190,7 @@ class RSS2Post: Post {
 }
 ```
 
-^ Now the various posts all just subclass `Post` directly, while `XMLParser` is completely independent and doesn’t need to know anything about `Post` at all.
+^ Now the RSS posts subclass `Post` directly, while `XMLParser` is completely independent and doesn’t need to know anything about `Post` at all.
 
 ^ By factoring parsing out of the `Post` hierarchy, we can vary it independently of the RSS & Atom post classes. We may still have work to do if a replacement for or addition to our parsing strategy doesn’t use the same interface, but by factoring it out in the first place we are free to abstract the variable concept of _parsing_ separately from the orthogonal concept of _data_.
 
