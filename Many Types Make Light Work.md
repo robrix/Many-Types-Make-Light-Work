@@ -229,19 +229,17 @@ class RSS2Post: Post {
   2. behaviour: `NSCoding`, `NSCopying`
   3. model: `NSFetchedResultsSectionInfo`, `NSFilePresenter`
 
-
-
 ^ Protocols are interfaces, sort of like a purely abstract class. A protocol specifies required properties & methods. Types conforming to a protocol must provide each required property/method to compile.
 
 ^ Cocoa’s use of protocols can, broadly, be broken down into three categories:
 
 ^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are examples of this kind of protocol.
 
-^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and not exactly common in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
+^ Second, protocols which describe a single behaviour which an object must be able to perform; for example, conforming to `NSCoding` means that instances of a class can be encoded/decoded; conforming to `NSCopying` means that they can be copied. In Cocoa these typically end in -ing (`NSCopying`, `NSCoding`, `NSLocking`), whereas in Swift’s standard library these typically end in -able (`Equatable`, `Comparable`, `Hashable`).
+
+^ Third, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and not exactly common in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
 
 ^ Cocoa also uses this kind of protocol in cases where the implementor appears to want to elide specific type information. For example, we don’t know what particular class is going to be passed to a method receiving `NSDraggingInfo` or `NSFetchedResultsSectionInfo`, which means Cocoa avoids vending implementation details via its types, and further avoids compatibility issues when they later change the underlying implementations.
-
-^ Third, protocols which describe a single behaviour which an object must be able to perform; for example, conforming to `NSCoding` means that instances of a class can be encoded/decoded; conforming to `NSCopying` means that they can be copied. In Cocoa these typically end in -ing (`NSCopying`, `NSCoding`, `NSLocking`), whereas in Swift’s standard library these typically end in -able (`Equatable`, `Comparable`, `Hashable`).
 
 ^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make composing them inconvenient in many cases.
 
