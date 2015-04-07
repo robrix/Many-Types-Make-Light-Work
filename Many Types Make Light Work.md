@@ -149,6 +149,7 @@
 # Factor out independent code
 
 ```swift
+// Existing model classes
 class Post {
 	let title: String
 	let author: String
@@ -158,6 +159,7 @@ class Post {
 
 class Tweet: Post { … }
 
+// New RSS support
 class XMLPost: Post {
 	let XMLData: NSData
 	let titlePath: XPath
