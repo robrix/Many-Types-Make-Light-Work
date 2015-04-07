@@ -225,25 +225,24 @@ class RSS2Post: Post {
 
 - Cocoa protocols:
 
-  1. delegate/data source: `UITableViewDelegate`
-  2. behaviour: `NSCoding`, `NSCopying`
-  3. model: `NSFetchedResultsSectionInfo`, `NSFilePresenter`
+  1. behaviour: `NSCoding`, `NSCopying`, `UITableViewDelegate`
+  2. model: `NSFetchedResultsSectionInfo`, `NSFilePresenter`
 
 ^ Protocols are interfaces, sort of like a purely abstract class. A protocol specifies required properties & methods. Types conforming to a protocol must provide each required property/method to compile.
 
-^ Cocoa’s use of protocols can, broadly, be broken down into three categories:
+^ Cocoa’s use of protocols can, broadly, be broken down into two categories:
 
-^ First, protocols which delegate some of an object’s behaviour to some other object. `UITableViewDelegate` and `UITableViewDataSource` are examples of this kind of protocol.
+^ First, protocols which specify a set of behaviours. For example, `NSCoding` types can be encoded/decoded, while `NSCopying` types can be copied. In Cocoa, simple behaviour protocols end in -ing (`NSCopying`, `NSCoding`, `NSLocking`). In Swift’s standard library, they end in -able (`Equatable`, `Comparable`, `Hashable`).
 
-^ Second, protocols which describe a single behaviour which an object must be able to perform; for example, conforming to `NSCoding` means that instances of a class can be encoded/decoded; conforming to `NSCopying` means that they can be copied. In Cocoa these typically end in -ing (`NSCopying`, `NSCoding`, `NSLocking`), whereas in Swift’s standard library these typically end in -able (`Equatable`, `Comparable`, `Hashable`).
+^ Delegate & data source protocols are (often much) larger examples, and are typically consumed by a single type (e.g. `UITableViewDelegate` is only useful to `UITableView`).
 
-^ Third, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and not exactly common in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
+^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and is uncommon in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
 
-^ Cocoa also uses this kind of protocol in cases where the implementor appears to want to elide specific type information. For example, we don’t know what particular class is going to be passed to a method receiving `NSDraggingInfo` or `NSFetchedResultsSectionInfo`, which means Cocoa avoids vending implementation details via its types, and further avoids compatibility issues when they later change the underlying implementations.
+^ Cocoa also uses this kind of protocol to avoid vending implementation details via its types, which further avoids compatibility problems if the underlying implementations change. For example, `NSDraggingInfo` instances received by AppKit views  are of unspecified class.
 
-^ Note that all of these are still just interfaces: they could have used abstract classes instead, but that would constrain the concrete implementations to a specific class hierarchy, which would make composing them inconvenient in many cases.
+^ All of these are still just interfaces: they enable a lot of useful work without constraining or coupling to implementation details.
 
-^ So if protocols are shared interfaces, how might we use them to share the key interface in the data model of our contrived aggregator/bookmarking app?
+^ We can use protocols to share the key interface in our aggregator/bookmarking app’s data model.
 
 ---
 
