@@ -450,6 +450,32 @@ struct GeneratorOf<T> : GeneratorType {
 
 ^ This suggests that we can reuse interfaces even more simply than using protocols. For example, a minimal type which captures the entirety of a protocol may be sufficient for _every_ use.
 
+---
+
+# `Post` as a minimal type
+
+```swift
+struct Post {
+	let title: String
+	…
+}
+
+func ingestResponse(response: Response) -> Post? {
+	switch response.contentType {
+	case .RSS1:
+		let parser = XMLParser(response.data)
+		return Post(title: parser.evaluateXPath(…))
+	default:
+		return nil
+	}
+}
+```
+
+^ Case in point, we use `PostType` to implement `Tweet`, `RSS1Post`, and `RSS2Post`, but these are practically identical. We can replace them all with a minimal `Post` model type and some smarts around ingestion.
+
+^ Minimalism really is key, here: `Post` can only be constructed with its direct fields, not directly with source data. This implies that model protocols can be captured much more easily than behaviour protocols, since the latter tend to require more choices (and are correspondingly more capable, and open-ended).
+
+^ That’s one reason why the Swift standard library includes `GeneratorOf`, `SequenceOf`, and `SinkOf`, but not `CollectionOf` or `EquatableOf`: `CollectionType` and `Equatable` are harder to capture completely in a single concrete type since they have more degrees of freedom.
 
 ---
 
