@@ -264,7 +264,7 @@ class RSS2Post: Post {
 }
 ```
 
-^ Recall that post-factoring, our app has a flat hierarchy of model classes. Since we aren’t employing implementation sharing (beyond the storage of the properties themselves), this turns out to be _incredibly_ simple to migrate to a protocol instead.
+^ Recall that post-factoring, our app has a shallow hierarchy of model classes. We aren’t sharing implementations here (aside from the storage for `title`, &c.), so this turns out to be trivial to migrate to a protocol.
 
 ---
 
@@ -288,11 +288,11 @@ struct RSS2Post: PostType {
 }
 ```
 
-^ I’ve elided the other post types, but they undergo analogous changes to those made to `RSS2Post`. `Post` is changed from a class to a protocol definition, `PostType`; `RSS2Post` no longer needs to be a `class` at all, so we can use a value type. It has constants for its title, &c.; and it binds values to these instead of calling into a superclass’ initializer.
+^ `Post` is changed from a class to a protocol definition, `PostType`, which `RSS2Post` conforms to. Not only does it not need to subclass, it doesn’t need to be a `class` at all. It has constants for its title, &c.; and it binds values to these instead of calling into a superclass’ initializer. We can assume the other `Post` types were treated similarly.
 
 ^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `RSS2Post` to any particular implementation.
 
-^ `PostType` is pretty minimalistic now; it’s a model protocol, but it doesn’t conflate its purpose as a data model with any orthogonal concerns of parsing or presentation. There may not be any need to factor it out further, but what about the other protocols we may have written in our apps: delegate protocols?
+^ `PostType` is a minimal model protocol, and it doesn’t conflate that responsibility with orthogonal concerns of parsing or presentation. What about behaviour protocols?
 
 ---
 
