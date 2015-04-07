@@ -243,7 +243,7 @@ class RSS2Post: Post {
 
 - specify required properties & methods
 
-- Cocoa uses protocols for several purposes
+- Cocoa protocols:
 
 	- delegate/data source protocols (e.g. `UITableViewDelegate`)
 
