@@ -142,7 +142,7 @@
 
 ^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. We may not currently be as concerned about cross-platform support as these authors were, but the principle is the same: factoring out code which we want to change independently is as good a strategy for code reuse as it is for abstraction.
 
-^ As an example of this, let’s consider the data model for a hypothetical aggregating/bookmarking app.
+^ As an example of this, let’s consider the data model for a hypothetical aggregating/bookmarking app. It already manages tweets, and now we want to add RSS to it as well.
 
 ---
 
