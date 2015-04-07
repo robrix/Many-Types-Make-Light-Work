@@ -46,7 +46,7 @@
 
 # Reusing interfaces
 
-- lets the same code work with different types
+- use the same code with different types
 
 - subclassing, protocols
 
