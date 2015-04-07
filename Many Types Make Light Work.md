@@ -157,8 +157,6 @@ class Post {
 }
 
 class Tweet: Post { … }
-class RSS1Post: XMLPost { … }
-class RSS2Post: XMLPost { … }
 
 class XMLPost: Post {
 	let XMLData: NSData
@@ -167,6 +165,9 @@ class XMLPost: Post {
 	let postedAtPath: XPath
 	let URLPath: XPath
 }
+
+class RSS1Post: XMLPost { … }
+class RSS2Post: XMLPost { … }
 ```
 
 ^ This app’s data model is pretty simple so far. It can pull in posts from Twitter, RSS (in both the 1.x & 2.x branches), and Atom. It doesn’t show the posts’ content per se; just enough to populate a link, or a notification.
