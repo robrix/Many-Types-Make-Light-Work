@@ -502,6 +502,24 @@ enum Result<T> {
 
 ^ There are lots of other minimal types we could be enjoying: `List`, `Result`, `Box`, `Either`, `Stream`, and so forth are all common types we could use in our apps. There are others capturing similarly minimal patterns; and which we employ will depend heavily on what our app is doing. But we can always approach the task at hand by looking for minimal abstractions which will express it more elegantly. I highly recommend doing so.
 
+---
+
+> Minimal types are value types
+
+^ `Post` is a simple `struct` now. `Result` is a trivial `enum`. We could apply the same process to our `ListType` protocol to make a `List` `enum` too.
+
+^ It’s no coincidence that each of these are value types. There are four reasons to use classes in Swift:
+
+^ 1. Working around language flaws, e.g. by using `Box<T>`. `Box` has this covered already, though, so this doesn’t apply.
+
+^ 2. Shared state for which copying is inappropriate, like a lock. You’ll know if you’re doing this one.
+
+^ 3. Subclassing for code reuse, which we have better alternatives for.
+
+^ 4. Interoperability with Objective-C; this isn’t uncommon, but it can be mitigated somewhat, as we’ll see.
+
+^ Swift’s value types are simpler by default. Since they’re copied and not referenced, they don’t suffer aliasing or concurrency bugs. You can’t subclass them, so they present relatively low risk to change.
+
 ^ Each of these approaches will help us avoid subclassing when we’re working purely with our own code, but as often as not, we’re using Apple’s, too. What about when we’re dealing with Cocoa?
 
 ---
