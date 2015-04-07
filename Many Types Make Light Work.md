@@ -112,7 +112,7 @@
 
 ^ It’s still possible for us to write tightly coupled code _without_ subclassing, of course, but decoupling is more difficult when subclasses are involved.
 
-^ Of course, easier said than done. We’ve been trained to subclass by our peers, mentors, books, blog posts, code bases, and by the frameworks and languages themselves. But it doesn’t have to be that way, and Swift makes not subclassing easier than ever.
+^ Of course, easier said than done. We’ve been trained to subclass by our peers, mentors, books, blog posts, code bases, and by the frameworks and languages themselves. But it doesn’t have to be that way, and Swift makes _not_ subclassing easier than ever.
 
 ^ To that end, we’re going to look at some approaches to writing  more flexible, reliable, & maintainable code by not subclassing. While these are presented separately, they aren’t mutually exclusive; you can mix and match to fit the task at hand.
 
