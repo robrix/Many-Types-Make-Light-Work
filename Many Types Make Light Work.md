@@ -221,17 +221,17 @@ class RSS2Post: Post {
 
 # Protocols are interfaces
 
-- specify required properties & methods
+- just the _relevant_ details: properties & methods
 
 - Cocoa protocols:
 
-	- delegate/data source protocols (e.g. `UITableViewDelegate`)
+  1. delegate/data source: `UITableViewDelegate`
+  2. behaviour: `NSCoding`, `NSCopying`
+  3. model: `NSFetchedResultsSectionInfo`, `NSFilePresenter`
 
-	- model protocols (e.g. `NSDraggingInfo`, `NSFetchedResultsSectionInfo`, `NSFilePresenter`)
 
-	- behaviour protocols (e.g. `NSCoding`, `NSCopying`)
 
-^ At the core, protocols are just interfaces, somewhat analogous to a purely abstract class. A protocol specifies required properties & methods. A class which conforms to a protocol must implement all of the required properties & methods in order to compile.
+^ Protocols are interfaces, sort of like a purely abstract class. A protocol specifies required properties & methods. Types conforming to a protocol must provide each required property/method to compile.
 
 ^ Cocoa’s use of protocols can, broadly, be broken down into three categories:
 
