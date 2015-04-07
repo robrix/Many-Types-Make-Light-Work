@@ -251,9 +251,7 @@ class RSS2Post: Post {
 ```swift
 class Post {
 	let title: String
-	let author: String
-	let postedAt: NSDate
-	let URL: NSURL
+	…
 }
 
 class Tweet: Post { … }
@@ -275,16 +273,12 @@ class RSS2Post: Post {
 ```swift
 protocol PostType {
 	var title: String { get }
-	var author: String { get }
-	var postedAt: NSDate { get }
-	var URL: NSURL { get }
+	…
 }
 
 struct RSS2Post: PostType {
 	let title: String
-	let author: String
-	let postedAt: NSDate
-	let URL: NSURL
+	…
 
 	init(data: NSData) {
 		let parser = XMLParser(data)
