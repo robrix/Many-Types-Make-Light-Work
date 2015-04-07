@@ -281,8 +281,7 @@ class Post {
 
 class Tweet: Post { … }
 class RSS1Post: Post { … }
-class RSS2Post: Post { … }
-class AtomPost: Post {
+class RSS2Post: Post {
 	init(data: NSData) {
 		let parser = XMLParser(data)
 		super.init(title: parser.evaluateXPath(…), …)
