@@ -448,9 +448,8 @@ struct GeneratorOf<T> : GeneratorType {
 # Approach 4:
 # Abstract (many) minimal types
 
-^ Similarly, it’s reasonable to ask yourself just how much you need to abstract. Does your `Author` type really need a `Bibliography` instead of a list of publications?
+^ This suggests that we can reuse interfaces even more simply than using protocols. For example, a minimal type which captures the entirety of a protocol may be sufficient for _every_ use.
 
-^ Minimal types are ones where you can’t really factor them out any further.
 
 ---
 
