@@ -192,7 +192,9 @@ class RSS2Post: Post {
 
 ^ Now the RSS posts subclass `Post` directly, while `XMLParser` is completely independent and doesn’t need to know anything about `Post` at all.
 
-^ By factoring parsing out of the `Post` hierarchy, we can vary it independently of the RSS & Atom post classes. We may still have work to do if a replacement for or addition to our parsing strategy doesn’t use the same interface, but by factoring it out in the first place we are free to abstract the variable concept of _parsing_ separately from the orthogonal concept of _data_.
+^ The post classes still depend on the parser, so changes to it (especially its interface) can still affect them, but _only at the points in which they actually interact with it_—the interface.
+
+^ We’re free to vary parsing within that interface, now, because we’ve encapsulated the varying concept of _parsing_ orthogonally to the static concept of _data_.
 
 ^ Obviously, this is a contrived example; we all know better than to implement XML parsing in our model classes. (Right?) But I know I can think of examples where I’ve conflated the concerns of one class hierarchy with an orthogonal set which _happened_ to align—at least at the moment. It’s an easy enough mistake to make, and correcting it proactively like this helps us make our code more flexible to change, bending with it rather than breaking.
 
