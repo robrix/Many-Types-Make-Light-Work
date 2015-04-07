@@ -64,7 +64,7 @@
 
 - composition is _~~when you put a thing in a thing and then it’s a thing then~~_ combining code
 
-- describes the object graph at runtime
+- describes the runtime object graph/call stack
 
 ^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation. That makes subclassing convenient both for grouping similar things together under a shared interface, and for sharing the superclass’ functionality between multiple subclasses.
 
