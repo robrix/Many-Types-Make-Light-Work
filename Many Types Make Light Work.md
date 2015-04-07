@@ -391,7 +391,7 @@ func dropFirst<T>(list: List<T>) -> List<T> { … }
 func second<T>(…?!) -> T? { … }
 ```
 
-^ What we need here is the combination of a protocol—that is, an interface—and a generic function. Fortunately, Swift gives us both of these.
+^ What we need here is the combination of a protocol—that is, an interface—and a generic function.
 
 ---
 
