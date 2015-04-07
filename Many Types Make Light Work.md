@@ -129,14 +129,14 @@
 
 ---
 
-^ The Gang of Four’s _Design Patterns_ describes the design of a hypothetical WYSIWYG document editor called _Lexi_. The discussion is reasonably detailed, addressing the document format, text layout, drawing, scrolling, and cross-platform support.
+^ In the Gang of Four’s _Design Patterns_, the authors describe the implementation of a hypothetical WYSIWYG editor.
 
-^ When discussing the latter, they use this wonderful phrase to describe how to support a stable Window interface across multiple platforms with their different ideas of what a window is:
+^ When it comes to cross-platform support, they use this wonderful phrase to describe how to support a stable Window interface across multiple platforms with their different ideas of what a window is:
 
 > Encapsulate the concept that varies.
 — Gamma, Helm, Johnson, & Vlissides’ _Design Patterns_
 
-^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. We may not currently be as concerned about cross-platform support as these authors were, but the principle is the same: factoring out code which we want to change independently is as good a strategy for code reuse as it is for abstraction.
+^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. Cross-platform code reuse may not currently be in vogue, but the principle is the same.
 
 ^ As an example of this, let’s consider the data model for a hypothetical aggregating/bookmarking app. It already manages tweets, and now we want to add RSS to it as well.
 
