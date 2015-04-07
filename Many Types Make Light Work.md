@@ -14,8 +14,6 @@
 
 # Reusing code
 
-- change happens: bugs, features, platform changes
-
 - complexity scales poorly: (qty. of code)² or worse
 
 - programming is managing complexity under change
@@ -27,8 +25,6 @@
 	- reusing _implementations_ 
 
 	- reusing _interfaces_
-
-^ it’s pretty rare to be finished an app: fixing bugs, adding features, keeping pace with platform changes
 
 ^ adding code increases complexity & therefore risk—more bugs to fix, more change, turtles all the way down.
 
