@@ -203,14 +203,8 @@ class RSS2Post: XMLPost { … }
 # Factoring out independent code
 
 ```swift
-class Post {
-	let title: String
-	let author: String
-	let postedAt: NSDate
-	let URL: NSURL
-}
+struct XMLParser { … }
 
-class Tweet: Post { … }
 class RSS1Post: Post { … }
 class RSS2Post: Post {
 	init(data: NSData) {
@@ -218,8 +212,6 @@ class RSS2Post: Post {
 		super.init(title: parser.evaluateXPath(…), …)
 	}
 }
-
-struct XMLParser { … }
 ```
 
 ^ Now the various posts all just subclass `Post` directly, while `XMLParser` is completely independent and doesn’t need to know anything about `Post` at all.
