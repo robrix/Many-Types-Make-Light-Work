@@ -184,7 +184,7 @@ class RSS2Post: XMLPost { … }
 
 # Factoring out independent code
 
-`Post` class hierarchy:
+`XMLPost`:
 
 - tightly couples _data types_ to _parsing strategies_
 
