@@ -218,7 +218,7 @@ class RSS2Post: Post {
 
 ^ By factoring parsing out of the `Post` hierarchy, we can vary it independently of the RSS & Atom post classes. We may still have work to do if a replacement for or addition to our parsing strategy doesn’t use the same interface, but by factoring it out in the first place we are free to abstract the variable concept of _parsing_ separately from the orthogonal concept of _data_.
 
-^ Obviously, this is a contrived example; we all know better than to implement XML parsing in our model classes. (Right?) But I know I can think of examples where I’ve conflated the concerns of one class hierarchy with an orthogonal set which _happened_ to coincide—at least at the moment. It’s an easy enough mistake to make, and correcting it proactively like this helps us make our code more flexible to change, bending with it rather than breaking.
+^ Obviously, this is a contrived example; we all know better than to implement XML parsing in our model classes. (Right?) But I know I can think of examples where I’ve conflated the concerns of one class hierarchy with an orthogonal set which _happened_ to align—at least at the moment. It’s an easy enough mistake to make, and correcting it proactively like this helps us make our code more flexible to change, bending with it rather than breaking.
 
 ^ Even better, doing this setup makes it much easier for us to apply other approaches to reducing brittleness. We didn’t need `XMLPost`; do we need `Post`?
 
