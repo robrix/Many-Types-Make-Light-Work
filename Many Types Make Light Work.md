@@ -296,23 +296,23 @@ struct RSS2Post: PostType {
 
 ---
 
-# Factor your protocols, too
+# Factor out independent interfaces
 
-- `UITableViewDelegate` API ref is in _**9 sections**_
+- `UITableViewDelegate` has >= 9 jobs (!)
 
-- `UITableViewDataSource` & `UITableViewDelegate` aren’t _really_ independent
+- `…DataSource`/`…Delegate` are interdependent
 
-- exact same problem as with ill-factored classes
+- only used by & tightly coupled to `UITableView`
 
-- factor around independent concepts instead
+- exact same problem as ill-factored classes
 
-^ Delegate protocols have a tendency to grow over time. For example, have you ever written a class implementing every single method in `UITableViewDelegate`?
+- factor interfaces around independent concepts
 
-^ The API ref for `UITableViewDelegate` is broken into _9 sections_, but by my count it’s more like thirteen different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory.
+^ Delegate protocols grow over time. The API ref for `UITableViewDelegate` is broken into _nine sections_, but by my count it’s more like _thirteen_ different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory. Have you ever written a class implementing every single method in `UITableViewDelegate`?
 
-^ And on that note, not only is `UITableViewDelegate` massive, it’s almost inextricably intertwined with `UITableViewDataSource`. How many people have ever written a class conforming to either `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
+^ Not only is `UITableViewDelegate` massive, it’s intertwined with `UITableViewDataSource`. How many people have ever written a class conforming to either `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
 
-^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, we should factor independent concerns out into a separate protocol.
+^ Just like with classes, this is a hint that these protocols have too many responsibilities and that they haven’t been divided in the right places. Again just like with classes, factor independent concerns into separate protocols.
 
 ---
 
