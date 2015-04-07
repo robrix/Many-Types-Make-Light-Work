@@ -12,39 +12,25 @@
 
 ---
 
-# Reusing code
+# More code = more complexity = more bugs
 
-- complexity scales poorly: (qty. of code)² or worse
+Code reuse reduces risk.
 
-- programming is managing complexity under change
+- implementations:
 
-- reusing code is necessary (if insufficient)
+	- Don’t Repeat Yourself (DRY)
 
-- by “reusing _code_,” we mean…
+	- functions, methods, (sub)classes, &c.
 
-	- reusing _implementations_ 
+- interfaces:
 
-	- reusing _interfaces_
+	- use the same code with different types
+
+	- subclassing, protocols
 
 ^ adding code increases complexity & therefore risk—more bugs to fix, more change, turtles all the way down.
 
-^ one necessary ingredient in managing complexity is reusing code—code we can reuse doesn’t increase the complexity further
-
-^ “reusing code” is too vague; specifically we reuse _implementations_ & reuse _interfaces_
-
----
-
-# Reusing implementations
-
-- Don’t Repeat Yourself (DRY)
-
-- functions, methods, (sub)classes, &c.
-
-# Reusing interfaces
-
-- use the same code with different types
-
-- subclassing, protocols
+^ Therefore, we need to reuse code.
 
 ^ Reusing implementations boils down to “Don’t Repeat Yourself” or “DRY.” We factor out code we want to reuse into a function, method, or class, and call it from the places which need its behaviour. One function, used by multiple callers.
 
