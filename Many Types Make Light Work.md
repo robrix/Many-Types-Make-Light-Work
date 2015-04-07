@@ -30,11 +30,11 @@ Code reuse reduces risk.
 
 ^ adding code increases complexity & therefore risk—more bugs to fix, more change, turtles all the way down.
 
-^ Therefore, we need to reuse code.
+^ Code reuse limits complexity. “Code reuse” means:
 
 ^ Reusing implementations boils down to “Don’t Repeat Yourself” or “DRY.” We factor out code we want to reuse into a function, method, or class, and call it from the places which need its behaviour. One function, used by multiple callers.
 
-^ Reusing interfaces is the flip side of the coin. A function which takes a parameter of a given class can take any subclass, because a class defines an interface shared—reused—by its subclasses. Likewise, a function which takes a parameter of a given protocol can take any concrete type conforming to it—that’s what protocols are for. One function, taking multiple types.
+^ The flip side is reusing interfaces. A function which takes a parameter of a given class can take any subclass, because a class defines an interface shared—reused—by its subclasses. Likewise, a function which takes a parameter of a given protocol can take any concrete type conforming to it—that’s what protocols are for. One function, taking multiple types.
 
 ^ Broadly speaking, the most common tools we employ for code reuse are subclassing & composition.
 
