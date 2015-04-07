@@ -174,7 +174,7 @@ class RSS2Post: XMLPost { … }
 
 ^ RSS1 & RSS2 are XML formats, so they both subclass an `XMLPost` class which uses XPath expressions to parse the necessary information out of the documents. That way the subclasses can just assign or override the properties with the appropriate queries and `XMLPost` will do the rest.
 
-^ This is simple enough, and not an uncommon pattern: a semi-abstract superclass provides a general implementation and its subclasses fill in the blanks where required to support their specific cases.
+^ This is straightforward enough, and not an uncommon pattern: a semi-abstract superclass provides a general implementation and its subclasses fill in the blanks where required to support their specific cases.
 
 ^ Unfortunately, there’s trouble brewing already. What if the implementation of XPath which we rely on isn’t able to parse large RSS files in a reasonable amount of memory? What if it breaks on feeds which include HTML?
 
