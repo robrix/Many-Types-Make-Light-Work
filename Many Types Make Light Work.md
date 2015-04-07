@@ -471,9 +471,9 @@ func ingestResponse(response: Response) -> Post? {
 }
 ```
 
-^ Case in point, we use `PostType` to implement `Tweet`, `RSS1Post`, and `RSS2Post`, but these are practically identical. We can replace them all with a minimal `Post` model type and some smarts around ingestion.
+^ Case in point, we had used `PostType` to implement `Tweet`, `RSS1Post`, and `RSS2Post`, but these are practically identical. We can replace them all with a minimal `Post` model type and some smarts around ingestion.
 
-^ Minimalism really is key, here: `Post` can only be constructed with its direct fields, not directly with source data. This implies that model protocols can be captured much more easily than behaviour protocols, since the latter tend to require more choices (and are correspondingly more capable, and open-ended).
+^ Minimalism is key, here: `Post` can only be constructed with its direct fields, not directly with source data. This implies that model protocols can be captured much more easily than behaviour protocols, since the latter tend to require more choices (and are correspondingly more capable, and open-ended).
 
 ^ That’s one reason why the Swift standard library includes `GeneratorOf`, `SequenceOf`, and `SinkOf`, but not `CollectionOf` or `EquatableOf`: `CollectionType` and `Equatable` are harder to capture completely in a single concrete type since they have more degrees of freedom.
 
