@@ -75,7 +75,7 @@ Code reuse reduces risk.
 
 ---
 
-> Subclassing _couples_ superclass and subclass implementations
+> Subclassing _couples_ subclasses to their superclass
 
 ^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code. Likewise, if the superclass calls its own methods (as they tend to), the subclass can also invalidate an assumption of the superclass—even if that assumption is new.
 
