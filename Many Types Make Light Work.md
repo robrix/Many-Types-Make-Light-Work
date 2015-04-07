@@ -69,7 +69,7 @@ Code reuse reduces risk.
 
 ---
 
-> Subclassing _conflates_ reuse of interfaces with reuse of implementations
+> Subclassing _conflates_ interface & implementation reuse
 
 ^ The perceived convenience of subclassing comes at a cost: if we want to reuse the interface, or just part of the implementation, the rest of the implementation tags along anyway.
 
