@@ -126,20 +126,16 @@ Code reuse reduces risk.
 
 ---
 
-# Factor out independent code
+# Factor out independent work
 
 ```swift
-// Existing model classes
 class Post {
 	let title: String
-	let author: String
-	let postedAt: NSDate
-	let URL: NSURL
+	…
 }
 
 class Tweet: Post { … }
 
-// New RSS support
 class XMLPost: Post {
 	let XMLData: NSData
 	let titlePath: XPath
