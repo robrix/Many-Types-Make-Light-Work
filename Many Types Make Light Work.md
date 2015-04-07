@@ -87,7 +87,7 @@ Code reuse reduces risk.
 
 ---
 
-> Subclassing _encourages_ tight coupling in composed code
+> Subclassing _enables_ tight coupling in composed code
 
 ^ Subclassing also enables other code using the hierarchy to make more assumptions about subclasses than would otherwise be possible, simply because the interfaces are broader than they need to be—and they get broader with each layer of subclass. This can lead to even more coupling and brittleness, unintentionally increasing the risk and cost of change (whether we make the change or Apple does).
 
