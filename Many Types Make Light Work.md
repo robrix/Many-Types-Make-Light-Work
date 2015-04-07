@@ -205,15 +205,17 @@ class RSS2Post: Post {
 # Approach 2:
 # Protocols, not superclasses
 
-^ In addition to sharing implementations, we often employ subclasses in order to share an interface between distinct implementations—as with `Post` and its subclasses.
+^ While `XMLPost` shared an implementation, `Post` shares an interface: consumers taking any `Post` can use its `title`, `author`, etc.
 
-^ Superclasses of this nature are often (mostly) abstract. Why do we care whether we use a class interface for this? After all, if a superclass is abstract, then its subclasses aren’t tightly coupled to its implementation details, right?
+^ Superclasses like `Post` are often (semi-)abstract. In that case, what’s the risk of subclassing? What implementation details can subclasses tightly couple to?
 
-^ Well, any subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_. When a method takes a parameter whose type is of a specific class, it’s almost always overconstraining—tightly coupling. We don’t (and shouldn’t) care that we receive an instance with that specific class’ memory layout and implementation; we care that it has a specific interface. (Obviously, if we _did_ care about the memory layout, the two classes would be tightly coupled by definition.)
+^ Every subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_.
 
-^ This could also needlessly force consumers of our API to jump through hoops when it would be more convenient, more elegant, or more efficient for them to use some other type to implement the interface.
+^ A method taking a specific named class is almost always more tightly coupled than it needs to be. It doesn’t need to know memory layout & implementation details, only the methods/properties—the interface.
 
-^ Protocols are a way to have our cake and eat it too: we can express the interface we need to interact with _precisely_, and _without_ introducing tight coupling to irrelevant implementation details like what specific class it may be.
+^ This also needlessly forces consumers to jump through hoops when it might be more convenient, elegant, or efficient to use some other type.
+
+^ Protocols are a way to have our cake and eat it too: we can express precisely the interface we need, without coupling to irrelevant implementation details.
 
 ---
 
