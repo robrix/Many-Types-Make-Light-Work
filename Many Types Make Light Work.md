@@ -111,17 +111,11 @@ Code reuse reduces risk.
 # Approach 1:
 # Factor class hierarchies out
 
-^ Every app is broken down into classes, methods, functions, etc. _How_ these break down in a given program is what we refer to as its factoring, just like composite numbers divide into smaller numbers which we call its factors.
-
-^ Following the analogy, there is more than one way to factor a program, and for the purposes of reusing code, some factorings are better than others.
-
-^ What does a good factoring look like?
-
----
-
 ^ In the Gang of Four’s _Design Patterns_, the authors describe the implementation of a hypothetical WYSIWYG editor.
 
-^ When it comes to cross-platform support, they use this wonderful phrase to describe how to support a stable Window interface across multiple platforms with their different ideas of what a window is:
+^ They use a wonderful phrase to describe how they support a stable `Window` abstraction across multiple platforms which each have different ideas of what a window is:
+
+---
 
 > Encapsulate the concept that varies.
 — Gamma, Helm, Johnson, & Vlissides’ _Design Patterns_
