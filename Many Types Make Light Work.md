@@ -158,7 +158,7 @@ class RSS2Post: XMLPost { … }
 
 ---
 
-# Factoring out independent code
+# Factoring out independent work
 
 `XMLPost`:
 
@@ -176,7 +176,7 @@ class RSS2Post: XMLPost { … }
 
 ---
 
-# Factoring out independent code
+# Factoring out independent work
 
 ```swift
 struct XMLParser { … }
