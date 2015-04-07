@@ -91,7 +91,7 @@ Code reuse reduces risk.
 
 ^ Subclassing also enables other code using the hierarchy to make more assumptions about subclasses than would otherwise be possible, simply because the interfaces are broader than they need to be—and they get broader with each layer of subclass. This can lead to even more coupling and brittleness, unintentionally increasing the risk and cost of change (whether we make the change or Apple does).
 
-^ The good news is that ultimately, subclassing and composition/abstraction solve the same problems—reusing interfaces, and reusing implementations. That gives us a pretty simple solution to this kind of problem.
+^ The good news is that since composition/abstraction solve the same problems as subclassing, we have a simple solution to this kind of problem:
 
 ---
 
