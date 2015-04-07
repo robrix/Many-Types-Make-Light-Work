@@ -196,7 +196,7 @@ class RSS2Post: Post {
 
 ^ We’re free to vary parsing within that interface, now, because we’ve encapsulated the varying concept of _parsing_ orthogonally to the static concept of _data_.
 
-^ Obviously, this is a contrived example; we all know better than to implement XML parsing in our model classes. (Right?) But I know I can think of examples where I’ve conflated the concerns of one class hierarchy with an orthogonal set which _happened_ to align—at least at the moment. It’s an easy enough mistake to make, and correcting it proactively like this helps us make our code more flexible to change, bending with it rather than breaking.
+^ Obviously, this is a contrived example; we all know better than to implement XML parsing in our model classes. (Right?) But I know I can think of examples where I’ve conflated the concerns of one class hierarchy with an orthogonal set which _happened_ to align—at least at the moment. It’s an easy enough mistake to make, and correcting it proactively like this helps us make our code more flexible, bending with change rather than breaking.
 
 ^ Even better, doing this setup makes it much easier for us to apply other approaches to reducing brittleness. We didn’t need `XMLPost`; do we need `Post`?
 
