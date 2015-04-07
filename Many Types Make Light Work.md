@@ -296,14 +296,14 @@ class RSS2Post: Post {
 # Using protocols to share interfaces
 
 ```swift
-protocol Post {
+protocol PostType {
 	var title: String { get }
 	var author: String { get }
 	var postedAt: NSDate { get }
 	var URL: NSURL { get }
 }
 
-struct AtomPost: Post {
+struct RSS2Post: PostType {
 	let title: String
 	let author: String
 	let postedAt: NSDate
@@ -317,11 +317,11 @@ struct AtomPost: Post {
 }
 ```
 
-^ I’ve elided `Tweet` & the RSS post types, but they undergo analogous changes to those made to `AtomPost`. `Post` is changed from a class to a protocol definition; `AtomPost` no longer needs to be a `class` at all, so we can use a value type. It has constants for its title, &c.; and it binds values to these instead of calling into a superclass’ initializer.
+^ I’ve elided the other post types, but they undergo analogous changes to those made to `RSS2Post`. `Post` is changed from a class to a protocol definition, `PostType`; `RSS2Post` no longer needs to be a `class` at all, so we can use a value type. It has constants for its title, &c.; and it binds values to these instead of calling into a superclass’ initializer.
 
-^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `AtomPost` to any particular implementation.
+^ Note that in Swift, subclassing and conformance to a protocol use the same syntax; this is not a typo! We’re still conveying the same “is a” relationship as we were, but now we’re doing so without coupling `RSS2Post` to any particular implementation.
 
-^ `Post` is pretty minimalistic now; it’s a model protocol, but it doesn’t conflate its purpose as a data model with any orthogonal concerns of parsing or presentation. There isn’t any need to factor it further, but what about the other protocols we may have written in our apps: delegate protocols?
+^ `PostType` is pretty minimalistic now; it’s a model protocol, but it doesn’t conflate its purpose as a data model with any orthogonal concerns of parsing or presentation. There isn’t any need to factor it further, but what about the other protocols we may have written in our apps: delegate protocols?
 
 ---
 
