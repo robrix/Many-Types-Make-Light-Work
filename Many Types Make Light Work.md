@@ -308,8 +308,6 @@ struct RSS2Post: PostType {
 
 - exact same problem as ill-factored classes
 
-- instead: _encapsulate the concept that varies_
-
 ^ Delegate protocols grow over time. The API ref for `UITableViewDelegate` is broken into _nine sections_, but by my count it’s more like _thirteen_ different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory. Have you ever written a class implementing every single method in `UITableViewDelegate`?
 
 ^ Not only is `UITableViewDelegate` massive, it’s intertwined with `UITableViewDataSource`. How many people have ever written a class conforming to either `UITableViewDelegate` _or_ `UITableViewDataSource`, but not _both_?
@@ -320,7 +318,7 @@ struct RSS2Post: PostType {
 
 # Delegate protocols suggest better factoring
 
-- instead, “encapsulate the concept that varies”
+- instead, _“encapsulate the concept that varies”_
 
 	- factor out view elements (e.g. rows) instead of delegate methods for contents/behaviour
 
