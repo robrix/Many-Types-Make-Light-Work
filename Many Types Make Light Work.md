@@ -110,7 +110,7 @@
 
 ^ In the abstract, subclassing is _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
 
-^ It’s still possible for us to write tightly coupled code _without_ subclassing, of course, but it’s easier for us to decouple code in the absence of subclassing than in its presence.
+^ It’s still possible for us to write tightly coupled code _without_ subclassing, of course, but decoupling is more difficult when subclasses are involved.
 
 ^ Of course, easier said than done. We’ve been trained to subclass by our peers, mentors, books, blog posts, code bases, and by the frameworks and languages themselves. But it doesn’t have to be that way, and Swift makes not subclassing easier than ever.
 
