@@ -475,52 +475,9 @@ func ingestResponse(response: Response) -> Post? {
 
 ^ Minimalism is key, here: `Post` can only be constructed with its direct fields, not directly with source data. This implies that model protocols can be captured much more easily than behaviour protocols, since the latter tend to require more choices (and are correspondingly more capable, and open-ended).
 
-^ That’s one reason why the Swift standard library includes `GeneratorOf`, `SequenceOf`, and `SinkOf`, but not `CollectionOf` or `EquatableOf`: `CollectionType` and `Equatable` are harder to capture completely in a single concrete type since they have more degrees of freedom.
+^ That’s one reason why the Swift standard library includes `GeneratorOf`, `SequenceOf`, and `SinkOf`, but not `CollectionOf` or `EquatableOf`: `CollectionType` and `Equatable` are harder to capture in a single concrete type since they require more degrees of freedom.
 
----
-
-# Lists as a protocol
-
-^ For example, we could describe lists using a protocol, like this one which we saw earlier:
-
-```swift
-protocol ListType {
-	typealias Element
-	init(first: Element, rest: Self?)
-	var first: Element { get }
-	var rest: Self?
-}
-```
-
-How many different implementations of lists do we need, exactly?
-
-^ But doing so raises a question: Do we even need to?
-
----
-
-# Lists as a minimal type
-
-^ Lists are about as simple as it gets. A direct implementation is pretty trivial:
-
-```swift
-enum List<T> {
-	case Cons(Box<T>, Box<List<T>>)
-	case Nil(Box<T>)
-
-	var first: T { … }
-	var rest: List<T>? { … }
-}
-```
-
-_fin_
-
-^ There isn’t a lot of useful variance possible here. We could have used an `struct` or a `class`; we could have made the `Nil` case not have a value and made `first` optional; but these are implementation details, and irrelevant to our API’s consumers.
-
-^ Aggressive factoring can remove some of the need for sharing interfaces between multiple types. With `ListType`, consumers of the API are concerned with whether something _is_ a list, whereas with `List<T>` _we_ are concerned with whether it _has_ a list.
-
-^ Further, by conforming `List<T>` to `SequenceType`, we can avoid any need for consumers to care that we have a list at all—all they need to know is that they have a way to access its elements sequentially; that makes our choice of `List<T>` (vs. `Array<T>`) itself an implementation detail.
-
-^ On the other hand, sometimes we need some small, fixed amount of variance. This can be a great use case for `enum`.
+^ Even so, variance in a type doesn’t imply that we have to give up minimal types. It’s often a good opportunity to use an `enum`.
 
 ---
 
