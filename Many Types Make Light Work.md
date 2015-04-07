@@ -79,7 +79,9 @@ Code reuse reduces risk.
 
 ^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code. Likewise, if the superclass calls its own methods (as they tend to), the subclass can also invalidate an assumption of the superclass—even if that assumption is new.
 
-^ For example, on OS X Mavericks, `NSViewController` doesn’t have the `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`. A subclass could, however, implement those methods and call them at the appropriate times. But under Yosemite, `NSViewController` adds and calls those methods, meaning we now have a bug: these methods are called twice: once by our code, and once by our superclass. All we did is compile against the new SDK.
+^ For example, on OS X Mavericks, `NSViewController` doesn’t have the convenient `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`, so it was common to implement those methods in a subclass and call them at the appropriate times.
+
+^ Under Yosemite, `NSViewController` adds and calls those methods, meaning we now have a bug. These methods are called twice: once by our code, and once by our superclass. All we did is compile against the new SDK.
 
 ---
 
