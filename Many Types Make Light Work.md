@@ -62,7 +62,7 @@
 
 # Composition
 
-- composition is ~~when you put a thing in a thing and then it’s a thing then~~ using objects together
+- composition is _~~when you put a thing in a thing and then it’s a thing then~~_ combining code
 
 - describes the object graph at runtime
 
