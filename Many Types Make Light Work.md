@@ -159,7 +159,6 @@ class Post {
 class Tweet: Post { … }
 class RSS1Post: XMLPost { … }
 class RSS2Post: XMLPost { … }
-class AtomPost: XMLPost { … }
 
 class XMLPost: Post {
 	let XMLData: NSData
