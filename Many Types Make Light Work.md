@@ -138,7 +138,7 @@
 ^ When discussing the latter, they use this wonderful phrase to describe how to support a stable Window interface across multiple platforms with their different ideas of what a window is:
 
 > Encapsulate the concept that varies.
--- Gamma, Helm, Johnson, & Vlissides’ _Design Patterns_
+— Gamma, Helm, Johnson, & Vlissides’ _Design Patterns_
 
 ^ Encapsulating—_factoring out_—the thing which we wish to be able to vary is the key here. We may not currently be as concerned about cross-platform support as these authors were, but the principle is the same: factoring out code which we want to change independently is as good a strategy for code reuse as it is for abstraction.
 
