@@ -196,7 +196,7 @@ class RSS2Post: XMLPost { … }
 
 ^ It says _less_ than what we mean in that it’s too general. `XMLPost` is abstract, and thus it wouldn’t work for it to be initialized directly; only its subclasses should be. But this isn’t directly expressible in the language, so some tired or unwary developer may make this mistake at some point.
 
-^ Fortunately for us and our somewhat contrived example, a better factoring is pretty simple too.
+^ Fortunately for us and our somewhat contrived example, a better factoring is straightforward too.
 
 ---
 
