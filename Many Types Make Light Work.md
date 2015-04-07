@@ -161,9 +161,7 @@ class Tweet: Post { … }
 class XMLPost: Post {
 	let XMLData: NSData
 	let titlePath: XPath
-	let authorPath: XPath
-	let postedAtPath: XPath
-	let URLPath: XPath
+	…
 }
 
 class RSS1Post: XMLPost { … }
