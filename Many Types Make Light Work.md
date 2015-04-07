@@ -304,9 +304,11 @@ struct RSS2Post: PostType {
 
 - only used by & tightly coupled to `UITableView`
 
+- forces implementing type to handle multiple concerns
+
 - exact same problem as ill-factored classes
 
-- factor interfaces around independent concepts
+- instead: _encapsulate the concept that varies_
 
 ^ Delegate protocols grow over time. The API ref for `UITableViewDelegate` is broken into _nine sections_, but by my count it’s more like _thirteen_ different responsibilities including display notifications, selection, editing, and layout—which strays dangerously near to a view responsibility—`UITableViewDataSource` territory. Have you ever written a class implementing every single method in `UITableViewDelegate`?
 
@@ -317,8 +319,6 @@ struct RSS2Post: PostType {
 ---
 
 # Delegate protocols suggest better factoring
-
-- they force a single class to handle disparate concerns
 
 - instead, “encapsulate the concept that varies”
 
