@@ -184,11 +184,13 @@ class XMLPost: Post {
 
 # Factoring out independent code
 
-- tightly couples model classes to parsing strategies
+`Post` class hierarchy:
 
-- needless margin for error (e.g. initializing abstract classes)
+- tightly couples _data types_ to _parsing strategies_
 
-^ There are ways to solve these problems. We could add a subclass of `Post` which wraps an `XMLPost`, adding an enclosure; we could add an `isPodcast` flag to `Post` or `XMLPost`; we could add an optional enclosure property to `Post` or `XMLPost` and have the appropriate views/controllers check for its presence. But these are all working around a problem with the class hierarchy itself: it’s brittle, saying both more and less than what we mean. How so?
+- introduces margin for error
+
+^ There are several ways to solve these problems. We could add a subclass of `Post` which wraps an `XMLPost`, adding an enclosure; we could add an `isPodcast` flag to `Post` or `XMLPost`; we could add an optional enclosure property to `Post` or `XMLPost` and have the appropriate views/controllers check for its presence. But these are all working around a problem with the class hierarchy itself: it’s brittle, saying both more and less than what we mean. How so?
 
 ^ It says _more_ than what we mean in that it’s too specific. By encoding the parsing strategy in the class hierarchy, we remove our ability to vary it independently of the leaf nodes.
 
