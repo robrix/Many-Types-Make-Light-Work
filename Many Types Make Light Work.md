@@ -16,7 +16,7 @@
 
 - change happens: bugs, features, platform changes
 
-- complexity scales with quantity of code
+- complexity scales poorly: (qty. of code)² or worse
 
 - programming is managing complexity under change
 
@@ -30,7 +30,7 @@
 
 ^ it’s pretty rare to be finished an app: fixing bugs, adding features, keeping pace with platform changes
 
-^ adding code tends to increase the complexity & therefore risk—more bugs to fix, more change, turtles all the way down
+^ adding code increases complexity & therefore risk—more bugs to fix, more change, turtles all the way down.
 
 ^ one necessary ingredient in managing complexity is reusing code—code we can reuse doesn’t increase the complexity further
 
