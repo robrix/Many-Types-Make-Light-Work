@@ -170,9 +170,9 @@ class RSS1Post: XMLPost { … }
 class RSS2Post: XMLPost { … }
 ```
 
-^ This app’s data model is pretty simple so far. It can pull in posts from Twitter, RSS (in both the 1.x & 2.x branches), and Atom. It doesn’t show the posts’ content per se; just enough to populate a link, or a notification.
+^ This app’s data model is pretty simple to begin with. It can pull in posts from Twitter, and now we’re adding RSS support.
 
-^ RSS1, RSS2, & Atom are all XML formats, so they all subclass an `XMLPost` class which uses XPath expressions to parse the necessary information out of the documents. That way the subclasses can just assign or override the properties with the appropriate queries and `XMLPost` will do the rest.
+^ RSS1 & RSS2 are XML formats, so they both subclass an `XMLPost` class which uses XPath expressions to parse the necessary information out of the documents. That way the subclasses can just assign or override the properties with the appropriate queries and `XMLPost` will do the rest.
 
 ^ This is simple enough, and not an uncommon pattern: a semi-abstract superclass provides a general implementation and its subclasses fill in the blanks where required to support their specific cases.
 
@@ -212,8 +212,7 @@ class Post {
 
 class Tweet: Post { … }
 class RSS1Post: Post { … }
-class RSS2Post: Post { … }
-class AtomPost: Post {
+class RSS2Post: Post {
 	init(data: NSData) {
 		let parser = XMLParser(data)
 		super.init(title: parser.evaluateXPath(…), …)
