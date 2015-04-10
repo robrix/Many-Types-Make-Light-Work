@@ -357,7 +357,7 @@ struct RSS2Post: PostType {
 
 # Function types are shared interfaces
 
-^ For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can make wrapping some other generator, or wrapping a function:
+^ For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can construct with another generator, or with a function:
 
 ```swift
 struct GeneratorOf<T> : GeneratorType {
