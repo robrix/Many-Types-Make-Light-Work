@@ -349,7 +349,7 @@ struct RSS2Post: PostType {
 # Approach 3:
 # Minimize interfaces with functions
 
-^ Swift’s functions offer overloading, generic functions, and simple, powerful function types; we’ll start with overloading.
+^ Swift offers function overloading, generic functions, and simple, powerful function types; we’ll start with overloading.
 
 ---
 
