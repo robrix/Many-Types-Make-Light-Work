@@ -246,8 +246,6 @@ class RSS2Post: Post {
 
 ^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and is uncommon in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
 
-^ Cocoa also uses this kind of protocol to avoid vending implementation details via its types, which further avoids compatibility problems if the underlying implementations change. For example, `NSDraggingInfo` instances received by AppKit views  are of unspecified class.
-
 ^ All of these are still just interfaces: they enable a lot of useful work without constraining or coupling to implementation details.
 
 ^ We can use protocols to share the key interface in our aggregator/bookmarking app’s data model.
