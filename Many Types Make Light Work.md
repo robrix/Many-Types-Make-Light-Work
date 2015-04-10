@@ -236,21 +236,19 @@ class RSS2Post: Post {
   1. behaviour: `NSCoding`, `NSCopying`, `UITableViewDelegate`
   2. model: `NSFetchedResultsSectionInfo`, `NSFilePresenter`
 
-^ Protocols are interfaces, sort of like a purely abstract class. A protocol specifies required properties & methods. Types conforming to a protocol must provide each required property/method to compile.
+^ Protocols are just interfaces, specifying properties & methods which conforming types must provide.
 
-^ Cocoa’s use of protocols can, broadly, be broken down into two categories:
+^ Cocoa’s protocols fall into two broad categories:
 
-^ First, protocols which specify a set of behaviours. For example, `NSCoding` types can be encoded/decoded, while `NSCopying` types can be copied. In Cocoa, simple behaviour protocols end in -ing (`NSCopying`, `NSCoding`, `NSLocking`). In Swift’s standard library, they end in -able (`Equatable`, `Comparable`, `Hashable`).
+^ First, protocols which describe a set of behaviours. For example, `NSCoding` describes encoding/decoding. In Cocoa, simple behaviour protocols end in -ing (`NSCopying`, `NSCoding`, `NSLocking`). In Swift’s standard library, they end in -able (`Equatable`, `Comparable`, `Hashable`).
 
-^ Delegate & data source protocols are (often much) larger examples, and are typically consumed by a single type (e.g. `UITableViewDelegate` is only useful to `UITableView`).
+^ Delegate & data source protocols are also examples of this sort, although usually much larger.
 
-^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and is uncommon in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
+^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. `NSFilePresenter` is one example, providing a presented URL & operation queue as well as behaviours around the presented file.
 
-^ All of these are still just interfaces: they enable a lot of useful work without constraining or coupling to implementation details.
+^ Both categories are still just interfaces, and as such allow us to reuse code without constraining or coupling to implementation details.
 
-^ We can use protocols to share the key interface in our aggregator/bookmarking app’s data model.
-
-^ Recall that post-factoring, our app has a shallow hierarchy of model classes. We aren’t sharing implementations here (aside from the storage for `title`, &c.), so this turns out to be trivial to migrate to a protocol.
+^ Recall that post-factoring, our app has a shallow hierarchy of model classes. Since we’re no longer using subclassing for implementation sharing (aside from the storage for the properties), this turns out to be trivial to migrate to a model protocol.
 
 ---
 
