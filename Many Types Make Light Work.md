@@ -250,26 +250,6 @@ class RSS2Post: Post {
 
 ^ We can use protocols to share the key interface in our aggregator/bookmarking app’s data model.
 
----
-
-# Protocols are shared interfaces
-
-```swift
-class Post {
-	let title: String
-	…
-}
-
-class Tweet: Post { … }
-class RSS1Post: Post { … }
-class RSS2Post: Post {
-	init(data: NSData) {
-		let parser = XMLParser(data)
-		super.init(title: parser.evaluateXPath(…), …)
-	}
-}
-```
-
 ^ Recall that post-factoring, our app has a shallow hierarchy of model classes. We aren’t sharing implementations here (aside from the storage for `title`, &c.), so this turns out to be trivial to migrate to a protocol.
 
 ---
