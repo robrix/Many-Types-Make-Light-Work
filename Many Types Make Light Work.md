@@ -349,81 +349,15 @@ struct RSS2Post: PostType {
 # Approach 3:
 # Minimize interfaces with functions
 
-^ Swift offers function overloading, generic functions, and simple, powerful function types; we’ll start with overloading.
+^ Every type provides some interface. Function types are particularly minimal ones. Every function type takes something (possibly `Void`), and returns something (again, possibly `Void`).
 
----
-
-# Function overloading is almost an interface
-
-- `first(…)` returns the first element of a stream/list
-
-```swift
-func first<T>(stream: Stream<T>) -> T? { … }
-func first<T>(list: List<T>) -> T? { … }
-```
-
-- `dropFirst(…)` returns the rest of a stream/list following the first element
-
-```swift
-func dropFirst<T>(stream: Stream<T>) -> Stream<T> { … }
-func dropFirst<T>(list: List<T>) -> List<T> { … }
-```
-
-^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types.
-
-^ That means that _free_ (i.e. ordinary) functions can act a lot like methods: you can write functions `first(Stream)` and `dropFirst(Stream)` taking `Stream` and another pair by the same names taking `List`.
-
-^ Now we can call `first()` and pass in either a `Stream` or a `List` and we’ll get the behaviour we want. This is almost, but not quite, enough.
-
----
-
-# Function overloading is not really an interface
-
-^ If we want to write a function, `second()`, which takes a `List` or a `Stream` and returns the second element, then all we need is to call `first()` on the result of calling `dropFirst()`—we don’t need any new primitive operations. Unfortunately, if we try to write that function, we run into a problem: what is the type of its parameter?
-
-- `second(…)` returns the second item in a list or stream
-
-^ _We_ can see that `Stream` and `List` can be passed to `first()` and `dropFirst()`. However, `first()` and `dropFirst()` aren’t part of an _interface_; we’re just using them ad hoc. If we wanted to write `second()` for lists and streams as-is, we’d have to implement it twice—once for `List`, and again for  `Stream`.
-
-- But we can’t write `second(…)` generically without a real interface
-
-```swift
-func second<T>(…?!) -> T? { … }
-```
-
-^ What we need here is the combination of a protocol—that is, an interface—and a generic function.
-
----
-
-# Generic functions over protocols
-
-^ Here we have a protocol named `ListType`, which captures `first()` and `dropFirst()` as requirements.
-
-```swift
-protocol ListType {
-	typealias Element
-	func first() -> Element?
-	func dropFirst() -> Self
-}
-```
-
-^ This gives us a named interface which we can use to implement `second()` generically as a free function over values of `ListType`:
-
-```swift
-func second<L: ListType>(list: L) -> Element? {
-	return list.dropFirst().first()
-}
-```
-
-^ Note that this serves the same purpose as a concrete method in an abstract class would. It’s pretty satisfying! One implementation of `second()` is reused for both `Stream` and `List`, and we could do the same for `third()`, `fourth()`, etc., if we needed those; all we needed was a protocol and a generic function.
-
-^ That’s pretty cool, but in some cases, all you need is the function.
+^ This means that a simple enough interface can be expressed with just a function type or two.
 
 ---
 
 # Function types are shared interfaces
 
-^ Every function type is a minimal interface, taking something (possibly `Void`) and returning something (possibly `Void`). That means that simple enough interfaces can be expressed with just a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can make wrapping some other generator, or wrapping a function:
+^ For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can make wrapping some other generator, or wrapping a function:
 
 ```swift
 struct GeneratorOf<T> : GeneratorType {
