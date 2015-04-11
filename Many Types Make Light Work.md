@@ -408,7 +408,7 @@ enum Result<T> {
 
 > Minimal types are value types
 
-^ `Post` is a simple `struct` now. `Result` is a trivial `enum`. We could apply the same process to our `ListType` protocol to make a `List` `enum` too.
+^ `Post` is a simple `struct` now. `Result` is a trivial `enum`. 
 
 ^ It’s no coincidence that each of these are value types. There are four reasons to use classes in Swift:
 
