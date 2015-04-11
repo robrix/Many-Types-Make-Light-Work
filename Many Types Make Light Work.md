@@ -2,11 +2,9 @@
 
 ### 🐦 [@rob_rix](https://twitter.com/rob_rix)<br>🐙 [@robrix](https://github.com/robrix)<br>📩 [rob.rix@github.com](mailto:rob.rix@github.com)
 
-^ who am I
+^ My name is Rob Rix. I work at GitHub on the Desktop team.
 
-^ where do I work
-
-^ what am I going to talk about
+^ I’m going to be talking about adapting our approach to code reuse using some of the tools Swift gives us, but much of this discussion is applicable to most languages.
 
 [^1]: https://github.com/robrix/Many-Types-Make-Light-Work
 
