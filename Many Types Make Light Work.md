@@ -54,7 +54,7 @@ Code reuse reduces risk.
 
 ^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation. That makes subclassing convenient both for grouping similar things together under a shared interface, and for sharing the superclass’ functionality between multiple subclasses.
 
-^ Composition may be a less familiar term, but you use the concept all the time: it boils down to objects which can be used together. For example, a `UIView` is composed with its superview, its subviews, and its layer; a `UIViewController` is composed with its parent controller, its child controllers, and its views; and so on.
+^ Composition may be a less familiar term, but you use the concept all the time: it boils down to objects which can be used together. For example, a `UIView` is composed with its superview, its subviews, and its view controller.
 
 ^ We reuse implementations using composition by simply using the different implementations together. Composition doesn’t provide interface reuse—we’d describe that as the job of its fraternal twin, abstraction—but it does work just fine with shared interfaces: anything which composes with a given interface can compose with any type providing it.
 
