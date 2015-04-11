@@ -213,17 +213,15 @@ class RSS2Post: Post {
 # Approach 2:
 # Protocols, not superclasses
 
-^ While `XMLPost` shared an implementation, `Post` shares an interface: consumers taking any `Post` can use its `title`, `author`, etc.
+^ While `XMLPost` shared an implementation, `Post` shares an interface: consumers taking a `Post` can accept any subclass and access its `title`, &c.
 
-^ Superclasses like `Post` are often (semi-)abstract. In that case, what’s the risk of subclassing? What implementation details can subclasses tightly couple to?
+^ Unfortunately, even subclassing an abstract class like `Post` couples to at least _one_ implementation detail of its superclass: which class that even is.
 
-^ Every subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_.
+^ A function taking a specific class is usually overspecifying. It doesn’t care about the memory layout or implementation details, just the methods/properties it can access—the interface.
 
-^ A method taking a specific named class is almost always more tightly coupled than it needs to be. It doesn’t need to know memory layout & implementation details, only the methods/properties—the interface.
+^ At the same time, it also needlessly forces consumers to jump through hoops when it might be more convenient, elegant, or efficient to use some other type which can’t subclass the abstract superclass.
 
-^ This also needlessly forces consumers to jump through hoops when it might be more convenient, elegant, or efficient to use some other type.
-
-^ Protocols are a way to have our cake and eat it too: we can express precisely the interface we need, without coupling to irrelevant implementation details.
+^ Protocols give us the best of both worlds: we can express precisely the interface we need, without coupling to or burdening consumers with irrelevant implementation details.
 
 ---
 
