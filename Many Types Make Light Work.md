@@ -244,7 +244,7 @@ class RSS2Post: Post {
 
 ^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. `NSFilePresenter` is one example, providing a presented URL & operation queue as well as behaviours around the presented file.
 
-^ Both categories are still just interfaces, and as such allow us to reuse code without constraining or coupling to implementation details.
+^ Protocols of either sort are still just interfaces, and as such allow us to reuse code without constraining or coupling to implementation details.
 
 ^ Recall that post-factoring, our app has a shallow hierarchy of model classes. Since we’re no longer using subclassing for implementation sharing (aside from the storage for the properties), this turns out to be trivial to migrate to a model protocol.
 
