@@ -96,7 +96,7 @@ Code reuse reduces risk.
 > Don’t subclass.
 — me, here, now
 
-^ Subclassing is _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
+^ Subclassing is brittle, risky, and _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
 
 ^ It’s still possible for us to write tightly coupled code _without_ subclassing, of course, but it’s less automatic, and decoupling is easier.
 
