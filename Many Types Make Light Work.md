@@ -100,7 +100,7 @@ Code reuse reduces risk.
 
 ^ We’ve been trained to subclass by our peers, mentors, books, blog posts, code bases, and by the frameworks and languages themselves. But it doesn’t have to be that way, and Swift makes _not_ subclassing easier than ever.
 
-^ To that end, we’re going to look at some approaches to writing  more flexible, reliable, & maintainable code by not subclassing. While these are presented separately, they aren’t mutually exclusive; you can mix and match to fit the task at hand.
+^ To that end, we’re going to look at some approaches to writing  more flexible, reliable, & maintainable code by not subclassing.
 
 ---
 
