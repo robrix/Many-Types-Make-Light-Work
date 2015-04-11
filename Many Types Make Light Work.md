@@ -464,9 +464,9 @@ enum Result<T> {
 
 ^ To that end, I recommend making all classes `final`—which means “this class cannot be subclassed”—by default.
 
-^ Note that I say “by default”—these approaches are tradeoffs, and you may find that this is the wrong one for your specific case. However, by always _defaulting_ to `final`, you ensure that any time you’re removing the keyword, it’s as a conscious decision in light of the circumstances you’re designing for.
+^ Note that I say “by default”—you may find that this is the wrong one for your specific case. However, by _defaulting_ to `final`, you ensure that any time you’re removing the keyword, it’s a conscious decision in light of your constraints.
 
-^ Further, if you leave a comment as to _why_ the class isn’t `final`, you’ll inform your teammates (and your future self!) of the reasoning behind the decision. Compromise for a deadline is a valid reason, but the reminder can help you to keep in mind that tightly coupling to the superclass should likely still be avoided.
+^ Further, leave a comment as to _why_ the class isn’t `final`. You’ll inform your teammates (and your future self!) of the reasoning behind the decision. Compromising to meet a deadline is valid, but the reminder can help you be mindful of the risks involved.
 
 ---
 
