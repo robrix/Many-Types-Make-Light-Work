@@ -448,13 +448,9 @@ enum Result<T> {
 
 ^ Sometimes the answer to this question is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it.
 
-^ In those cases we can apply the same approaches we’ve considered already. For example, we would want to make sure that distinct responsibilities are being handled by distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about the superclass. After all, no SDK change will ever invalidate an assumption you haven’t made.
+^ In those cases we can apply the same approaches we’ve considered already. For example, we would want to make sure that distinct responsibilities are factored into distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about its superclass, and thereby introducing implicit dependencies.
 
-^ You can think of this as coding defensively. In Objective-C, best practice for categories on another party’s types—whether Apple’s or a third-party—is to prefix the method names so as to avoid collisions.
-
-^ Likewise, you can insulate your code from future change—and future coupling!—by minimizing the interfaces that your code operates on, and therefore assumes.
-
-^ As with everything else we’ve discussed, this is a matter of discipline: good habits make better code. It’s the same way with making sure we don’t couple too tightly to our own classes, subclass or otherwise.
+^ As with everything else we’ve discussed, this is a matter of discipline: good habits make better code. Subclass or otherwise, tight coupling is risky.
 
 ---
 
