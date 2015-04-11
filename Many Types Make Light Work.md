@@ -2,11 +2,9 @@
 
 ### 🐦 [@rob_rix](https://twitter.com/rob_rix)<br>🐙 [@robrix](https://github.com/robrix)<br>📩 [rob.rix@github.com](mailto:rob.rix@github.com)
 
-^ who am I
+^ My name is Rob Rix. I work at GitHub on the Desktop team.
 
-^ where do I work
-
-^ what am I going to talk about
+^ I’m going to be talking about adapting our approach to code reuse using some of the tools Swift gives us, but much of this discussion is applicable to most languages.
 
 [^1]: https://github.com/robrix/Many-Types-Make-Light-Work
 
@@ -54,20 +52,18 @@ Code reuse reduces risk.
 
 ^ Subclassing is immediately familiar: a subclass inherits its superclass’ interface & implementation. That makes subclassing convenient both for grouping similar things together under a shared interface, and for sharing the superclass’ functionality between multiple subclasses.
 
-^ Composition may be a less familiar term, but you use the concept all the time: it boils down to objects which can be used together. For example, a `UIView` is composed with its superview, its subviews, and its layer; a `UIViewController` is composed with its parent controller, its child controllers, and its views; and so on.
+^ Composition may be a less familiar term, but you use the concept all the time: it boils down to objects which can be used together. For example, a `UIView` is composed with its superview, its subviews, and its view controller.
 
-^ We reuse implementations using composition by simply using the different implementations together. Composition doesn’t provide interface reuse—we’d describe that as the job of its fraternal twin, abstraction—but it does work just fine with shared interfaces: anything which composes with a given interface can compose with any type providing it.
+^ A class composed of other classes reuses them. A method calling other methods reuses them. And anything composed with a given interface can be reused with any type providing it.
 
-^ But even though we _can_ use composition & abstraction to reuse implementations & interfaces, we will often reach for subclassing first.
-
-^ However…
+^ On the surface, they seem to do the same job. However…
 
 ---
 
 
 > subclassing ≃ 💥🔥💀
 
-^ …subclassing tends to cause us problems. For example…
+^ …subclassing causes problems. For example…
 
 ---
 
@@ -79,11 +75,9 @@ Code reuse reduces risk.
 
 > Subclassing _couples_ subclasses to their superclass
 
-^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code. Likewise, if the superclass calls its own methods (as they tend to), the subclass can also invalidate an assumption of the superclass—even if that assumption is new.
+^ This means that every change to the superclass affects each subclass. If a change invalidates some assumption of a subclass, that subclass now has a bug from a change in another piece of code.
 
-^ For example, on OS X Mavericks, `NSViewController` doesn’t have the convenient `-viewWillAppear`, `-viewDidAppear`, etc. methods which we’re familiar with from `UIViewController`, so it was common to implement those methods in a subclass and call them at the appropriate times.
-
-^ Under Yosemite, `NSViewController` adds and calls those methods, meaning we now have a bug. These methods are called twice: once by our code, and once by our superclass. All we did is compile against the new SDK.
+^ Likewise, the subclass can also invalidate assumptions of the superclass, and new assumptions can be encoded at any time by change on Apple’s end or ours.
 
 ---
 
@@ -98,13 +92,13 @@ Code reuse reduces risk.
 > Don’t subclass.
 — me, here, now
 
-^ Subclassing is _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
+^ Subclassing is brittle, risky, and _unnecessary_. Composition lets us have our cake and eat it too: we can reuse interfaces and implementations at our discretion without automatically coupling tightly.
 
 ^ It’s still possible for us to write tightly coupled code _without_ subclassing, of course, but it’s less automatic, and decoupling is easier.
 
 ^ We’ve been trained to subclass by our peers, mentors, books, blog posts, code bases, and by the frameworks and languages themselves. But it doesn’t have to be that way, and Swift makes _not_ subclassing easier than ever.
 
-^ To that end, we’re going to look at some approaches to writing  more flexible, reliable, & maintainable code by not subclassing. While these are presented separately, they aren’t mutually exclusive; you can mix and match to fit the task at hand.
+^ To that end, we’re going to look at some approaches to writing  more flexible, reliable, & maintainable code by not subclassing.
 
 ---
 
@@ -213,17 +207,15 @@ class RSS2Post: Post {
 # Approach 2:
 # Protocols, not superclasses
 
-^ While `XMLPost` shared an implementation, `Post` shares an interface: consumers taking any `Post` can use its `title`, `author`, etc.
+^ While `XMLPost` shared an implementation, `Post` shares an interface: consumers taking a `Post` can accept any subclass and access its `title`, &c.
 
-^ Superclasses like `Post` are often (semi-)abstract. In that case, what’s the risk of subclassing? What implementation details can subclasses tightly couple to?
+^ Unfortunately, even subclassing an abstract class like `Post` couples to at least _one_ implementation detail of its superclass: which class that even is.
 
-^ Every subclass is coupled to at least _one_ implementation detail of its superclass: which class that even _is_.
+^ A function taking a specific class is usually overspecifying. It doesn’t care about the memory layout or implementation details, just the methods/properties it can access—the interface.
 
-^ A method taking a specific named class is almost always more tightly coupled than it needs to be. It doesn’t need to know memory layout & implementation details, only the methods/properties—the interface.
+^ At the same time, it also needlessly forces consumers to jump through hoops when it might be more convenient, elegant, or efficient to use some other type which can’t subclass the abstract superclass.
 
-^ This also needlessly forces consumers to jump through hoops when it might be more convenient, elegant, or efficient to use some other type.
-
-^ Protocols are a way to have our cake and eat it too: we can express precisely the interface we need, without coupling to irrelevant implementation details.
+^ Protocols give us the best of both worlds: we can express precisely the interface we need, without coupling to or burdening consumers with irrelevant implementation details.
 
 ---
 
@@ -236,43 +228,19 @@ class RSS2Post: Post {
   1. behaviour: `NSCoding`, `NSCopying`, `UITableViewDelegate`
   2. model: `NSFetchedResultsSectionInfo`, `NSFilePresenter`
 
-^ Protocols are interfaces, sort of like a purely abstract class. A protocol specifies required properties & methods. Types conforming to a protocol must provide each required property/method to compile.
+^ Protocols are just interfaces, specifying properties & methods which conforming types must provide.
 
-^ Cocoa’s use of protocols can, broadly, be broken down into two categories:
+^ Cocoa’s protocols fall into two broad categories:
 
-^ First, protocols which specify a set of behaviours. For example, `NSCoding` types can be encoded/decoded, while `NSCopying` types can be copied. In Cocoa, simple behaviour protocols end in -ing (`NSCopying`, `NSCoding`, `NSLocking`). In Swift’s standard library, they end in -able (`Equatable`, `Comparable`, `Hashable`).
+^ First, protocols which describe a set of behaviours. For example, `NSCoding` describes encoding/decoding. In Cocoa, simple behaviour protocols end in -ing (`NSCopying`, `NSCoding`, `NSLocking`). In Swift’s standard library, they end in -able (`Equatable`, `Comparable`, `Hashable`).
 
-^ Delegate & data source protocols are (often much) larger examples, and are typically consumed by a single type (e.g. `UITableViewDelegate` is only useful to `UITableView`).
+^ Delegate & data source protocols are also examples of this sort, although usually much larger.
 
-^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. This is a little vague, and is uncommon in Cocoa. `NSFilePresenter` might be an example: it combines a presented item’s URL and operation queue with behaviours relating to serialized access to and changes of the file being presented.
+^ Second, protocols which resemble a model object, combining a few properties and perhaps some methods around a single theme. `NSFilePresenter` is one example, providing a presented URL & operation queue as well as behaviours around the presented file.
 
-^ Cocoa also uses this kind of protocol to avoid vending implementation details via its types, which further avoids compatibility problems if the underlying implementations change. For example, `NSDraggingInfo` instances received by AppKit views  are of unspecified class.
+^ Protocols of either sort are still just interfaces, and as such allow us to reuse code without constraining or coupling to implementation details.
 
-^ All of these are still just interfaces: they enable a lot of useful work without constraining or coupling to implementation details.
-
-^ We can use protocols to share the key interface in our aggregator/bookmarking app’s data model.
-
----
-
-# Protocols are shared interfaces
-
-```swift
-class Post {
-	let title: String
-	…
-}
-
-class Tweet: Post { … }
-class RSS1Post: Post { … }
-class RSS2Post: Post {
-	init(data: NSData) {
-		let parser = XMLParser(data)
-		super.init(title: parser.evaluateXPath(…), …)
-	}
-}
-```
-
-^ Recall that post-factoring, our app has a shallow hierarchy of model classes. We aren’t sharing implementations here (aside from the storage for `title`, &c.), so this turns out to be trivial to migrate to a protocol.
+^ Recall that post-factoring, our app has a shallow hierarchy of model classes. Since we’re no longer using subclassing for implementation sharing (aside from the storage for the properties), this turns out to be trivial to migrate to a model protocol.
 
 ---
 
@@ -326,104 +294,38 @@ struct RSS2Post: PostType {
 
 # Delegate protocols suggest better factoring
 
-- instead, _“encapsulate the concept that varies”_
+Encapsulate the concept that varies:
 
-	- factor out types for independent concerns (e.g. groups)
+- start by splitting delegates into smaller protocols
 
-	- KVO-compliant selected/displayed subset properties (or signals) instead of `will…`/`did…`
+- replace data source with types (e.g. `TableSection`)
 
-	- can start by splitting methods into tiny protocols
+- replace `will…`/`did…` with signals/KVO
 
-^ I’d go so far as to say that this applies to every delegate protocol. Delegating a kitchen sink of view behaviours to a single object makes it difficult to vary them independently, suggesting that both the delegate protocol _and_ the type consuming it are ill-factored.
+- can provide default behaviours as public implementations
 
-^ Instead, we can factor them out: if a view displays elements in groups, expose an interface for the elements and for the groups. If you need callbacks for the display, selection, etc of these, expose KVO-compliant properties or signals for that state on those types. If that measures as a crucial bottleneck, give the host type properties/signals for the subset of elements in those states.
+^ I’d go so far as to say that this applies to every delegate protocol. Kitchen sink interfaces make it harder to vary different behaviours independently, suggesting that both the protocol _and_ the type it belongs to could be better-factored.
 
-^ As a low-effort, medium-reward measure, you can start by adding properties for the callbacks, or by splitting e.g. menu/editing interactions off into purpose-specific interfaces. If a consumer chooses to implement them all with the same object, they’re free to do so; but they’re no longer _required_ to.
+^ You can start by splitting distinct responsibilities into purpose-specific interfaces. A consumer can implement them all with the same object, but they’re no longer _required_ to.
 
-^ Note that you can also provide public implementations of these protocols for your default behaviours; this can make it easy for consumers to wrap or otherwise compose with them, making the class more convenient to use, more flexible, simpler to write, and easier to understand, since we’ve encapsulated—and documented!—these distinct jobs in the API.
+^ Then, factor: capture the delegate protocol’s nouns in concrete types. Use signals or KVO on these types to notify of changes to their state, or if that’s a bottleneck, add aggregate signals or properties for the state to the host type (e.g. `visibleElements`).
 
-^ Even better, once we’re using model protocols, we can employ our next approach to help us compose them.
+^ If you provide default behaviours, factor them into public types. Consumers can compose with them, and it simplifies the implementation while also making it easier to understand and maintain both for you and consumers.
 
 ---
 
 # Approach 3:
 # Minimize interfaces with functions
 
-^ Swift’s functions offer overloading, generic functions, and simple, powerful function types; we’ll start with overloading.
+^ Every type provides some interface. Function types are particularly minimal ones. Every function type takes something (possibly `Void`), and returns something (again, possibly `Void`).
 
----
-
-# Function overloading is almost an interface
-
-- `first(…)` returns the first element of a stream/list
-
-```swift
-func first<T>(stream: Stream<T>) -> T? { … }
-func first<T>(list: List<T>) -> T? { … }
-```
-
-- `dropFirst(…)` returns the rest of a stream/list following the first element
-
-```swift
-func dropFirst<T>(stream: Stream<T>) -> Stream<T> { … }
-func dropFirst<T>(list: List<T>) -> List<T> { … }
-```
-
-^ Swift supports multiple dispatch: which function will be executed when you call a function can depend on both the argument and return types.
-
-^ That means that _free_ (i.e. ordinary) functions can act a lot like methods: you can write functions `first(Stream)` and `dropFirst(Stream)` taking `Stream` and another pair by the same names taking `List`.
-
-^ Now we can call `first()` and pass in either a `Stream` or a `List` and we’ll get the behaviour we want. This is almost, but not quite, enough.
-
----
-
-# Function overloading is not really an interface
-
-^ If we want to write a function, `second()`, which takes a `List` or a `Stream` and returns the second element, then all we need is to call `first()` on the result of calling `dropFirst()`—we don’t need any new primitive operations. Unfortunately, if we try to write that function, we run into a problem: what is the type of its parameter?
-
-- `second(…)` returns the second item in a list or stream
-
-^ _We_ can see that `Stream` and `List` can be passed to `first()` and `dropFirst()`. However, `first()` and `dropFirst()` aren’t part of an _interface_; we’re just using them ad hoc. If we wanted to write `second()` for lists and streams as-is, we’d have to implement it twice—once for `List`, and again for  `Stream`.
-
-- But we can’t write `second(…)` generically without a real interface
-
-```swift
-func second<T>(…?!) -> T? { … }
-```
-
-^ What we need here is the combination of a protocol—that is, an interface—and a generic function.
-
----
-
-# Generic functions over protocols
-
-^ Here we have a protocol named `ListType`, which captures `first()` and `dropFirst()` as requirements.
-
-```swift
-protocol ListType {
-	typealias Element
-	func first() -> Element?
-	func dropFirst() -> Self
-}
-```
-
-^ This gives us a named interface which we can use to implement `second()` generically as a free function over values of `ListType`:
-
-```swift
-func second<L: ListType>(list: L) -> Element? {
-	return list.dropFirst().first()
-}
-```
-
-^ Note that this serves the same purpose as a concrete method in an abstract class would. It’s pretty satisfying! One implementation of `second()` is reused for both `Stream` and `List`, and we could do the same for `third()`, `fourth()`, etc., if we needed those; all we needed was a protocol and a generic function.
-
-^ That’s pretty cool, but in some cases, all you need is the function.
+^ This means that a simple enough interface can be expressed with just a function type or two.
 
 ---
 
 # Function types are shared interfaces
 
-^ Every function type is a minimal interface, taking something (possibly `Void`) and returning something (possibly `Void`). That means that simple enough interfaces can be expressed with just a function type or two. For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can make wrapping some other generator, or wrapping a function:
+^ For example, Swift’s built-in `GeneratorOf` is a `GeneratorType`—an iterator—which you can construct with another generator, or with a function:
 
 ```swift
 struct GeneratorOf<T> : GeneratorType {
@@ -498,7 +400,7 @@ enum Result<T> {
 
 ^ This is a particularly good use case for `enum` since there are only two possibilities: it either worked or it didn’t. We don’t need to worry about adding more cases later on and having to update every function using `Result` to match.
 
-^ On the other hand, if the set of cases is open-ended, we might want to use a protocol instead. Our aggregator/bookmarking app’s `Post` model types are exactly such a case—adding support for podcasts to a `Post` `enum` could require traipsing all across the project.
+^ On the other hand, if the set of cases is open-ended, we might want to use a protocol instead.
 
 ^ There are lots of other minimal types we could be enjoying: `List`, `Result`, `Box`, `Either`, `Stream`, and so forth are all common types we could use in our apps. There are others capturing similarly minimal patterns; and which we employ will depend heavily on what our app is doing. But we can always approach the task at hand by looking for minimal abstractions which will express it more elegantly. I highly recommend doing so.
 
@@ -506,7 +408,7 @@ enum Result<T> {
 
 > Minimal types are value types
 
-^ `Post` is a simple `struct` now. `Result` is a trivial `enum`. We could apply the same process to our `ListType` protocol to make a `List` `enum` too.
+^ `Post` is a simple `struct` now. `Result` is a trivial `enum`. 
 
 ^ It’s no coincidence that each of these are value types. There are four reasons to use classes in Swift:
 
@@ -518,9 +420,11 @@ enum Result<T> {
 
 ^ 4. Interoperability with Objective-C; this isn’t uncommon, but it can be mitigated somewhat, as we’ll see.
 
-^ Swift’s value types are simpler by default. Since they’re copied and not referenced, they don’t suffer aliasing or concurrency bugs. You can’t subclass them, so they present relatively low risk to change.
+^ When none of these applies, value types have a lot to offer us. They’re simpler by default. Since they’re copied and not referenced, they don’t suffer aliasing or concurrency bugs. You can’t subclass them, so they present relatively low risk to change.
 
-^ Each of these approaches will help us avoid subclassing when we’re working purely with our own code, but as often as not, we’re using Apple’s, too. What about when we’re dealing with Cocoa?
+^ Therefore, whether you’re factoring or adding new code, reach for a value type first.
+
+^ Now, each of these approaches will help us avoid subclassing when we’re working purely with our own code, but as often as not, we’re using Apple’s, too. What about when we’re dealing with Cocoa?
 
 ---
 
@@ -544,13 +448,9 @@ enum Result<T> {
 
 ^ Sometimes the answer to this question is going to be “no.” Likewise, sometimes jumping through hoops to avoid a subclass outright won’t be worth it.
 
-^ In those cases we can apply the same approaches we’ve considered already. For example, we would want to make sure that distinct responsibilities are being handled by distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about the superclass. After all, no SDK change will ever invalidate an assumption you haven’t made.
+^ In those cases we can apply the same approaches we’ve considered already. For example, we would want to make sure that distinct responsibilities are factored into distinct types. By factoring responsibilities out of the subclass, we avoid making assumptions about its superclass, and thereby introducing implicit dependencies.
 
-^ You can think of this as coding defensively. In Objective-C, best practice for categories on another party’s types—whether Apple’s or a third-party—is to prefix the method names so as to avoid collisions.
-
-^ Likewise, you can insulate your code from future change—and future coupling!—by minimizing the interfaces that your code operates on, and therefore assumes.
-
-^ As with everything else we’ve discussed, this is a matter of discipline: good habits make better code. It’s the same way with making sure we don’t couple too tightly to our own classes, subclass or otherwise.
+^ As with everything else we’ve discussed, this is a matter of discipline: good habits make better code. Subclass or otherwise, tight coupling is risky.
 
 ---
 
@@ -564,9 +464,9 @@ enum Result<T> {
 
 ^ To that end, I recommend making all classes `final`—which means “this class cannot be subclassed”—by default.
 
-^ Note that I say “by default”—these approaches are tradeoffs, and you may find that this is the wrong one for your specific case. However, by always _defaulting_ to `final`, you ensure that any time you’re removing the keyword, it’s as a conscious decision in light of the circumstances you’re designing for.
+^ Note that I say “by default”—you may find that this is the wrong one for your specific case. However, by _defaulting_ to `final`, you ensure that any time you’re removing the keyword, it’s a conscious decision in light of your constraints.
 
-^ Further, if you leave a comment as to _why_ the class isn’t `final`, you’ll inform your teammates (and your future self!) of the reasoning behind the decision. Compromise for a deadline is a valid reason, but the reminder can help you to keep in mind that tightly coupling to the superclass should likely still be avoided.
+^ Further, leave a comment as to _why_ the class isn’t `final`. You’ll inform your teammates (and your future self!) of the reasoning behind the decision. Compromising to meet a deadline is valid, but the reminder can help you be mindful of the risks involved.
 
 ---
 
