@@ -300,23 +300,23 @@ struct RSS2Post: PostType {
 
 # Delegate protocols suggest better factoring
 
-- instead, _“encapsulate the concept that varies”_
+Encapsulate the concept that varies:
 
-	- factor out types for independent concerns (e.g. groups)
+- start by splitting delegates into smaller protocols
 
-	- KVO-compliant selected/displayed subset properties (or signals) instead of `will…`/`did…`
+- replace data source with types (e.g. `TableSection`)
 
-	- can start by splitting methods into tiny protocols
+- replace `will…`/`did…` with signals/KVO
 
-^ I’d go so far as to say that this applies to every delegate protocol. Delegating a kitchen sink of view behaviours to a single object makes it difficult to vary them independently, suggesting that both the delegate protocol _and_ the type consuming it are ill-factored.
+- can provide default behaviours as public implementations
 
-^ Instead, we can factor them out: if a view displays elements in groups, expose an interface for the elements and for the groups. If you need callbacks for the display, selection, etc of these, expose KVO-compliant properties or signals for that state on those types. If that measures as a crucial bottleneck, give the host type properties/signals for the subset of elements in those states.
+^ I’d go so far as to say that this applies to every delegate protocol. Kitchen sink interfaces make it harder to vary different behaviours independently, suggesting that both the protocol _and_ the type it belongs to could be better-factored.
 
-^ As a low-effort, medium-reward measure, you can start by adding properties for the callbacks, or by splitting e.g. menu/editing interactions off into purpose-specific interfaces. If a consumer chooses to implement them all with the same object, they’re free to do so; but they’re no longer _required_ to.
+^ You can start by splitting distinct responsibilities into purpose-specific interfaces. A consumer can implement them all with the same object, but they’re no longer _required_ to.
 
-^ Note that you can also provide public implementations of these protocols for your default behaviours; this can make it easy for consumers to wrap or otherwise compose with them, making the class more convenient to use, more flexible, simpler to write, and easier to understand, since we’ve encapsulated—and documented!—these distinct jobs in the API.
+^ Then, factor: capture the delegate protocol’s nouns in concrete types. Use signals or KVO on these types to notify of changes to their state, or if that’s a bottleneck, add aggregate signals or properties for the state to the host type (e.g. `visibleElements`).
 
-^ Even better, once we’re using model protocols, we can employ our next approach to help us compose them.
+^ If you provide default behaviours, factor them into public types. Consumers can compose with them, and it simplifies the implementation while also making it easier to understand and maintain both for you and consumers.
 
 ---
 
