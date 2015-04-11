@@ -420,9 +420,11 @@ enum Result<T> {
 
 ^ 4. Interoperability with Objective-C; this isn’t uncommon, but it can be mitigated somewhat, as we’ll see.
 
-^ Swift’s value types are simpler by default. Since they’re copied and not referenced, they don’t suffer aliasing or concurrency bugs. You can’t subclass them, so they present relatively low risk to change.
+^ When none of these applies, value types have a lot to offer us. They’re simpler by default. Since they’re copied and not referenced, they don’t suffer aliasing or concurrency bugs. You can’t subclass them, so they present relatively low risk to change.
 
-^ Each of these approaches will help us avoid subclassing when we’re working purely with our own code, but as often as not, we’re using Apple’s, too. What about when we’re dealing with Cocoa?
+^ Therefore, whether you’re factoring or adding new code, reach for a value type first.
+
+^ Now, each of these approaches will help us avoid subclassing when we’re working purely with our own code, but as often as not, we’re using Apple’s, too. What about when we’re dealing with Cocoa?
 
 ---
 
